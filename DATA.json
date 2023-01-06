@@ -1,0 +1,41 @@
+{
+  "members": {
+    "list": [
+      "§{à§§&§#à{àè@%%%~ç"
+    ],
+    "§{à§§&§#à{àè@%%%~ç": {
+      "date": "20221009",
+      "plumes": 1,
+      "scriptucoins": 0,
+      "weeklyWords": 1926,
+      "pseudo": "Asra",
+      "texts": [
+        "AAAAAAAAAAAAAA"
+      ]
+    }
+  },
+  "texts": {
+    "list": [
+      "AAAAAAAAAAAAAA"
+    ],
+    "AAAAAAAAAAAAAA": {
+      "words": 1926,
+      "author": "548551538487066629",
+      "author_name": "Asra",
+      "message1": "1049712893681213520",
+      "message2": "1049712896948572251"
+    }
+  },
+  "bump": "Fri Oct 21 2022 16:40:30 GMT+0000 (Coordinated Universal Time)",
+  "weeklyReset": "Sun Dec 11 2022 23:00:30 GMT+0100 (Central European Standard Time)",
+  "timer": 0,
+  "sprint": {
+    "timer": -58,
+    "description": "",
+    "sprinters": [
+      "§{à§§&§#à{àè@%%%~ç"
+    ],
+    "message": "1042847769280397472",
+    "§{à§§&§#à{àè@%%%~ç": "1000"
+  }
+}

@@ -58,6 +58,7 @@ for (const file of eventFiles) {
 }
 
 console.log("Bot is ready")
+console.log("Bot is")
 
 
 //start

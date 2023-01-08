@@ -3,6 +3,7 @@ const path = require('path')
 const fs = require('fs')
 global.DATA = "DATA.json"
 global.DATA_CONFIG = "DATA_CONFIG.json"
+global.DIRNAME = __dirname
 
 global.client = new Client({
     intents: [
@@ -36,7 +37,7 @@ global.sequelize = new Sequelize('database', 'user', 'password', {
 })
 
 //CommandHandler
-const deployCommands = require('deployCommands')
+const deployCommands = require('./deploy-commands')
 deployCommands()
 
 //EventHandler
@@ -64,8 +65,7 @@ console.log("Bot is ready")
 start()
 
 async function start(){
-    const {token} = require('./config.json');
-    await client.login(token)
+    await client.login(process.env.TOKEN)
     
     const dataUtil = require("./utils/data.js")
     await dataUtil.save()

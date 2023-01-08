@@ -1,5 +1,7 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
 const { sendDone } =  require('../utils/message')
+const path = require('node:path')
+const fs = require('node:fs')
 
 module.exports = {
 	data(){
@@ -8,22 +10,31 @@ module.exports = {
         .setDescription("Create a button")
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
 
-        const buttonsPath = path.join(__dirname, 'buttons')
-        const buttons = fs.readdirSync(buttonsPath).filter(file => file.endsWith('.js'))
+        const buttonsPath = path.join(DIRNAME, 'buttons')
+        const buttonsFiles = fs.readdirSync(buttonsPath).filter(file => file.endsWith('.js'))
 
         let choices = []
-        for(b of buttons){
-            let choice = { name: "", value: "" }
-            choice.name = b.name
-            choice.value = b.name
-            choices.push()
+        for(b of buttonsFiles){
+            const bPath = path.join(buttonsPath, b)
+            b = require(bPath)
+
+            const choice = { name: b.name, value: b.name }
+            choices.push(choice)
         }
 
-        data.addStringOption(option =>
+        data.addStringOption(option => {
             option.setName("name")
                 .setDescription("Button's name")
-                .addChoices(choices)
-                .setRequired(true))
+                .setRequired(true)
+
+            for(let i = 0 ; i < choices.length ; i++) {
+                console.log(choices[i])
+                option.addChoices(choices[i])
+            }
+
+            return option
+        
+        })
 
         return data
     }, 

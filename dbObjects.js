@@ -29,7 +29,7 @@ module.exports = {
     },
     
     Member(){
-        member = sequelize.define('members', {
+        member = sequelize.define('member', {
             id: {
                 type: Sequelize.INTEGER,
                 unique: true,

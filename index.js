@@ -1,4 +1,6 @@
-const { Client, GatewayIntentBits, Collection} = require('discord.js')
+require('dotenv').config({path: __dirname + '/.env'})
+
+const { Client, GatewayIntentBits } = require('discord.js')
 const path = require('path')
 const fs = require('fs')
 global.DATA = "DATA.json"
@@ -37,8 +39,7 @@ global.sequelize = new Sequelize('database', 'user', 'password', {
 })
 
 //CommandHandler
-const deployCommands = require('./deploy-commands')
-deployCommands()
+require('./deploy-commands')
 
 //EventHandler
 const eventsPath = path.join(__dirname, 'events')
@@ -47,8 +48,6 @@ const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'
 for (const file of eventFiles) {
 	const filePath = path.join(eventsPath, file)
 	const event = require(filePath)
-
-    console.log(event)
     
 	if (event.once) {
 		client.once(event.name, (...args) => event.execute(...args))
@@ -58,18 +57,14 @@ for (const file of eventFiles) {
 	}
 }
 
-console.log("Bot is ready")
-
+console.log("Bibot is ready ! ;3")
 
 //start
 start()
 
-async function start(){
-    await client.login(process.env.TOKEN)
+function start(){
+    client.login(process.env.TOKEN)
     
-    const dataUtil = require("./utils/data.js")
-    await dataUtil.save()
-
     const sprint = require("./utils/sprint.js")
 
     if (sprint.isSprinting()){

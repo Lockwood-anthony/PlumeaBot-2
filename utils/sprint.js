@@ -1,6 +1,5 @@
 const editJsonFile = require("edit-json-file")
 const dataConfig = editJsonFile(DATA_CONFIG)
-const json = require("../utils/json.js")
 const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js')
 
 module.exports = {

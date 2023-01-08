@@ -1,6 +1,11 @@
 const { Member, FileInPosting, dbAddAtr, dbCreate, dbDestroy, dbExist, dbGetAtr, dbRemoveAtr, dbSetAtr, dbIncrementAtr, dbSetAtrToAll } = require("../dbObjects.js")
 
 module.exports = {
+
+    getOne(id){
+        dbGet(Member, id)
+    },
+
     addMember(id){
         const member = {
             id: id

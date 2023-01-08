@@ -23,22 +23,25 @@ module.exports = {
         .setRequired(true))
 
 	let choices = []
-
 	for(e of this.ERROR){
-		let eChoice  = { name: "", value: 0 }
-		eChoice.name = e.id
-		eChoice.value = e.id
-		choices.push(eChoice)
+		choices.push( { name: e.id, value: e.id } )
 	}
 
 	
-	for(let i = 0 ; i < this.ERROR.length-1 ;){
+	for(let i = 0 ; i < this.ERROR.length-1 ; i++){
 		required = i==0
-		data.addStringOption(option =>
+		data.addStringOption(option => {
 			option.setName("id"+i)
-				.setDescription("errpub id")
-				.setRequired(required)
-				.addChoices(choices))
+			.setDescription("errpub id")
+			.setRequired(required)
+		
+			for(i = 0 ; i < choices.length ; i++){
+				option.addChoices(choices[i])
+			}
+			return option
+
+		})
+
 	}
 
 	return data

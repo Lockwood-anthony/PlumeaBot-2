@@ -15,9 +15,6 @@ for (const file of commandFiles) {
 	const filePath = path.join(commandsPath, file)
 	const command = require(filePath)
 
-	console.log(command)
-	console.log(command.data().name)
-
 	commands.push(command.data().toJSON())
 	client.commands.set(command.data().name, command)
 

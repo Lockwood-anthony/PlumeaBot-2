@@ -13,6 +13,7 @@ module.exports = {
         const buttonsPath = path.join(DIRNAME, 'buttons')
         const buttonsFiles = fs.readdirSync(buttonsPath).filter(file => file.endsWith('.js'))
 
+        //CE NEST PAS UN ARRAY, c'est une suite d'élément json, et je ne sais pas comment une telle suite, dou la suite un peu laborieuse
         let choices = []
         for(b of buttonsFiles){
             const bPath = path.join(buttonsPath, b)
@@ -28,7 +29,6 @@ module.exports = {
                 .setRequired(true)
 
             for(let i = 0 ; i < choices.length ; i++) {
-                console.log(choices[i])
                 option.addChoices(choices[i])
             }
 

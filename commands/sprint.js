@@ -5,21 +5,27 @@ const editJsonFile = require("edit-json-file")
 const dataConfig = editJsonFile(DATA_CONFIG)
 
 module.exports = {
-	data: new SlashCommandBuilder()
-	.setName('sprint')
-    .addIntegerOption(option => option
-        .setName('time')
-        .setDescription("Durée de sprint en minutes")
-        .setMinValue(1)
-        .setMaxValue(60)
-        .setRequired(true))
-    .addIntegerOption(option => option
-        .setName('words')
-        .setDescription("Ton nombre de mots de départ")
-        .setMinValue(0)
-        .setMaxValue(999999)
-        .setRequired(true))
-    .setDescription("Bah ca lance un Sprint... O.o"),
+	data(){
+        let data = new SlashCommandBuilder()
+        .setName('sprint')
+        .addIntegerOption(option => option
+            .setName('time')
+            .setDescription("Durée de sprint en minutes")
+            .setMinValue(1)
+            .setMaxValue(60)
+            .setRequired(true))
+        .addIntegerOption(option => option
+            .setName('words')
+            .setDescription("Ton nombre de mots de départ")
+            .setMinValue(0)
+            .setMaxValue(999999)
+            .setRequired(true))
+        .setDescription("Bah ca lance un Sprint... O.o")
+
+        return data
+
+
+    },
 
     async execute(interaction) {
         const sprint = require("../utils/sprint.js")

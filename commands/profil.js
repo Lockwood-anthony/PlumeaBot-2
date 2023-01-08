@@ -1,33 +1,44 @@
 const { SlashCommandBuilder } = require("discord.js");
-const { sendDone } =  require('../utils/message')
+const { sendDone, newEmbed } =  require('../utils/message')
+const { getOne } = require('../utils/member')
 
 module.exports = {
-	data: new SlashCommandBuilder()
-	.setName("profil")
-    .setDescription("Profil d'un scripturien")
-	.addUserOption(option => option
-        .setName("user")
-		.setDescription("Scripturien")
-        .setRequired(true)),
-	async execute(interaction) {
-		const json = require("../utils/json")
-		const editJsonFile = require("edit-json-file")
+	data(){
+		let data = new SlashCommandBuilder()
+		.setName('profil')
+		.setDescription("Profil d'un scripturien")
+		.addUserOption(option => option
+			.setName("user")
+			.setDescription("Scripturien")
+			.setRequired(true))
 
-		let data = editJsonFile(DATA);
-		const user = interaction.options.getUser("user")
-		const id = json.intToABC(user.id)
-		const plumes = data.get("members."+id+".plumes")
-		const date = data.get("members."+id+".date")
-		const scriptucoins = data.get("members."+id+".scriptucoins")
+		return data
+
+	},
+
+	async execute(interaction) {
+		const user = interaction.options.getUser('user')
+		const id = user.id
+
+		const m = getOne(id)
 
 		message = "**Profil de : <@"+user.id+">**\n\n"
-		message += "Plumes : *"+plumes+"*\n"
-		message += "Arrivée : *"+date+"*\n"
-		message += "Scriptucoins : *"+scriptucoins+"*\n"
+		message += "Nick : *"+m.nick+"*\n"
+		message += "Arrivée : *"+m.joinDate+"*\n"
+		message += "Plumes : *"+m.plumes+"*\n"
+		message += "Coins : *"+m.coins+"*\n"
+		message += "MotsHebdo : *"+m.weeklyWords+"*\n\n"
 
-		const messageUtil = require("../utils/message");
-        const messageEmbed = messageUtil.newEmbed()
-        .setDescription(message)
+		const textsUUIDs = m.textsUUIDs
+		if(textsUUIDs){
+			message += "Textes : \n"
+			for(t in m.textsUUIDs){
+				message += `- ${t} \n`
+			}
+
+		}
+
+        newEmbed().setDescription(message)
         await interaction.reply({ embeds: [messageEmbed]});
 
 	}

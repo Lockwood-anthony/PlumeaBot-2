@@ -2,15 +2,20 @@ const { SlashCommandBuilder } = require("discord.js")
 const { sendDone } =  require('../utils/message')
 
 module.exports = {
-	data: new SlashCommandBuilder()
-	.setName("random")
-    .setDescription("Donne un nombre au hasard")
-    .addIntegerOption(option => option
-        .setMinValue(1)
-        .setMaxValue(100)
-        .setName("faces")
-		.setDescription("Nombre de faces du dé virtuel (1-100")
-        .setRequired(true)),
+	data(){
+        let data = new SlashCommandBuilder()
+        .setName("random")
+        .setDescription("Donne un nombre au hasard")
+        .addIntegerOption(option => option
+            .setMinValue(1)
+            .setMaxValue(100)
+            .setName("faces")
+            .setDescription("Nombre de faces du dé virtuel (1-100")
+            .setRequired(true))
+
+        return data
+
+    },
 
 	async execute(interaction) {
         let n = interaction.options.getInteger("faces")

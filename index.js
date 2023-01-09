@@ -1,5 +1,6 @@
-require('dotenv').config({path: __dirname + '/.env'})
 //Faut créer un fichier .env dans le root du prijet et mettre les variables TOKEN, CLIENT_ID, GUILD_ID
+require('dotenv').config({path: __dirname + '/.env'})
+
 const { Client, GatewayIntentBits } = require('discord.js')
 const path = require('path')
 const fs = require('fs')

@@ -17,11 +17,11 @@ module.exports = {
 
     },
 
-	async execute(interaction) {
-        let n = interaction.options.getInteger("faces")
+	async execute(inter) {
+        let n = inter.options.getInteger("faces")
         const r = Math.floor(Math.random() * (n + 1))
 
-        await interaction.reply("Tu avais une chance sur " + n + ", et c'est un : ||     " + r + "     || !\n**^^**")
+        await inter.reply("Tu avais une chance sur " + n + ", et c'est un : ||     " + r + "     || !\n**^^**")
 
 	}
 

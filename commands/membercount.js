@@ -11,11 +11,11 @@ module.exports = {
 
     },
 
-    async execute(interaction) {
-        let count = interaction.guild.memberCount
-        count -= interaction.guild.members.cache.filter(m => m.user.bot).size
+    async execute(inter) {
+        let count = inter.guild.memberCount
+        count -= inter.guild.members.cache.filter(m => m.user.bot).size
 
-        await interaction.reply("**Aujourd'hui Scriptura compte ||   " + count  + "   || âmes ! :D**")
+        await inter.reply("**Aujourd'hui Scriptura compte ||   " + count  + "   || âmes ! :D**")
     
     }
     

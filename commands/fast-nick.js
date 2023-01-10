@@ -20,17 +20,17 @@ module.exports = {
 
     },
 
-	async execute(interaction) {
-        const member = interaction.options.getMember("user")
-        const nick = interaction.options.getString("nick")
-        const owner = await interaction.guild.fetchOwner()
+	async execute(inter) {
+        const member = inter.options.getMember("user")
+        const nick = inter.options.getString("nick")
+        const owner = await inter.guild.fetchOwner()
 
         if(member != owner){
             member.setNickname(nick)
-            await interaction.reply({content:DONE,ephemeral:true})
+            await inter.reply({content:DONE,ephemeral:true})
 
         }else{
-            await interaction.reply({content:"On ne peut changer le pseudo du owner",ephemeral:true})
+            await inter.reply({content:"On ne peut changer le pseudo du owner",ephemeral:true})
 
         }
 

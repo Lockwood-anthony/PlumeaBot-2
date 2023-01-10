@@ -2,12 +2,12 @@ const { ModalBuilder, TextInputBuilder, TextInputStyle, StringSelectMenuBuilder 
 
 module.exports = {
     name: 'textModal',
-    execute(interaction){
+    execute(inter){
         const { getOne, sendOne } = require('../utils/message')
         const mUtils = require("../utils/member.js")
-        const member = interaction.member
+        const member = inter.member
         const id = member.user.id
-        const f = interaction.fields
+        const f = inter.fields
         const title = f.getTextInputValue('title')
 
         if(/^[a-zA-Z()]+$/.test(title)){
@@ -23,13 +23,13 @@ module.exports = {
                         chap2 = parseInt(chap2)
 
                         if(chap2 <= chap1){
-                            interaction.reply({content: "Ton chap2 à un nombre inférieur ou égal à ton chap1 !", ephemeral: true})
+                            inter.reply({content: "Ton chap2 à un nombre inférieur ou égal à ton chap1 !", ephemeral: true})
                             mUtils.removeFileInPosting(id)
                             return
                         }
 
                     }else{
-                        interaction.reply({content: "Ton chap2: Ce n'est pas un nombre que tu as donné là !", ephemeral: true})
+                        inter.reply({content: "Ton chap2: Ce n'est pas un nombre que tu as donné là !", ephemeral: true})
                         mUtils.removeFileInPosting(id)
                         return
                     }
@@ -56,7 +56,7 @@ module.exports = {
 
                 }catch(Error){
                     console.log(Error)
-                    interaction.reply({content: "le fichier n'existe plus mon cher", ephemeral: true})
+                    inter.reply({content: "le fichier n'existe plus mon cher", ephemeral: true})
                     mUtils.removeFileInPosting(id)
                     return
                 }
@@ -70,7 +70,7 @@ module.exports = {
                 send()
 
                 function send(){
-                    const uuid = interaction.customId.split('/')[1]
+                    const uuid = inter.customId.split('/')[1]
 
                     let words = f.getTextInputValue('words')
                     let toMuchWords = false
@@ -85,12 +85,12 @@ module.exports = {
                     }
         
                     const today = new Date().getDate
-                    const desc = interaction.fields.getTextInputValue('desc')
-                    const themes = interaction.fields.getTextInputValue('themes')
+                    const desc = inter.fields.getTextInputValue('desc')
+                    const themes = inter.fields.getTextInputValue('themes')
 
                     let questions= []
                     for(let i = 0; i < 4;){
-                        const q = interaction.fields.getTextInputValue('question'+i)
+                        const q = inter.fields.getTextInputValue('question'+i)
                         if(q != null){
                             questions.push(q)
                         }else{
@@ -98,7 +98,7 @@ module.exports = {
                         }
                     }
 
-                    const password = interaction.fields.getTextInputValue('password')
+                    const password = inter.fields.getTextInputValue('password')
                     if(password == null){ password = '' }
                     
                     const spaceEmbed = new EmbedBuilder()
@@ -121,7 +121,7 @@ module.exports = {
                         getButton = require('../buttons/textPassword').get(uuid)
 
                     }
-                    interaction.channel.send({ embeds: [spaceEmbed, textEmbed], components: [getButton, editButton]}).then(m => id1 = m.id)
+                    inter.channel.send({ embeds: [spaceEmbed, textEmbed], components: [getButton, editButton]}).then(m => id1 = m.id)
     
                     let id2
                     if(dt != getDt(uuid)){
@@ -134,23 +134,23 @@ module.exports = {
                     tUtils.add(uuid, dt, title, desc, chap1, chap2, words, id1, id2, today, password, themes, questions)
     
                     if(toMuchWords){
-                        interaction.reply({content: "En tenant compte de la modification de mot, il s'avère que l'auteur a bypass la limite hebdomadaire !", ephemeral: true})
+                        inter.reply({content: "En tenant compte de la modification de mot, il s'avère que l'auteur a bypass la limite hebdomadaire !", ephemeral: true})
 
                     }else{
-                        interaction.reply({content: DONE, ephemeral: true})
+                        inter.reply({content: DONE, ephemeral: true})
 
                     }
 
                 }
 
             }else{
-                interaction.reply({content: "Ton chap1: Ce n'est pas un nombre que tu as donné là !", ephemeral: true})
+                inter.reply({content: "Ton chap1: Ce n'est pas un nombre que tu as donné là !", ephemeral: true})
                 mUtils.removeFileInPosting(id)
 
             }
 
         }else{
-            interaction.reply({content: "Ton titre: Ce n'est pas une lettre de l'alphabet que tu as donné là !", ephemeral: true})
+            inter.reply({content: "Ton titre: Ce n'est pas une lettre de l'alphabet que tu as donné là !", ephemeral: true})
             mUtils.removeFileInPosting(id)
         }    
 

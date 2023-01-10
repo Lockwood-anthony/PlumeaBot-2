@@ -11,7 +11,7 @@ module.exports = {
         return data
     },
 
-    async execute(interaction) {
+    async execute(inter) {
         let message = "\n"
 
         const today = new Date()
@@ -36,10 +36,10 @@ module.exports = {
                     .setDescription(message)
 
                     if(messageNumber == 1){
-                        await interaction.reply({ embeds: [messageEmbed]})
+                        await inter.reply({ embeds: [messageEmbed]})
 
                     }else{
-                        await interaction.channel.send({ embeds: [messageEmbed]})
+                        await inter.channel.send({ embeds: [messageEmbed]})
                     }
 
                     messageNumber++

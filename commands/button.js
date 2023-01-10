@@ -39,8 +39,8 @@ module.exports = {
         return data
     }, 
 
-	execute(interaction) {
-        const value = interaction.options.getString("name")
+	execute(inter) {
+        const value = inter.options.getString("name")
 
         const buttonsPath = path.join(__dirname, 'buttons')
         const buttons = fs.readdirSync(buttonsPath).filter(file => file.endsWith('.js'))
@@ -55,12 +55,12 @@ module.exports = {
 
         }
         try{
-            interaction.channel.send({components: [button.get()]})
+            inter.channel.send({components: [button.get()]})
         
-            sendDone(interaction)
+            sendDone(inter)
 
         }catch(Error){
-            interaction.reply({ content: 'Impossible de créer ce bouton manuellement', ephemeral: true })
+            inter.reply({ content: 'Impossible de créer ce bouton manuellement', ephemeral: true })
 
         }
 

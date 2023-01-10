@@ -12,8 +12,8 @@ module.exports = {
 
     },
     
-	async execute(interaction) {
-        interaction.reply("FORUM")
+	async execute(inter) {
+        inter.reply("FORUM")
 
 	}
 

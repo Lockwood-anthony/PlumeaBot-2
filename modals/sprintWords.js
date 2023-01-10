@@ -2,24 +2,24 @@ const { ModalBuilder, TextInputBuilder, TextInputStyle } = require('discord.js')
 
 module.exports = {
     name: 'sprintWords',
-    async execute(interaction){
-        const member = interaction.member
+    async execute(inter){
+        const member = inter.member
         const sprint = require("../utils/sprint.js")
 
-        let words = interaction.fields.getTextInputValue("words")     
+        let words = inter.fields.getTextInputValue("words")     
         try {
             if(!sprint.isSprinter(member.user.id)){
                 words = parseInt(words)
                 sprint.addSprinter(member.user.id, words)
-                interaction.reply({content:"**Youpiii ! :D**", ephemeral:true})
+                inter.reply({content:"**Youpiii ! :D**", ephemeral:true})
 
             }else{
-                interaction.reply({content:"**Tu en fais déjà parti ! Trop tard ;-;**", ephemeral:true})
+                inter.reply({content:"**Tu en fais déjà parti ! Trop tard ;-;**", ephemeral:true})
 
             }
 
         }catch (error) {
-            interaction.reply({content:"**C'est pas nombre ca ! :D**", ephemeral:true})
+            inter.reply({content:"**C'est pas nombre ca ! :D**", ephemeral:true})
 
         }
 

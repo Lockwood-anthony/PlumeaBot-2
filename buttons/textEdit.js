@@ -2,20 +2,20 @@ const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js')
 
 module.exports = {
     name: "textEdit",
-    async execute(interaction){
-        const textId = interaction.customId.split("/")[1]
+    async execute(inter){
+        const textId = inter.customId.split("/")[1]
         const tUtils = require('../utils/text')
         const textAuthor = tUtils.getAuthorId(textId)
 
-        const member = interaction.member
+        const member = inter.member
         if(member.user.id == textAuthor){
             const {get} = require('../modals/textEdit')
-            interaction.showModal(get(textId, false))
+            inter.showModal(get(textId, false))
 
         }else if(member.hasPermission("ADMINISTRATOR", true)){
 
         }else{
-            interaction.reply({content: "bruh, t'es pas l'auteur, tu peux pas faire ca..", ephemeral: true})
+            inter.reply({content: "bruh, t'es pas l'auteur, tu peux pas faire ca..", ephemeral: true})
             
         }
 

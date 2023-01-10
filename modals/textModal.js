@@ -17,19 +17,19 @@ module.exports = {
         {name: 'tragédie', desc: "valls devient président"}
     ],
     name: 'textModal',
-    execute(interaction){
+    execute(inter){
         const mUtils = require("../utils/member.js")
         const { getOne, sendOne } = require('../utils/message')
-        const member = interaction.member
+        const member = inter.member
         const id = member.user.id
-        const title = interaction.fields.getTextInputValue('title')
+        const title = inter.fields.getTextInputValue('title')
 
         if(/^[a-zA-Z()]+$/.test(title)){
-            let chap1 = interaction.fields.getTextInputValue('chap1')
+            let chap1 = inter.fields.getTextInputValue('chap1')
 
             if(/^[0-9()]$/.test(chap1)){
                 chap1 = parseInt(chap1)
-                let chap2 = interaction.fields.getTextInputValue('chap2')
+                let chap2 = inter.fields.getTextInputValue('chap2')
 
                 if(chap2!=null){
 
@@ -37,13 +37,13 @@ module.exports = {
                         chap2 = parseInt(chap2)
 
                         if(chap2 <= chap1){
-                            interaction.reply({content: "Ton chap2 à un nombre inférieur ou égal à ton chap1 !", ephemeral: true})
+                            inter.reply({content: "Ton chap2 à un nombre inférieur ou égal à ton chap1 !", ephemeral: true})
                             mUtils.removeFileInPosting(id)
                             return
                         }
 
                     }else{
-                        interaction.reply({content: "Ton chap2: Ce n'est pas un nombre que tu as donné là !", ephemeral: true})
+                        inter.reply({content: "Ton chap2: Ce n'est pas un nombre que tu as donné là !", ephemeral: true})
                         mUtils.removeFileInPosting(id)
                         return
                     }
@@ -69,7 +69,7 @@ module.exports = {
 
                 }catch(Error){
                     console.log(Error)
-                    interaction.reply({content: "le fichier n'existe plus mon cher", ephemeral: true})
+                    inter.reply({content: "le fichier n'existe plus mon cher", ephemeral: true})
                     mUtils.removeFileInPosting(id)
                     return
                 }
@@ -77,7 +77,7 @@ module.exports = {
                 const extension = path.extname(file.name)
         
                 if(extension != ".pdf"){
-                    interaction.reply({ content: "C'est pas .PDF ca ;-;\nVa donc sur ce site :\n\n https://www.ilovepdf.com/fr", ephemeral: true })
+                    inter.reply({ content: "C'est pas .PDF ca ;-;\nVa donc sur ce site :\n\n https://www.ilovepdf.com/fr", ephemeral: true })
                     mUtils.removeFileInPosting(id)
                     return
                 }
@@ -107,13 +107,13 @@ module.exports = {
         
                     if(mUtils.toMuchWeeklyWords(user.id, words)){
                         weekly = mUtils.getWeeklyWords(user.id)
-                        interaction.reply({ content: "**NO !** Pas plus de 20k par semaine bro\nMots : "+words+" | Mots de la semaine : "+weekly+"\nhttps://tenor.com/view/no-chad-giga-chad-giga-chet-gif-25063092", ephemeral: true })
+                        inter.reply({ content: "**NO !** Pas plus de 20k par semaine bro\nMots : "+words+" | Mots de la semaine : "+weekly+"\nhttps://tenor.com/view/no-chad-giga-chad-giga-chet-gif-25063092", ephemeral: true })
                         mUtils.removeFileInPosting(id)
 
                     }else if (words < 1000){
         
                         try{
-                            interaction.reply({ content: "**NO !**  Soit un chad et envoie plus de 1000 mots.\nMots Comptés : "+words
+                            inter.reply({ content: "**NO !**  Soit un chad et envoie plus de 1000 mots.\nMots Comptés : "+words
                             +"\nhttps://tenor.com/view/no-chad-giga-chad-giga-chet-gif-25063092"+
                             "\nSi c'est largement éloigné du nombre de mots réel, converti ton fichier en pdf grâce à ce site :"
                             +"\nhttps://www.ilovepdf.com/fr/word_en_pdf"
@@ -127,10 +127,10 @@ module.exports = {
         
                     }else{ 
                         const today = new Date().getDate
-                        const desc = interaction.fields.getTextInputValue('desc')
-                        const themes = interaction.fields.getTextInputValue('themes')
-                        const questions = interaction.fields.getTextInputValue('questions')
-                        const password = interaction.fields.getTextInputValue('password')
+                        const desc = inter.fields.getTextInputValue('desc')
+                        const themes = inter.fields.getTextInputValue('themes')
+                        const questions = inter.fields.getTextInputValue('questions')
+                        const password = inter.fields.getTextInputValue('password')
                         if(password == null){ password = '' }
 
                         const { fromString} = require('uuidv4')
@@ -158,7 +158,7 @@ module.exports = {
                         }
 
                         let id1 = 0
-                        interaction.channel.send({ embeds: [spaceEmbed, textEmbed], components: [getButton, editButton, delButton]}).then(m => id1 = m.id)
+                        inter.channel.send({ embeds: [spaceEmbed, textEmbed], components: [getButton, editButton, delButton]}).then(m => id1 = m.id)
         
                         const id2 = sendOne('safe', { content: dt+"\n"+uuid, files: [file] })
         
@@ -173,13 +173,13 @@ module.exports = {
                 }
 
             }else{
-                interaction.reply({content: "Ton chap1: Ce n'est pas un nombre que tu as donné là !", ephemeral: true})
+                inter.reply({content: "Ton chap1: Ce n'est pas un nombre que tu as donné là !", ephemeral: true})
                 mUtils.removeFileInPosting(id)
 
             }
 
         }else{
-            interaction.reply({content: "Ton titre: Ce n'est pas une lettre de l'alphabet que tu as donné là !", ephemeral: true})
+            inter.reply({content: "Ton titre: Ce n'est pas une lettre de l'alphabet que tu as donné là !", ephemeral: true})
             mUtils.removeFileInPosting(id)
         }
 

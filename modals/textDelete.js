@@ -3,18 +3,18 @@ const { ModalBuilder, TextInputBuilder, TextInputStyle } = require('discord.js')
 
 module.exports = {
     name: 'textNick',
-    async execute(interaction){
+    async execute(inter){
         const tUtils = require('../utils/text')
-        const uuid = interaction.customID.split('/')[1]
-        const dt = interaction.fields.getTextInputValue('dt')
+        const uuid = inter.customID.split('/')[1]
+        const dt = inter.fields.getTextInputValue('dt')
         const trueDt = tUtils.getDt(uuid)
 
         if(dt == trueDt){
             tUtils.remove(uuid)
-            interaction.reply({cotent: doesNotMatch, ephemeral: true})
+            inter.reply({cotent: doesNotMatch, ephemeral: true})
 
         }else{
-            interaction.reply({content: "Mauvais dt !", ephemeral: true})
+            inter.reply({content: "Mauvais dt !", ephemeral: true})
 
         }
 

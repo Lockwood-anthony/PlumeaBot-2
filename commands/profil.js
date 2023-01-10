@@ -16,8 +16,8 @@ module.exports = {
 
 	},
 
-	async execute(interaction) {
-		const user = interaction.options.getUser('user')
+	async execute(inter) {
+		const user = inter.options.getUser('user')
 		const id = user.id
 
 		const m = getOne(id)
@@ -39,7 +39,7 @@ module.exports = {
 		}
 
         newEmbed().setDescription(message)
-        await interaction.reply({ embeds: [messageEmbed]})
+        await inter.reply({ embeds: [messageEmbed]})
 
 	}
 

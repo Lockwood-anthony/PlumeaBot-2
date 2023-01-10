@@ -13,7 +13,7 @@ module.exports = {
         return data
     },
 
-	async execute(interaction) {
+	async execute(inter) {
 
 	}
 

@@ -16,8 +16,8 @@ module.exports = {
 
     },    
 
-	async execute(interaction) {
-        const data = interaction.options.getAttachment("data")
+	async execute(inter) {
+        const data = inter.options.getAttachment("data")
         const url = data.url
         const dataUtil = require("../utils/data.js")
 
@@ -32,7 +32,7 @@ module.exports = {
         }
         await setTimeout(upload, 4*1000, "Data !") //timout to wait file writing
         
-        sendDone(interaction)
+        sendDone(inter)
 
 	}
 

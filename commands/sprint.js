@@ -24,14 +24,14 @@ module.exports = {
 
     },
 
-    async execute(interaction) {
+    async execute(inter) {
         const sprint = require("../utils/sprint.js")
 
-        const time = interaction.options.getInteger("time")
-        const words = interaction.options.getInteger("words")
-        const member = interaction.member
+        const time = inter.options.getInteger("time")
+        const words = inter.options.getInteger("words")
+        const member = inter.member
         const user = member.user
-        const channelId = interaction.channel.id
+        const channelId = inter.channel.id
 
         if(!sprint.isSprinting()){
 
@@ -39,19 +39,19 @@ module.exports = {
                 sprint.addSprinter(user.id, words)
                 sprint.setMaxTime(time)
                 const sprintRole = config.roles.sprinter
-                await interaction.reply("***Sprint ! :3***")
-                await interaction.channel.send("<@&"+sprintRole+">")  
+                await inter.reply("***Sprint ! :3***")
+                await inter.channel.send("<@&"+sprintRole+">")  
                 
                 sprint.SETUP
                 sprint.BEGIN
 
             }else{
-                interaction.reply({content:"Mauvais salon uwu", ephemeral:true})
+                inter.reply({content:"Mauvais salon uwu", ephemeral:true})
                 return
             }
 
         }else{
-            interaction.reply({content:"Y'en a déjà un en cours :3", ephemeral:true})
+            inter.reply({content:"Y'en a déjà un en cours :3", ephemeral:true})
             return
         }
     

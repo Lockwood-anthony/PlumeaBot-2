@@ -11,9 +11,9 @@ module.exports = {
 	return data
 	},
 
-	async execute(interaction) {
+	async execute(inter) {
 
-        await interaction.reply(config.emotes.plume)
+        await inter.reply(config.emotes.plume)
 
 	}
 

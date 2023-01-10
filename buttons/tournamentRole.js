@@ -3,17 +3,17 @@ const { config } = require('../config')
 
 module.exports = {
     name: "tournamentRole",
-    async execute(interaction){
-        const member = interaction.member
+    async execute(inter){
+        const member = inter.member
         const tournamentRole = config.roles.tournament
 
         if(member.roles.cache.has(tournamentRole)){
             await member.roles.remove(tournamentRole)
-            await interaction.reply({content:"Okay... ;-;",ephemeral:true})
+            await inter.reply({content:"Okay... ;-;",ephemeral:true})
 
         }else{
             await member.roles.add(tournamentRole)
-            await interaction.reply({
+            await inter.reply({
                 content: `Vous avez désormais accès aux salons <#${config.channels.tournamentRules}> et <#${config.channels.monthlyNovel}>`,
                 ephemeral: true})
 

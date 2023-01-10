@@ -11,7 +11,7 @@ module.exports = {
     return data
     }, 
 
-	async execute(interaction) {
+	async execute(inter) {
         const editJsonFile = require("edit-json-file")
         const data = editJsonFile(DATA)
         const members = data.get("members.list")
@@ -39,7 +39,7 @@ module.exports = {
         await data.set("members.list", correctMembers)
         await data.save()
 
-        interaction.reply({content:DONE,ephemeral:true})
+        inter.reply({content:DONE,ephemeral:true})
 
 	}
 

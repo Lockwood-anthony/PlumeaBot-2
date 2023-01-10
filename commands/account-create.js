@@ -16,14 +16,14 @@ module.exports = {
 
     },
 
-	async execute(interaction) {
-        const member = interaction.options.getUser('user')
+	async execute(inter) {
+        const member = inter.options.getUser('user')
 
         const memberUtils = require("../utils/member")
         memberUtils.add(member.user.id)
 
-        sendDone(interaction)
-        interaction.reply({content: "test", ephemeral: true})
+        sendDone(inter)
+        inter.reply({content: "test", ephemeral: true})
 
 	}
 

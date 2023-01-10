@@ -17,14 +17,14 @@ module.exports = {
 
     },
 
-	async execute(interaction) {
-        const n = interaction.options.getInteger("giga_chad_power_intensity")
-        interaction.reply({ content: "GIGA CHAD!!!", ephemeral: true })
+	async execute(inter) {
+        const n = inter.options.getInteger("giga_chad_power_intensity")
+        inter.reply({ content: "GIGA CHAD!!!", ephemeral: true })
 
         const chad = config.messageReplies.CHAD
 
         for (i = 0 ; i < n ; i++) {
-            interaction.channel.send(chad)
+            inter.channel.send(chad)
         } 
 
 	}

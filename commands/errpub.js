@@ -13,50 +13,50 @@ module.exports = {
 	],
 
 	data(){
-	let data = new SlashCommandBuilder()
-	.setName("errpub")
-    .setDescription("Ensemble des Commandes relatives aux erreurs de Publication")
-    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
-    .addUserOption(option => option
-        .setName("target")
-        .setDescription("Target")
-        .setRequired(true))
-
-	let choices = []
-	for(e of this.ERROR){
-		choices.push( { name: e.id, value: e.id } )
-	}
-
+		let data = new SlashCommandBuilder()
+		.setName("errpub")
+		.setDescription("Ensemble des Commandes relatives aux erreurs de Publication")
+		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+		.addUserOption(option => option
+			.setName("target")
+			.setDescription("Target")
+			.setRequired(true))
 	
-	for(let i = 0 ; i < this.ERROR.length-1 ; i++){
-		required = i==0
-		data.addStringOption(option => {
-			option.setName("id"+i)
-			.setDescription("errpub id")
-			.setRequired(required)
+		let choices = []
+		for(e of this.ERROR){
+			choices.push( { name: e.id, value: e.id } )
+		}
+	
 		
-			for(i = 0 ; i < choices.length ; i++){
-				option.addChoices(choices[i])
-			}
-			return option
-
-		})
-
-	}
-
-	return data
+		for(let i = 0 ; i < this.ERROR.length-1 ; i++){
+			required = i==0
+			data.addStringOption(option => {
+				option.setName("id"+i)
+				.setDescription("errpub id")
+				.setRequired(required)
+			
+				for(i = 0 ; i < choices.length ; i++){
+					option.addChoices(choices[i])
+				}
+				return option
+	
+			})
+	
+		}
+	
+		return data
 			
 	},
 
-	async execute(interaction) {
-		var target = interaction.options.getUser("target")
-		var id0 = interaction.options.getString("id0")
+	async execute(inter) {
+		var target = inter.options.getUser("target")
+		var id0 = inter.options.getString("id0")
 		var ids = [id0]
 
 		for(let i = 1 ; i < this.ERROR.length-1 ;){
 
 			try {
-				ids.push(interaction.options.getString("id"+i))
+				ids.push(inter.options.getString("id"+i))
 			} catch (error) {
 				break
 			}
@@ -74,11 +74,11 @@ module.exports = {
 		message += "```Toutes nos consignes sont disponibles dans les messages épinglés du salon réservé aux posts :D"
 
 		target.send(message).catch(error => {
-			interaction.reply({ content: "Cet utilisateur ne souhaire hélas pas recevoir mes messages ;-;", ephemeral: true })
+			inter.reply({ content: "Cet utilisateur ne souhaire hélas pas recevoir mes messages ;-;", ephemeral: true })
 			return
 		})
 
-		await interaction.reply({ content: "Action accomplie avec succès ! :D", ephemeral: true })
+		await inter.reply({ content: "Action accomplie avec succès ! :D", ephemeral: true })
 
 	}
 

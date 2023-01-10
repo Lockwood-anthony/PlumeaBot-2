@@ -2,9 +2,9 @@ const { ModalBuilder, TextInputBuilder, TextInputStyle } = require('discord.js')
 
 module.exports = {
     name: 'textPassword',
-    async execute(interaction){
-        const password = interaction.fields.getTextInputValue('password') 
-        const textId = interaction.customId.split('/')[1]
+    async execute(inter){
+        const password = inter.fields.getTextInputValue('password') 
+        const textId = inter.customId.split('/')[1]
         const textUtils = require('../utils/text')
         const truePassword = textUtils.getPassword(textId)
 
@@ -13,7 +13,7 @@ module.exports = {
             tUtils.sendFile(textId, member)
 
         }else{
-            interaction.reply({content: "MAUVAIS MOT DE PASSE è-é", ephemeral: true})
+            inter.reply({content: "MAUVAIS MOT DE PASSE è-é", ephemeral: true})
         }
 
     },

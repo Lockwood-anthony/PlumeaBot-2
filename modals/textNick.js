@@ -2,19 +2,19 @@ const { ModalBuilder, TextInputBuilder, TextInputStyle } = require('discord.js')
 
 module.exports = {
     name: 'textNick',
-    async execute(interaction){
-        const id = interaction.member.user.id
-        const nick = interaction.fields.getTextInputValue('nick')
+    async execute(inter){
+        const id = inter.member.user.id
+        const nick = inter.fields.getTextInputValue('nick')
         
         if(/^[a-zA-Z()]+$/.test(nick)){
             const mUtils = require('../utils/member')
             mUtils.setNick(id, nick+0)
     
             const confirm = require('../modals/textNickConfirm')
-            await interaction.showModal(confirm.get()) 
+            await inter.showModal(confirm.get()) 
 
         }else{
-            await interaction.reply({content: "Seuls les caractères alphabétiques sont autorisés", ephemeral: true})
+            await inter.reply({content: "Seuls les caractères alphabétiques sont autorisés", ephemeral: true})
             mUtils.removeFileInPosting(id)
         }
 

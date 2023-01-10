@@ -2,10 +2,10 @@ const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js')
 
 module.exports = {
     name: "textPassword",
-    async execute(interaction){
-        const uuid = interaction.customId.split('/')[1]
+    async execute(inter){
+        const uuid = inter.customId.split('/')[1]
         const passModal = require('../modals/textPassword')
-        interaction.showModal(passModal.get(uuid))
+        inter.showModal(passModal.get(uuid))
 
     },
 

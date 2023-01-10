@@ -2,9 +2,9 @@ const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js')
 
 module.exports = {
     name: "sprintFinal",
-    async execute(interaction){
+    async execute(inter){
         const modal = require('../modals/sprintFinalWords')
-		await interaction.showModal(modal.get()) 
+		await inter.showModal(modal.get()) 
 
     },
 

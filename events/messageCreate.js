@@ -49,11 +49,11 @@ module.exports = {
 
                             if(mUtils.hasNick(id)){
                                 const textTitle = require('../modals/textTitle')
-                                await interaction.showModal(textTitle.get()) 
+                                await inter.showModal(textTitle.get()) 
     
                             }else{
                                 const textNick = require('../modals/textNick')
-                                await interaction.showModal(textNick.get()) 
+                                await inter.showModal(textNick.get()) 
     
                             }
                             

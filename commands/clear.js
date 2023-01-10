@@ -17,14 +17,14 @@ module.exports = {
         return data
     },
 
-	async execute(interaction) {
-        let n = interaction.options.getInteger("clear_intensity")
-        let channel = interaction.channel;
+	async execute(inter) {
+        let n = inter.options.getInteger("clear_intensity")
+        let channel = inter.channel
         
         await channel.messages.fetch({limit: n})
         .then(messages => channel.bulkDelete(messages))
 		
-        await interaction.reply({ content: DONE, ephemeral: true })
+        await inter.reply({ content: DONE, ephemeral: true })
 
 	}
     

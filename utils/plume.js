@@ -1,7 +1,7 @@
 const { config } = require('../config')
 
 module.exports = {
-    async roles(member, plumes, interaction) {
+    async roles(member, plumes, inter) {
         json = config.plumesRoles
         const roles = new Map(Object.entries(json))
         
@@ -9,7 +9,7 @@ module.exports = {
         lower = 0
         roleBefore = 0
         await roles.forEach(async (points, roleid)=>{
-            const role = interaction.guild.roles.cache.get(roleid)
+            const role = inter.guild.roles.cache.get(roleid)
             if(member.roles.cache.find(r => r.id === roleid)){roleBefore = role}
 
             await member.roles.remove(role)

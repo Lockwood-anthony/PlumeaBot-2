@@ -2,11 +2,11 @@ const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js')
 
 module.exports = {
     name: "textGet",
-    async execute(interaction){
-        const textId = interaction.customId.split("/")[1]
+    async execute(inter){
+        const textId = inter.customId.split("/")[1]
         const confirm = require('../modals/textDelete')
 
-        interaction.showModal(confirm.get(textId))
+        inter.showModal(confirm.get(textId))
     },
 
     get(textId){

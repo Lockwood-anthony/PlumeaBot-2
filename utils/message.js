@@ -12,7 +12,7 @@ module.exports = {
         return messageEmbed
     },
 
-    getOneFormatted(message){
+    getFormattedMes(message){
         const attached = message.attachments
 		const content = message.content
 		const embeds = message.embeds
@@ -36,12 +36,11 @@ module.exports = {
     log(message, type){
 
         client.channels.fetch(config.channels[type])
-		.then(channel => channel.send(this.getOneFormatted(message)))
+		.then(channel => channel.send(this.getFormattedMes(message)))
 		.catch(console.error)
     },
 
-    sendOne(cName, mes){
-        const cId = this.getChannelId(cName)
+    sendMes(cId, mes){
 
         client.channels.fetch(cId)
 
@@ -57,8 +56,7 @@ module.exports = {
 
     },
 
-    deleteOne(cName, mesId){
-        const cId = this.getChannelId(cName)
+    delMes(cId, mesId){
 
         client.channels.fetch(cId)
         .then(channel => 
@@ -75,8 +73,7 @@ module.exports = {
 
     },
 
-    getOne(cName, mesId){
-        const cId = this.getChannelId(cName)
+    getMes(cId, mesId){
 
         client.channels.fetch(cId)
         .then(channel => 
@@ -93,27 +90,33 @@ module.exports = {
 
     },
 
-    editOne(cName, mesId, mes){
-        this.getOne(cName, mesId).edit(mes)
+    editMes(cName, mesId, mes){
+        this.getMes(cName, mesId).edit(mes)
 
     },
 
-    sendDone(interaction){
-        const mes = "Action accomplie avec succès ! :D\nhttps://tenor.com/view/mujikcboro-seriymujik-gif-24361533"
-        interaction.reply({content: mes, ephemeral: true})
+    cmdSuccess(inter, reply){
+        const mes = ''
+        if(!reply) mes = "Action accomplie avec succès ! :D\nhttps://tenor.com/view/mujikcboro-seriymujik-gif-24361533"
+        
+        inter.reply({content: mes, ephemeral: true})
+
+        const embed = this.newEmbed()
+        .setTitle(`${inter.commandName} | <@${inter.member.user.id}>`)
+        .setDescription('success')
+
+        this.sendMes(config.channels.logs, { embeds: [embed] })
 
     },
 
-    sendError(interaction, error){
-        const { EmbedBuilder } = require('discord.js')
-
-        const embed = new EmbedBuilder()
-        .setColor(0xF92F41)
+    cmdError(inter, error){
+        const embed = this.newEmbed()
+        .setTitle(`${inter.commandName} | <@${inter.member.user.id}>`)
         .setDescription(error)
-        .setTimestamp()
-        .setFooter({ text: 'error', iconURL: 'https://i.imgur.com/TYeapMy.png' })
 
-        interaction.reply({embeds: [embed], ephemeral: true})
+        inter.reply({embeds: [embed], ephemeral: true})
+
+        this.sendMes(config.channels.logs, { embeds: [embed] })
 
     }
     

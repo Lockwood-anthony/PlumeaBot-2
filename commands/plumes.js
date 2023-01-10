@@ -27,17 +27,17 @@ module.exports = {
         return data
     },  
         
-    async execute(interaction) {
+    async execute(inter) {
         const plume = require("../utils/plume.js")
         const json = require("../utils/json.js")
         const leaderboard = require("../utils/leaderboard.js")
         const editJsonFile = require("edit-json-file")
 
-        const member = interaction.options.getMember("user")
-        const dt = interaction.options.getString("dt")
+        const member = inter.options.getMember("user")
+        const dt = inter.options.getString("dt")
         const memberId = member.id
         const stringId = json.intToABC(memberId)
-        let p = interaction.options.getInteger("plumes")    
+        let p = inter.options.getInteger("plumes")    
 
         try {
             if(!p.length){}
@@ -49,7 +49,7 @@ module.exports = {
                 p = Math.floor(text.words(dt)/1000)
 
             }else{
-                interaction.reply({content:"**Ce dt n'existe point owo**",ephemeral:true})
+                inter.reply({content:"**Ce dt n'existe point owo**",ephemeral:true})
                 return
 
             }
@@ -66,11 +66,11 @@ module.exports = {
         message += p+" plumes\n",
         message += dt+"\n") //DONT MOVE ! or plumes will be equal to 0 bruh
 
-        await plume.roles(member, plumes, interaction)
+        await plume.roles(member, plumes, inter)
 
         await leaderboard.edit()
 
-        await interaction.reply(message)
+        await inter.reply(message)
                 
     }
 

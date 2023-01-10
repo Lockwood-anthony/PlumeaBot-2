@@ -2,7 +2,7 @@ const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js')
 const { cmdSuccess, cmdError } =  require('../utils/message')
 
 module.exports = {
-	ERROR : [
+	ERROR: [
 		{id: 'ALL', desc: 'Les publications sur ce serveur sont soumises à des consignes. Elles peuvent être complexes à première vue, mais pas de panique ! Si vous avez besoin d'assistance, n'hésitez pas à solliciter le staff.'},
 		{id: 'MAUVAISE_SERIE', desc: 'Le dt_titre n'est pas similaire à la série dont il appartient.'},
 		{id: 'BIENSCEANCE', desc: 'Ton texte enfreint les règles de la communauté.'},

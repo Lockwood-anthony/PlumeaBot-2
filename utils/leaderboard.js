@@ -66,7 +66,7 @@ module.exports = {
                 m += ':third_place: '
             }
 
-            message+= m+'<@'+intId+'> : ' + winnersPlumes[i]+'\n---\n'
+            message+= m+'<@'+intId+'>: ' + winnersPlumes[i]+'\n---\n'
 
         }
 

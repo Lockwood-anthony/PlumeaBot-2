@@ -90,8 +90,8 @@ module.exports = {
 
     },
 
-    editMes(cName, mesId, mes){
-        this.getMes(cName, mesId).edit(mes)
+    editMes(cId, mesId, mes){
+        this.getMes(cId, mesId).edit(mes)
 
     },
 

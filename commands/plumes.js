@@ -31,7 +31,6 @@ module.exports = {
         const plume = require('../utils/plume.js')
         const json = require('../utils/json.js')
         const leaderboard = require('../utils/leaderboard.js')
-        const editJsonFile = require('edit-json-file')
 
         const member = inter.options.getMember('user')
         const dt = inter.options.getString('dt')
@@ -49,7 +48,7 @@ module.exports = {
                 p = Math.floor(text.words(dt)/1000)
 
             }else{
-                inter.reply({content:'**Ce dt n'existe point owo**',ephemeral:true})
+                inter.reply({content:'**Ce dt n~existe point owo**',ephemeral:true})
                 return
 
             }

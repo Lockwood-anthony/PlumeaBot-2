@@ -17,7 +17,6 @@ module.exports = {
                 
                 const json = require('../utils/json.js')
                 const id = json.intToABC(member.user.id)
-                const data = editJsonFile(DATA)
         
                 members = data.get('members.list')
                 if(!members.includes(id)&& !user.bot){

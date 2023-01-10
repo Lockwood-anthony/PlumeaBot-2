@@ -35,24 +35,24 @@ module.exports = {
             },
             nick: {
                 type: Sequelize.STRING(),
-                defaultValue : ''
+                defaultValue: ''
 
             },
             joinDate: {
-                type : Sequelize.DATEONLY,
-                defaultValue : new Date().getDate
+                type: Sequelize.DATEONLY,
+                defaultValue: new Date().getDate
 
             },
             plumes: {
-                type : Sequelize.INTEGER,
+                type: Sequelize.INTEGER,
                 defaultValue: 0,
             },
             coins: {
-                type : Sequelize.INTEGER,
+                type: Sequelize.INTEGER,
                 defaultValue: 0,
             },
             weeklyWords: {
-                type : Sequelize.INTEGER,
+                type: Sequelize.INTEGER,
                 defaultValue: 0,
             },
             textsUUIDs: {
@@ -72,15 +72,15 @@ module.exports = {
                 type: Sequelize.UUIDV4,
                 unique: true,
             },
-            dt : Sequelize.STRING,
-            title : Sequelize.STRING,
+            dt: Sequelize.STRING,
+            title: Sequelize.STRING,
             desc: Sequelize.TEXT,
             authorId: Sequelize.INTEGER,
-            chap1 : Sequelize.INTEGER,
-            chap2 : Sequelize.INTEGER,
-            words : Sequelize.INTEGER,
-            mes1 : Sequelize.INTEGER,
-            mes2 : Sequelize.INTEGER,
+            chap1: Sequelize.INTEGER,
+            chap2: Sequelize.INTEGER,
+            words: Sequelize.INTEGER,
+            mes1: Sequelize.INTEGER,
+            mes2: Sequelize.INTEGER,
             date: Sequelize.DATE,
             password: '',
             themes: Sequelize.ARRAY[Sequelize.STRING],
@@ -94,10 +94,10 @@ module.exports = {
 
     Opinion(){
         opinion = sequelize.define('opinion', {
-            n : Sequelize.INTEGER,
-            text : Sequelize.UUIDV4,
-            sender : Sequelize.INTEGER,
-            date : Sequelize.DATE
+            n: Sequelize.INTEGER,
+            text: Sequelize.UUIDV4,
+            sender: Sequelize.INTEGER,
+            date: Sequelize.DATE
         })
 
         return opinion
@@ -105,12 +105,27 @@ module.exports = {
 
     Sprint(){
         sprint = sequelize.define('sprint', {
-            timer : Sequelize.INTEGER,
-            maxTimer : Sequelize.INTEGER,
-            desc : Sequelize.TEXT,
-            sprinters : Sequelize.ARRAY(Sequelize.INTEGER),
-            message : Sequelize.INTEGER,
-            words : Sequelize.ARRAY(Sequelize.INTEGER),
+            id: {
+                type: Sequelize.INTEGER,
+                defaultValue: 0,
+                unique: true
+            },
+            time: {
+                type: Sequelize.INTEGER,
+                defaultValue: 0,
+            },
+            maxTime: {
+                type: Sequelize.INTEGER,
+                defaultValue: 0,
+            },
+            sprinters: {
+                type: Sequelize.ARRAY(Sequelize.INTEGER, Sequelize.INTEGER),
+                defaultValue: []
+            },
+            messageId: {
+                type: Sequelize.INTEGER,
+                defaultValue: 0,
+            }
 
         })
 
@@ -142,7 +157,7 @@ module.exports = {
                 type: Sequelize.STRING,
                 unique: true,
             },
-            id : Sequelize.INTEGER
+            id: Sequelize.INTEGER
 
         })
 
@@ -155,7 +170,7 @@ module.exports = {
                 type: Sequelize.STRING,
                 unique: true,
             },
-            date : Sequelize.DATE
+            date: Sequelize.DATE
 
         })
 

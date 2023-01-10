@@ -26,13 +26,13 @@ module.exports = {
             let messageNumber = 1
 
             if(date <= limit){
-                message += ('<@'+m.id+'> - Arrivée : **'+date+'**\n')
+                message += ('<@'+m.id+'> - Arrivée: **'+date+'**\n')
                 n++
 
                 if(n > messageNumber*32-1 || n == noPlumes.length){
                     const messageUtil = require('../utils/message')
                     const messageEmbed = messageUtil.newEmbed()
-                    .setTitle('__**Liste des membres sans plume et présents depuis au moins un mois : **__' + n)
+                    .setTitle('__**Liste des membres sans plume et présents depuis au moins un mois: **__' + n)
                     .setDescription(message)
 
                     if(messageNumber == 1){

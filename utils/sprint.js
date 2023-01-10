@@ -1,10 +1,26 @@
+const { Sprint, dbGetAtr, dbSetAtr, dbIncrementAtr, dbAddAtr, dbRemoveAtr, dbCreate } =  require('../dbObjects')
+const { editMes, getMes, newEmbed } =  require('../utils/message')
 const { config } = require('../config')
 
 module.exports = {
-    isSprinting() {
-        const data = editJsonFile(DATA)
 
-        time = this.getTime()
+    addOne(id){
+        const sprint = {
+            id: id
+        }
+        dbCreate(Sprint, sprint)    
+    },
+
+    getTime(id){
+        return dbGetAtr(Sprint, id, 'time')
+    },
+
+    setTime(id, time){
+        dbSetAtr(Sprint, id, 'time', time)
+    },
+
+    isSprinting(id) {
+        time = this.getTime(id)
 
         if(time == 0){
             return false
@@ -12,48 +28,65 @@ module.exports = {
             return true
         }
 
-        const { config } = require('../config')
-        config.channels.cya
-
     },
 
-    getTime(){
-        const data = editJsonFile(DATA)
-
-        time = data.get('sprint.timer')
-
-        return time
+    getMaxTime(id){
+        return dbGetAtr(Sprint, id, 'maxTime')
     },
 
-    setMaxTime(s){
-        const data = editJsonFile(DATA)
-        data.set('sprint.maxTime',s)
-        data.save()
+    setMaxTime(id, sec){
+        dbSetAtr(Sprint, id, 'maxTime', sec)
     },
 
-    getMaxTime(){
-        const data = editJsonFile(DATA)
-        return data.get('sprint.maxTime',s)
+    getTime(id){
+        return dbGetAtr(Sprint, id, 'time')
     },
 
-    async setTime(s){
-        const data = editJsonFile(DATA)
-        await data.set('sprint.timer',s)
-        await data.save()
+    setTime(id, sec){
+        dbSetAtr(Sprint, id, 'time', sec)
     },
 
-    async addTime(sec){
-        const data = editJsonFile(DATA)
+    addTime(id, sec){
+        dbIncrementAtr(Sprint, id, 'time', sec)
+    },
 
-        time = this.getTime()
-        await data.set('sprint.timer',time+sec)
-        await data.save()
+    getSprinters(id){
+        return dbGetAtr(Sprint, id, 'sprinters')
+    },
+
+    getSprinter(id, sprinterId){
+        return this.getSprinters(id).filter(s => {
+            s[0] == sprinterId
+        })
+    },
+
+    getSprinterWords(id, sprinterId){
+        return this.getSprinter(id, sprinterId)[1]
+    },
+
+    addSprinter(id, sprinterId, words){
+        dbAddAtr(Sprint, id, 'sprinters', [sprinterId][words])
+    },
+
+    removeSprinter(id, sprinterId){
+        dbRemoveAtr(Sprint, id, 'sprinters', [sprinterId][any])
+    },
+
+    removeAllSprinters(id){
+        dbSetAtr(Srpint, id, 'sprinters', [])
+    },
+
+    getSprintersIds(id){
+        const ids = []
+        this.getSprinters(id).forEach(s => {
+            ids.push(s[0])
+        })
+        return ids
+        
     },
 
     isSprinter(id){
-        const sprinters = this.getSprinters()
-        id = json.intToABC(id)
-
+        const sprinters = this.getSprintersIds()
         if(sprinters.includes(id)){
             return true
         }else{
@@ -61,45 +94,12 @@ module.exports = {
         }
     },
 
-    getSprinters(){
-        const data = editJsonFile(DATA)
-
-        const sprinters = data.get('sprint.sprinters')
-
-        return sprinters
+    getMessageId(id){
+        dbGetAtr(Sprint, id, 'messageId')
     },
 
-    async addSprinter(id, words){
-        const data = editJsonFile(DATA)
-        id = json.intToABC(id)
-
-        const sprinters = data.get('sprint.sprinters')
-
-        sprinters.push(id)
-
-        await data.set('sprint.sprinters',sprinters)
-        await data.set('sprint.'+id.toString(),words.toString())
-        await data.save()
-    },
-
-    async removeSprinter(id){
-        const data = editJsonFile(DATA)
-        id = json.intToABC(id)
-
-        const sprinters = data.get('sprint.sprinters')
-
-        sprinters.filter(s => s == id)
-
-        await data.set('sprint.sprinters',sprinters)
-        await data.unset('sprint.'+id)
-        await data.save()
-    },
-
-    async setMessage(id){
-        const data = editJsonFile(DATA)
-
-        await data.set('sprint.message',id.toString())
-        await data.save()
+    setMessageId(id, mesId){
+        dbSetAtr(Sprint, id, 'messageId', mesId)
     },
 
     isChannel(id){
@@ -116,209 +116,140 @@ module.exports = {
 
 
 
-    async beginMessageEdit(){
-        const data = editJsonFile(DATA)
-        const message = require('./message.js')
-
-        const sec = sprint.getTime()
+    beginMessageEdit(id){
+        const sec = sprint.getTime(id)
         const sprintChannel = config.channels.sprint
-        const id = data.get('sprint.message')
+        const mesId = this.getMessageId(id)
 
         let embed = message.newEmbed()
         .setTitle(('Le sprint commence dans   ' + sec.toString() + ' secondes   :D'))
 
-        client.channels.fetch(sprintChannel)
-        .then(channel => 
-            channel.messages.fetch(id)
-            .then(async m =>
-                await m.edit({content:'',embeds:[embed],components: [await this.roleButton(), await this.joinButton()] }))      
-            .catch(console.error)
-
-        ).catch(console.error)
+        editMes(sprintChannel, mesId, { content: '', embeds: [embed], components: [ this.roleButton(),  this.joinButton()] })
 
     },
     
-    async goMessageEdit(){
-        const data = editJsonFile(DATA)
-        const message = require('./message.js')
-
+    goMessageEdit(id){
         sprintChannel = config.channels.sprint
-        id = data.get('sprint.message')
+        mesId = this.getMessageId(id)
 
         description = ''
 
-        const sec = sprint.getTime()
-        const sprinters = this.getSprinters()
+        const sec = sprint.getTime(id)
+        const sprinters = this.getSprinters(id)
 
         sprinters.forEach(s => {
-            description += '<@'+json.ABCtoInt(s)+'>\n'
+            description += '<@'+s[0]+'>\n'
         })
 
         embed = message.newEmbed()
         .setTitle(('__SPRINT !__       ' + sec.toString() + ' ' + sec.toString() + ' ' + sec.toString() + ' '))
         .setDescription(description)
 
-        client.channels.fetch(sprintChannel)
-        .then(channel => 
-            channel.messages.fetch(id)
-            .then(async m =>
-                await m.edit({embeds:[embed],components: [this.roleButton(), await this.joinButton()]}))      
-            .catch(console.error)
-
-        ).catch(console.error)
+        editMes(sprintChannel, mesId, { embeds:[embed],components: [this.roleButton(),  this.joinButton()] })
 
     },
 
-    endMessageSend(){
-        const data = editJsonFile(DATA)
-
-        const id = data.get('sprint.message')
+    endMessageSend(id){
         const channel = config.channels.sprint
+        const mesId = this.getMessageId(id)
+        getMes(channel, mesId).reply('**Le sprint est terminé ! :3**')
 
-        client.channels.fetch(channel)
-        .then(channel =>{
-            channel.messages.fetch(id)
-            .then(m =>
-                m.reply('**Le sprint est terminé ! :3**')
-
-            ).catch(console.error)
-
-            this.getSprinters().forEach(sprinterABC =>{
-                sprinterId = json.ABCtoInt(sprinterABC)
-
-                channel.send('<@'+sprinterId+'>')
-            })
-
-        }).catch(console.error)
-
+        this.getSprinters(id).forEach(s =>{
+            channel.send('<@'+s[0]+'>')
+        })
 
     },
 
-    endMessageEdit(){
-        const data = editJsonFile(DATA)
-        const message = require('./message.js')
-
-        sprintChannel = config.channels.sprint
-        id = data.get('sprint.message')
+    endMessageEdit(id){
+        channel = config.channels.sprint
+        mesId = this.getMessageId(id)
 
         embed = message.newEmbed()
         .setTitle(('LE SPRINT EST TERMINE ! :3'))
 
-        client.channels.fetch(sprintChannel)
-        .then(channel => 
-            channel.messages.fetch(id)
-            .then(async m =>
-                await m.edit({embeds:[embed],components: [await this.finalButton()]}))      
-            .catch(console.error)
-
-        ).catch(console.error)
+        editMes(channel, mesId, { embeds:[embed],components: [ this.finalButton()] })
 
     },
 
-    endmessageUpdate(userId, words){
-        const data = editJsonFile(DATA)
-        const message = require('./message.js')
+    endmessageUpdate(id, userId, words){
+        const channel = config.channels.sprint
+        const mesId = this.getMessageId(id)
 
-        const sprintChannel = config.channels.sprint
-        const id = data.get('sprint.message')
-
-        const beginWords = data.get('sprint.'+json.intToABC(userId))
-        let description = data.get('sprint.description')
+        const beginWords = this.getSprinterWords(id, userId)
+        let embed = getMes(channel, mesId).embeds[0]
+        let desc = embed.description
         
-        description += '<@'+userId+'> a bien profité du sprint en imaginant ***' + (words-beginWords) + ' ***mots '
+        desc += '<@'+userId+'> a bien profité du sprint en imaginant ***' + (words-beginWords) + ' ***mots '
 
-        embed = message.newEmbed()
+        embed = newEmbed()
         .setTitle(('LE SPRINT EST TERMINE ! :3'))
         .setDescription(description)
 
-        client.channels.fetch(sprintChannel)
-        .then(channel => 
-            channel.messages.fetch(id)
-            .then(async m =>
-                await m.edit({embeds:[embed],components: [await this.finalButton()]}))      
-            .catch(console.error)
+        editMes(channel, id, { embeds:[embed] })
 
-        ).catch(console.error)
     },
 
 
     
 
-    removeMessageButtons(){
-        const data = editJsonFile(DATA)
-        const messageId = data.get('sprint.message')
+    removeMessageButtons(id){
+        const messageId = this.getMessageId(id)
         const ChannelId = config.channels.sprint
 
-        client.channels.fetch(ChannelId)
-        .then(channel => 
-            channel.messages.fetch(messageId)
-            .then(async m =>
-                await m.edit({components:[]}))
- 
-            .catch(console.error)
-        ).catch(console.error)
+        editMes(ChannelId, messageId, { components:[] })
     },
 
 
 
 
-    SETUP(){
-        const data = editJsonFile(DATA)
+    SETUP(id){
+        this.removeMessageButtons(id)
 
-        this.removeMessageButtons()
-        data.unset('sprint')
-        data.save()
-
-        data.set('sprint.timer',0)
-        data.set('sprint.description','')
-        const none = []
-        data.set('sprint.sprinters',none)
-        data.save()
+        this.setTime(id, 0)
+        this.removeAllSprinters(id)
 
         sprintChannel = config.channels.sprint
-        sprintChannel.send(':3')
-        this.setMessage(messageId)
+        const mes = sprintChannel.send(':3')
+
+        this.setMessage(mes.id)
     },
 
-    BEGIN(){
+    BEGIN(id){
 
-        let BEGIN = setInterval(function() {      
-            this.beginMessage(sprint.getTime())
-            this.timerProgress(+2)
+        let BEGIN = setInterval(function() {
+            this.beginMessage(id, sprint.getTime())
+            this.addTime(id, +2)
 
-            if(this.isFishished()){
-                this.GO()
+            if(this.isFishished(id)){
+                this.GO(id)
                 clearInterval(BEGIN)
             }
 
         }, 2000)
 
-        this.setTime(this.getMaxTime())
-
+        this.setTime(id, this.getMaxTime(id))
 
     },
 
-    GO(){
+    GO(id){
 
         let GO = setInterval(function() {      
-            this.goMessageEdit()
-            this.timerProgress(-2)
+            this.goMessageEdit(id)
+            this.timerProgress(id, -2)
 
-            if(sprint.isFishished()){
-                this.END()
+            if(sprint.isFishished(id)){
+                this.END(id)
                 clearInterval(GO)
             }
 
         }, 2000)  
+
     },
 
-    END(){
-        const data = editJsonFile(DATA)
-
-        data.set('timer',0)
-        data.save()
-        this.endMessageSend()
-        this.endMessageEdit()
+    END(id){
+        this.setTime(id, 0)
+        this.endMessageSend(id)
+        this.endMessageEdit(id)
 
     },
 

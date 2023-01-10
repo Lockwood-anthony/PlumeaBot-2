@@ -4,7 +4,6 @@ module.exports = {
 	name: 'messageCreate',
 	async execute(message) {
         const messageUtils = require('../utils/message')
-        const data = editJsonFile(DATA)
         const channelName = message.channel.name
         const channelId = message.channel.id
         const id = message.author.id
@@ -90,7 +89,7 @@ module.exports = {
             if (roles == 1){
                 if (message.attachments.size == 0 && !message.content.includes('http')) return
                 message.delete()
-                await message.author.send('__**Impossible d'envoyer ce message :**__```md\n#Tu ne peux poster ni lien, ni fichier, ni gif sans n'avoir jamais gagné de plumes :D```')
+                await message.author.send('__**Impossible d~envoyer ce message :**__```md\n#Tu ne peux poster ni lien, ni fichier, ni gif sans n~avoir jamais gagné de plumes :D```')
             }
 
         }else{

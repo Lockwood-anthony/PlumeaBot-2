@@ -107,13 +107,13 @@ module.exports = {
         
                     if(mUtils.toMuchWeeklyWords(user.id, words)){
                         weekly = mUtils.getWeeklyWords(user.id)
-                        inter.reply({ content: '**NO !** Pas plus de 20k par semaine bro\nMots : '+words+' | Mots de la semaine : '+weekly+'\nhttps://tenor.com/view/no-chad-giga-chad-giga-chet-gif-25063092', ephemeral: true })
+                        inter.reply({ content: '**NO !** Pas plus de 20k par semaine bro\nMots: '+words+' | Mots de la semaine: '+weekly+'\nhttps://tenor.com/view/no-chad-giga-chad-giga-chet-gif-25063092', ephemeral: true })
                         mUtils.removeFileInPosting(id)
 
                     }else if (words < 1000){
         
                         try{
-                            inter.reply({ content: '**NO !**  Soit un chad et envoie plus de 1000 mots.\nMots Comptés : '+words
+                            inter.reply({ content: '**NO !**  Soit un chad et envoie plus de 1000 mots.\nMots Comptés: '+words
                             +'\nhttps://tenor.com/view/no-chad-giga-chad-giga-chet-gif-25063092'+
                             '\nSi c'est largement éloigné du nombre de mots réel, converti ton fichier en pdf grâce à ce site :'
                             +'\nhttps://www.ilovepdf.com/fr/word_en_pdf'

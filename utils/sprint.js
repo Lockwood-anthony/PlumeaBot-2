@@ -1,7 +1,3 @@
-const editJsonFile = require("edit-json-file")
-const dataConfig = editJsonFile(DATA_CONFIG)
-const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js')
-
 module.exports = {
     isSprinting() {
         const data = editJsonFile(DATA)

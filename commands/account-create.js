@@ -23,6 +23,7 @@ module.exports = {
         memberUtils.add(member.user.id)
 
         sendDone(interaction)
+        interaction.reply({content: "test", ephemeral: true})
 
 	}
 

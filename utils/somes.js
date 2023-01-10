@@ -3,8 +3,8 @@ module.exports = {
     async setWeeklyReset(){
         const data = editJsonFile(DATA)
 
-        const date = new Date();
-        date.setDate(date.getDate() - date.getDay() + 7);
+        const date = new Date()
+        date.setDate(date.getDate() - date.getDay() + 7)
         date.setHours(("0" + 23).slice(-2))
         date.setMinutes(("0" + 0).slice(-2))
         

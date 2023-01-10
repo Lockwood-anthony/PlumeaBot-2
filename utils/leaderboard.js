@@ -1,10 +1,9 @@
-const editJsonFile = require("edit-json-file")
-const dataConfig = editJsonFile(DATA_CONFIG)
+const { config } = require('../config')
 
 module.exports = {
     edit(){
-        const channel_id = dataConfig.get("channels.leaderboard")
-        const id = dataConfig.get("messages.leaderboard")
+        const channel_id = config.channels.leaderboard
+        const id = config.messages.leaderboard
 
         client.channels.fetch(channel_id)
         .then(channel => 
@@ -18,8 +17,6 @@ module.exports = {
     },
 
     create(){
-        const json = require("./json")
-        const  data = editJsonFile(DATA)
 
 		const members = data.get("members.list")
         let winnersPlumes = []
@@ -56,7 +53,7 @@ module.exports = {
 
         let message = "\n"
         const l = winnersId.length
-        for(i = l-1 ; (i >= l-10 && i >= 0); i--){
+        for(i = l-1 ; (i >= l-10 && i >= 0) ; i--){
             id = winnersId[i]
             intId = json.ABCtoInt(id)
 
@@ -73,7 +70,7 @@ module.exports = {
 
         }
 
-        const messageUtil = require('./message');
+        const messageUtil = require('./message')
         const Leaderboard = messageUtil.newEmbed()
         .setTitle("LEADERBOARD :")
         .setDescription(message)

@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
+const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js")
 const { sendDone } =  require('../utils/message')
 
 module.exports = {
@@ -21,8 +21,8 @@ module.exports = {
         const url = data.url
         const dataUtil = require("../utils/data.js")
 
-        let request = require("request");
-        let fs = require("fs");
+        let request = require("request")
+        let fs = require("fs")
         await request.get(url)
             .on("error", console.error)
             .pipe(fs.createWriteStream(DATA))

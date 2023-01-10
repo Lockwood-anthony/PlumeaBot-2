@@ -1,4 +1,3 @@
-global.DATA_CONFIG = "DATA_CONFIG.json"
 global.DATA = "DATA.json"
 
 const fs = require('node:fs')

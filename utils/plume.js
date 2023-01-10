@@ -1,9 +1,8 @@
-const editJsonFile = require("edit-json-file")
-const dataConfig = editJsonFile(DATA_CONFIG)
+const { config } = require('../config')
 
 module.exports = {
     async roles(member, plumes, interaction) {
-        json = dataConfig.get("roles")
+        json = config.plumesRoles
         const roles = new Map(Object.entries(json))
         
         found =  false
@@ -24,7 +23,7 @@ module.exports = {
                     await member.roles.add(lower)
 
                     if(roleBefore != lower){
-                        client.channels.fetch(dataConfig.get("channels.plumes"))
+                        client.channels.fetch(config.channels.plumes)
                         .then(channel => channel.send("<@"+member.user.id+"> " + "devient un " + lower.name))
                         .catch(console.error)
                     }                

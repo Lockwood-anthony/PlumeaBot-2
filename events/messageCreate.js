@@ -1,12 +1,9 @@
-const { InteractionCollector } = require("discord.js")
+const { config } = require('../config')
 
 module.exports = {
 	name: 'messageCreate',
 	async execute(message) {
-        const editJsonFile = require("edit-json-file")
-        const dataUtils = require("../utils/data.js")
         const messageUtils = require("../utils/message")
-        const dataConfig = editJsonFile(DATA_CONFIG)
         const data = editJsonFile(DATA)
         const channelName = message.channel.name
         const channelId = message.channel.id
@@ -31,7 +28,7 @@ module.exports = {
             }
             */
 
-            const triggersJson = dataConfig.get("messageReplies")
+            const triggersJson = config.messageReplies
             const triggers = new Map(Object.entries(triggersJson))
             triggers.forEach((reply,trigger)=>{
                 if (content.includes(trigger)) {
@@ -40,7 +37,7 @@ module.exports = {
             })
 
             switch(channelId){
-                case dataConfig.get("channels.text"):
+                case config.channels.text:
                     const attach = message.attachments
                     const mUtils = require('../utils/member')
 
@@ -74,7 +71,7 @@ module.exports = {
 
                 break
 
-                case dataConfig.get("channels.general"):
+                case config.channels.general:
                     const today = new Date()
                     const recall = new Date(data.get("bump"))
     
@@ -100,7 +97,7 @@ module.exports = {
 
             if(id == 1018969464739467317){
 
-                if(!dataConfig.get("channels.nologs").includes(channelName) && message.flags.bitfield != 64){
+                if(!config.channels.nologs.includes(channelName) && message.flags.bitfield != 64){
                     await messageUtils.log(message,"logs")
                 }
 

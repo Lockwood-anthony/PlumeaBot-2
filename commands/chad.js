@@ -1,4 +1,5 @@
-const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
+const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js")
+const { config } = require('../config')
 const { sendDone } =  require('../utils/message')
 
 module.exports = {
@@ -20,9 +21,7 @@ module.exports = {
         const n = interaction.options.getInteger("giga_chad_power_intensity")
         interaction.reply({ content: "GIGA CHAD!!!", ephemeral: true })
 
-        const editJsonFile = require("edit-json-file")
-        const dataConfig = editJsonFile("DATA_CONFIG.json")
-        const chad = dataConfig.get("messageReplies.CHAD")
+        const chad = config.messageReplies.CHAD
 
         for (i = 0 ; i < n ; i++) {
             interaction.channel.send(chad)

@@ -5,7 +5,6 @@ const { Client, GatewayIntentBits } = require('discord.js')
 const path = require('path')
 const fs = require('fs')
 global.DATA = "DATA.json"
-global.DATA_CONFIG = "DATA_CONFIG.json"
 global.DIRNAME = __dirname
 
 global.client = new Client({

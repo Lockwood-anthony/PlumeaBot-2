@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require("discord.js");
+const { SlashCommandBuilder } = require("discord.js")
 const { sendDone, newEmbed } =  require('../utils/message')
 const { getOne } = require('../utils/member')
 
@@ -39,7 +39,7 @@ module.exports = {
 		}
 
         newEmbed().setDescription(message)
-        await interaction.reply({ embeds: [messageEmbed]});
+        await interaction.reply({ embeds: [messageEmbed]})
 
 	}
 

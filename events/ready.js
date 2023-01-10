@@ -4,6 +4,6 @@ module.exports = {
 		const dbObjects = require("../dbObjects.js")
 		dbObjects.Sync()
 		
-		console.log(`Scriptubot pret ! ${client.user.tag}`);
+		console.log(`Scriptubot pret ! ${client.user.tag}`)
 	},
 };

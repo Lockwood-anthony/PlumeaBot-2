@@ -1,12 +1,14 @@
+const { config } = require('../config')
+
 module.exports = {
 
     newEmbed(){
-        const { EmbedBuilder } = require('discord.js');
+        const { EmbedBuilder } = require('discord.js')
 
         const messageEmbed = new EmbedBuilder()
         .setColor(0x2C2F33)
         .setTimestamp()
-        .setFooter({ text: 'scriptubot', iconURL: 'https://i.imgur.com/TYeapMy.png' });
+        .setFooter({ text: 'scriptubot', iconURL: 'https://i.imgur.com/TYeapMy.png' })
         return messageEmbed
     },
 
@@ -32,18 +34,10 @@ module.exports = {
     },
 
     log(message, type){
-        const editJsonFile = require("edit-json-file")
-        const dataConfig = editJsonFile(DATA_CONFIG)
 
-        client.channels.fetch(dataConfig.get("channels."+type))
+        client.channels.fetch(config.channels[type])
 		.then(channel => channel.send(this.getOneFormatted(message)))
 		.catch(console.error)
-    },
-
-    getChannelId(name){
-        const editJsonFile = require("edit-json-file")
-        const dataConfig = editJsonFile(DATA_CONFIG)
-        return dataConfig.get(`channels.${name}`)
     },
 
     sendOne(cName, mes){
@@ -111,13 +105,13 @@ module.exports = {
     },
 
     sendError(interaction, error){
-        const { EmbedBuilder } = require('discord.js');
+        const { EmbedBuilder } = require('discord.js')
 
         const embed = new EmbedBuilder()
         .setColor(0xF92F41)
         .setDescription(error)
         .setTimestamp()
-        .setFooter({ text: 'error', iconURL: 'https://i.imgur.com/TYeapMy.png' });
+        .setFooter({ text: 'error', iconURL: 'https://i.imgur.com/TYeapMy.png' })
 
         interaction.reply({embeds: [embed], ephemeral: true})
 

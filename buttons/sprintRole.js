@@ -1,12 +1,11 @@
 const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js')
-const editJsonFile = require("edit-json-file")
-const dataConfig = editJsonFile(DATA_CONFIG)
+const { config } = require('../config')
 
 module.exports = {
     name: "sprintRole",
     async execute(interaction){
         const member = interaction.member
-        const sprintRole = dataConfig.get("rolesId.sprinter")
+        const sprintRole = config.roles.sprinter
 
         if(member.roles.cache.has(sprintRole)){
             await member.roles.remove(sprintRole)

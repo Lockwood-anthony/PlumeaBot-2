@@ -1,3 +1,5 @@
+const { config } = require('../config')
+
 module.exports = {
     isSprinting() {
         const data = editJsonFile(DATA)
@@ -9,6 +11,9 @@ module.exports = {
         }else{
             return true
         }
+
+        const { config } = require('../config')
+        config.channels.cya
 
     },
 
@@ -98,7 +103,7 @@ module.exports = {
     },
 
     isChannel(id){
-        sprintChannel = dataConfig.get("channels.sprint")
+        sprintChannel = config.channels.sprint
 
         if(sprintChannel == id){
             return true
@@ -116,7 +121,7 @@ module.exports = {
         const message = require("./message.js")
 
         const sec = sprint.getTime()
-        const sprintChannel = dataConfig.get("channels.sprint")
+        const sprintChannel = config.channels.sprint
         const id = data.get("sprint.message")
 
         let embed = message.newEmbed()
@@ -137,7 +142,7 @@ module.exports = {
         const data = editJsonFile(DATA)
         const message = require("./message.js")
 
-        sprintChannel = dataConfig.get("channels.sprint")
+        sprintChannel = config.channels.sprint
         id = data.get("sprint.message")
 
         description = ""
@@ -168,7 +173,7 @@ module.exports = {
         const data = editJsonFile(DATA)
 
         const id = data.get("sprint.message")
-        const channel = dataConfig.get("channels.sprint")
+        const channel = config.channels.sprint
 
         client.channels.fetch(channel)
         .then(channel =>{
@@ -193,7 +198,7 @@ module.exports = {
         const data = editJsonFile(DATA)
         const message = require("./message.js")
 
-        sprintChannel = dataConfig.get("channels.sprint")
+        sprintChannel = config.channels.sprint
         id = data.get("sprint.message")
 
         embed = message.newEmbed()
@@ -214,7 +219,7 @@ module.exports = {
         const data = editJsonFile(DATA)
         const message = require("./message.js")
 
-        const sprintChannel = dataConfig.get("channels.sprint")
+        const sprintChannel = config.channels.sprint
         const id = data.get("sprint.message")
 
         const beginWords = data.get("sprint."+json.intToABC(userId))
@@ -242,7 +247,7 @@ module.exports = {
     removeMessageButtons(){
         const data = editJsonFile(DATA)
         const messageId = data.get("sprint.message")
-        const ChannelId = dataConfig.get("channels.sprint")
+        const ChannelId = config.channels.sprint
 
         client.channels.fetch(ChannelId)
         .then(channel => 
@@ -270,7 +275,7 @@ module.exports = {
         data.set("sprint.sprinters",none)
         data.save()
 
-        sprintChannel = dataConfig.get("channels.sprint")
+        sprintChannel = config.channels.sprint
         sprintChannel.send(":3")
         this.setMessage(messageId)
     },

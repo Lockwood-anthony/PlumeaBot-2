@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js")
 const { sendDone } =  require('../utils/message')
+const { config } = require('../config')
 
 module.exports = {
 	data(){
@@ -37,8 +38,6 @@ module.exports = {
         const memberId = member.id
         const stringId = json.intToABC(memberId)
         let p = interaction.options.getInteger("plumes")    
-        const data = editJsonFile(DATA)
-        const dataConfig = editJsonFile(DATA_CONFIG)
 
         try {
             if(!p.length){}
@@ -63,7 +62,7 @@ module.exports = {
         await data.set("members." + stringId + ".plumes", plumes)
         await data.save()
 
-        await( message = "**<@" + memberId + "> possède maintenant *" + plumes + "* "+dataConfig.get("emotes.plume")+"**\n",
+        await( message = "**<@" + memberId + "> possède maintenant *" + plumes + "* "+config.emotes.plume+"**\n",
         message += p+" plumes\n",
         message += dt+"\n") //DONT MOVE ! or plumes will be equal to 0 bruh
 

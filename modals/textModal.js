@@ -77,7 +77,7 @@ module.exports = {
                 const extension = path.extname(file.name)
         
                 if(extension != ".pdf"){
-                    interaction.reply({ content: "C'est pas .PDF ca ;-;\nVa donc sur ce site :\n\n https://www.ilovepdf.com/fr", ephemeral: true });
+                    interaction.reply({ content: "C'est pas .PDF ca ;-;\nVa donc sur ce site :\n\n https://www.ilovepdf.com/fr", ephemeral: true })
                     mUtils.removeFileInPosting(id)
                     return
                 }

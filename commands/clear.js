@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
+const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js")
 const { sendDone } =  require('../utils/message')
 
 module.exports = {
@@ -18,13 +18,13 @@ module.exports = {
     },
 
 	async execute(interaction) {
-        let n = interaction.options.getInteger("clear_intensity");
+        let n = interaction.options.getInteger("clear_intensity")
         let channel = interaction.channel;
         
         await channel.messages.fetch({limit: n})
-        .then(messages => channel.bulkDelete(messages));
+        .then(messages => channel.bulkDelete(messages))
 		
-        await interaction.reply({ content: DONE, ephemeral: true });
+        await interaction.reply({ content: DONE, ephemeral: true })
 
 	}
     

@@ -1,8 +1,6 @@
 const { SlashCommandBuilder} = require('discord.js')
 const { sendDone } =  require('../utils/message')
-
-const editJsonFile = require("edit-json-file")
-const dataConfig = editJsonFile(DATA_CONFIG)
+const { config } = require('../config')
 
 module.exports = {
 	data(){
@@ -40,7 +38,7 @@ module.exports = {
             if(sprint.isChannel(channelId)){
                 sprint.addSprinter(user.id, words)
                 sprint.setMaxTime(time)
-                const sprintRole = dataConfig.get("rolesId.sprinter")
+                const sprintRole = config.roles.sprinter
                 await interaction.reply("***Sprint ! :3***")
                 await interaction.channel.send("<@&"+sprintRole+">")  
                 

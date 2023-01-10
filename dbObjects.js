@@ -1,4 +1,5 @@
 const { Sequelize } = require("sequelize")
+const { config } = require('./config')
 
 module.exports = {
 
@@ -19,9 +20,7 @@ module.exports = {
         .setAuthor({ name: "o", iconURL: "https://i.imgur.com/TYeapMy.png", url: "https://discord.gg/arbnrxWFVu" })
         .setDescription(edit)
 
-        const editJsonFile = require("edit-json-file")
-        const dataConfig = editJsonFile(DATA_CONFIG)
-        const logsId = dataConfig.get("channels.logs")
+        const logsId = config.channels.logs
 
         client.channels.fetch(logsId)
 		.then(channel => channel.send({embeds:[messageEmbed]}))

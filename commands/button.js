@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
+const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js")
 const { sendDone } =  require('../utils/message')
 const path = require('node:path')
 const fs = require('node:fs')

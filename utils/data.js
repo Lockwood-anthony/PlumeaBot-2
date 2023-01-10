@@ -1,14 +1,13 @@
-const editJsonFile = require("edit-json-file")
+const { config } = require('../config')
 
 module.exports = {
     async save(){
         const request = require(`request`)
         const fs = require(`fs`)
-        const dataConfig = editJsonFile(DATA_CONFIG)
         
-        await client.channels.fetch(dataConfig.get("channels.logs"))
+        await client.channels.fetch(config.channels.logs)
         .then(channel => 
-            channel.messages.fetch(dataConfig.get("messages.data"))
+            channel.messages.fetch(config.messages.data)
             .then(async m =>
                 request.get(m.attachments.first().url)
                 .on('error', console.error)
@@ -19,12 +18,10 @@ module.exports = {
     },
 
     async upload(){
-        const editJsonFile = require("edit-json-file")
-        const dataConfig = editJsonFile(DATA_CONFIG);
 
-        client.channels.fetch(dataConfig.get("channels.logs"))
+        client.channels.fetch(config.channels.logs)
         .then(channel => 
-            channel.messages.fetch(dataConfig.get("messages.data"))
+            channel.messages.fetch(config.messages.data)
             .then(async m =>
                 await m.edit({content:"",
                     files: ["./DATA.json"]
@@ -33,7 +30,7 @@ module.exports = {
             .catch(console.error)
         ).catch(console.error)
 
-        client.channels.fetch(dataConfig.get("channels.logs"))
+        client.channels.fetch(config.channels.logs)
         .then(async channel => 
             await channel.send({files: ["./DATA.json"]})
             .catch(console.error)

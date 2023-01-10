@@ -1,5 +1,6 @@
-const { SlashCommandBuilder } = require("discord.js");
+const { SlashCommandBuilder } = require("discord.js")
 const { sendDone } =  require('../utils/message')
+const { config } = require('../config')
 
 module.exports = {
 	data(){
@@ -11,10 +12,8 @@ module.exports = {
 	},
 
 	async execute(interaction) {
-		const editJsonFile = require("edit-json-file")
-        const dataConfig = editJsonFile(DATA_CONFIG)
 
-        await interaction.reply(dataConfig.get("emotes.plume"))
+        await interaction.reply(config.emotes.plume)
 
 	}
 

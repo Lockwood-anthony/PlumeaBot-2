@@ -1,9 +1,9 @@
 const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js')
 
 module.exports = {
-    name: "textEdit",
+    name: 'textEdit',
     async execute(inter){
-        const textId = inter.customId.split("/")[1]
+        const textId = inter.customId.split('/')[1]
         const tUtils = require('../utils/text')
         const textAuthor = tUtils.getAuthorId(textId)
 
@@ -12,10 +12,10 @@ module.exports = {
             const {get} = require('../modals/textEdit')
             inter.showModal(get(textId, false))
 
-        }else if(member.hasPermission("ADMINISTRATOR", true)){
+        }else if(member.hasPermission('ADMINISTRATOR', true)){
 
         }else{
-            inter.reply({content: "bruh, t'es pas l'auteur, tu peux pas faire ca..", ephemeral: true})
+            inter.reply({content: 'bruh, t'es pas l'auteur, tu peux pas faire ca..', ephemeral: true})
             
         }
 
@@ -28,7 +28,7 @@ module.exports = {
                 .setCustomId(this.name+'/'+textId)
                 .setLabel('Etit')
                 .setStyle(ButtonStyle.Secondary)
-                .setEmoji(":gear:")
+                .setEmoji(':gear:')
 
         )
 

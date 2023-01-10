@@ -3,7 +3,7 @@ const { config } = require('../config')
 module.exports = {
 	name: 'messageCreate',
 	async execute(message) {
-        const messageUtils = require("../utils/message")
+        const messageUtils = require('../utils/message')
         const data = editJsonFile(DATA)
         const channelName = message.channel.name
         const channelId = message.channel.id
@@ -13,7 +13,7 @@ module.exports = {
             const content = message.content
             const roles = message.member.roles.cache.map(r => `${r}`).length
 
-            //message.react(":champagne_glass:")
+            //message.react(':champagne_glass:')
 
             /*
             if(userId == 865929450109009941){
@@ -21,7 +21,7 @@ module.exports = {
 
                 if (rand == 32){
                     await message.delete()
-                    await message.author.send("**Bravo ! Tu avais 1 chance sur 38 de faire 32 ^^\n et Souviens-toi, il ne faut pas oublier :3**```"+message.content+"```")
+                    await message.author.send('**Bravo ! Tu avais 1 chance sur 38 de faire 32 ^^\n et Souviens-toi, il ne faut pas oublier :3**```'+message.content+'```')
 
                 }
 
@@ -59,13 +59,13 @@ module.exports = {
                             
                         }else{
                             message.delete()
-                            message.author.send("Ton message ne contient pas le fichier de ton texte !")
+                            message.author.send('Ton message ne contient pas le fichier de ton texte !')
 
                         }
 
                     }else{
                         message.delete()
-                        message.author.send("Avant de poster un texte, donne au moins un avis et attend de recevoir une plume ;)")
+                        message.author.send('Avant de poster un texte, donne au moins un avis et attend de recevoir une plume ;)')
 
                     }
 
@@ -73,12 +73,12 @@ module.exports = {
 
                 case config.channels.general:
                     const today = new Date()
-                    const recall = new Date(data.get("bump"))
+                    const recall = new Date(data.get('bump'))
     
                     if(today > recall){
-                        await message.reply("***Bumpy ! :3***")
+                        await message.reply('***Bumpy ! :3***')
                         today.setFullYear(today.getFullYear()+66)
-                        await data.set("bump", today.toString())
+                        await data.set('bump', today.toString())
     
                         await data.save()
                         await dataUtils.upload()
@@ -88,9 +88,9 @@ module.exports = {
             }
                         
             if (roles == 1){
-                if (message.attachments.size == 0 && !message.content.includes("http")) return
+                if (message.attachments.size == 0 && !message.content.includes('http')) return
                 message.delete()
-                await message.author.send("__**Impossible d'envoyer ce message :**__```md\n#Tu ne peux poster ni lien, ni fichier, ni gif sans n'avoir jamais gagné de plumes :D```")
+                await message.author.send('__**Impossible d'envoyer ce message :**__```md\n#Tu ne peux poster ni lien, ni fichier, ni gif sans n'avoir jamais gagné de plumes :D```')
             }
 
         }else{
@@ -98,7 +98,7 @@ module.exports = {
             if(id == 1018969464739467317){
 
                 if(!config.channels.nologs.includes(channelName) && message.flags.bitfield != 64){
-                    await messageUtils.log(message,"logs")
+                    await messageUtils.log(message,'logs')
                 }
 
             }
@@ -108,12 +108,12 @@ module.exports = {
 
                 embeds.forEach(embed =>{
 
-                    if(embed.data.description.includes("Bump effectué !")){
+                    if(embed.data.description.includes('Bump effectué !')){
                         const recall = new Date()
-                        recall.setHours(("0" + (recall.getHours() + 2)).slice(-2))
-                        recall.setMinutes(("0" + (recall.getMinutes() + 30)).slice(-2))
+                        recall.setHours(('0' + (recall.getHours() + 2)).slice(-2))
+                        recall.setMinutes(('0' + (recall.getMinutes() + 30)).slice(-2))
         
-                        data.set("bump", recall.toString())
+                        data.set('bump', recall.toString())
     
                         data.save()
                         dataUtils.upload()

@@ -1,4 +1,4 @@
-const dataUtil = require("../utils/data.js")
+const dataUtil = require('../utils/data.js')
 
 module.exports = {
 	name: 'interCreate',
@@ -15,7 +15,7 @@ module.exports = {
 				await command.execute(inter)
 			} catch (error) {
 				console.error(error)
-				await inter.reply({ content: "J'y arrive po ;-; Appelle mon papa Asra", ephemeral: true })
+				await inter.reply({ content: 'J~y arrive po ;-; Appelle mon papa Asra', ephemeral: true })
 			}
 
 		}else if(inter.isButton()){

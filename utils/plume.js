@@ -24,7 +24,7 @@ module.exports = {
 
                     if(roleBefore != lower){
                         client.channels.fetch(config.channels.plumes)
-                        .then(channel => channel.send("<@"+member.user.id+"> " + "devient un " + lower.name))
+                        .then(channel => channel.send('<@'+member.user.id+'> ' + 'devient un ' + lower.name))
                         .catch(console.error)
                     }                
 

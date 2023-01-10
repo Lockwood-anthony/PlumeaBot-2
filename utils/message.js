@@ -17,8 +17,8 @@ module.exports = {
 		const content = message.content
 		const embeds = message.embeds
 
-        let mes = "<#"+message.channel.id+">  "
-		mes += "<@"+message.author.id+">\n\n"
+        let mes = '<#'+message.channel.id+'>  '
+		mes += '<@'+message.author.id+'>\n\n'
 
 		if(content != null){
 			mes += content
@@ -26,7 +26,7 @@ module.exports = {
 	
 		attached.forEach(attach => {	
 			isAttached = true
-			mes += attach.url + "\n\n"
+			mes += attach.url + '\n\n'
 		})
 
         return {content:mes,embeds:embeds}
@@ -96,10 +96,10 @@ module.exports = {
     },
 
     cmdSuccess(inter, reply){
-        const mes = ''
-        if(!reply) mes = "Action accomplie avec succès ! :D\nhttps://tenor.com/view/mujikcboro-seriymujik-gif-24361533"
+        const mes = {content: 'Action accomplie avec succès ! :D\nhttps://tenor.com/view/mujikcboro-seriymujik-gif-24361533', ephemeral: true}
+        if(reply) mes = reply
         
-        inter.reply({content: mes, ephemeral: true})
+        inter.reply(mes)
 
         const embed = this.newEmbed()
         .setTitle(`${inter.commandName} | <@${inter.member.user.id}>`)
@@ -110,11 +110,11 @@ module.exports = {
     },
 
     cmdError(inter, error){
+        inter.reply(error)
+
         const embed = this.newEmbed()
         .setTitle(`${inter.commandName} | <@${inter.member.user.id}>`)
         .setDescription(error)
-
-        inter.reply({embeds: [embed], ephemeral: true})
 
         this.sendMes(config.channels.logs, { embeds: [embed] })
 

@@ -15,7 +15,7 @@ module.exports = {
         .setThumbnail(member.user.displayAvatarURL())
         .setTimestamp()
 
-        const dataUtils = require("../utils/data.js")
+        const dataUtils = require('../utils/data.js')
         await dataUtils.accountRemove(member.user)
         await client.channels.cache.fetch(cya)
         .then(channel => channel.send({ embeds: [cyaMessage]}))

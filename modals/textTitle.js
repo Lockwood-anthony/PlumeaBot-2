@@ -36,7 +36,7 @@ module.exports = {
 
 
         }else{
-            await inter.reply({content: "Seuls les caractères alphabétiques sont autorisés", ephemeral: true})
+            await inter.reply({content: 'Seuls les caractères alphabétiques sont autorisés', ephemeral: true})
         }
 
     },
@@ -44,12 +44,12 @@ module.exports = {
     get(){
         const modal = new ModalBuilder()
         .setCustomId(this.name)
-        .setTitle("6 lettres se rapportant à votre oeuvre (ex:LGUIDE pour Le Guide de Para")
+        .setTitle('6 lettres se rapportant à votre oeuvre (ex:LGUIDE pour Le Guide de Para')
 
         const dt_title = new TextInputBuilder()
         .setCustomId('dt_title')
-        .setLabel("Entre les lettres :")
-        .setPlaceholder("Vas-y ! Entre les ! Hmmmm, j'en frémis déjà~")
+        .setLabel('Entre les lettres :')
+        .setPlaceholder('Vas-y ! Entre les ! Hmmmm, j'en frémis déjà~')
         .setMinLength(6)
         .setMaxLength(6)
         .setStyle(TextInputStyle.Short)

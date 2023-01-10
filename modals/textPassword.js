@@ -13,20 +13,20 @@ module.exports = {
             tUtils.sendFile(textId, member)
 
         }else{
-            inter.reply({content: "MAUVAIS MOT DE PASSE è-é", ephemeral: true})
+            inter.reply({content: 'MAUVAIS MOT DE PASSE è-é', ephemeral: true})
         }
 
     },
 
     get(textId){
         const modal = new ModalBuilder()
-        .setCustomId(this.name+"/"+textId)
-        .setTitle("Mot de passe :")
+        .setCustomId(this.name+'/'+textId)
+        .setTitle('Mot de passe :')
 
         const password = new TextInputBuilder()
         .setCustomId('password')
-        .setLabel("Entre le mot de passe :")
-        .setPlaceholder("Vas-y ! Entre le ! Hmmmm, j'en frémis déjà~")
+        .setLabel('Entre le mot de passe :')
+        .setPlaceholder('Vas-y ! Entre le ! Hmmmm, j'en frémis déjà~')
         .setMinLength(8)
         .setMaxLength(16)
         .setStyle(TextInputStyle.Short)

@@ -1,13 +1,14 @@
-const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js")
-const { sendDone } =  require('../utils/message')
+const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js')
+const { cmdSuccess, cmdError } =  require('../utils/message')
+
 const path = require('node:path')
 const fs = require('node:fs')
 
 module.exports = {
 	data(){
         let data = new SlashCommandBuilder()
-        .setName("button")
-        .setDescription("Create a button")
+        .setName('button')
+        .setDescription('Create a button')
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
 
         const buttonsPath = path.join(DIRNAME, 'buttons')
@@ -24,8 +25,8 @@ module.exports = {
         }
 
         data.addStringOption(option => {
-            option.setName("name")
-                .setDescription("Button's name")
+            option.setName('name')
+                .setDescription('Button's name')
                 .setRequired(true)
 
             for(let i = 0 ; i < choices.length ; i++) {
@@ -40,7 +41,7 @@ module.exports = {
     }, 
 
 	execute(inter) {
-        const value = inter.options.getString("name")
+        const value = inter.options.getString('name')
 
         const buttonsPath = path.join(__dirname, 'buttons')
         const buttons = fs.readdirSync(buttonsPath).filter(file => file.endsWith('.js'))
@@ -57,10 +58,10 @@ module.exports = {
         try{
             inter.channel.send({components: [button.get()]})
         
-            sendDone(inter)
+            cmdSuccess(inter)
 
         }catch(Error){
-            inter.reply({ content: 'Impossible de créer ce bouton manuellement', ephemeral: true })
+            cmdError(inter, 'Impossible de créer ce bouton manuellement')
 
         }
 

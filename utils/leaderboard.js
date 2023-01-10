@@ -9,7 +9,7 @@ module.exports = {
         .then(channel => 
             channel.messages.fetch(id)
             .then(async m =>
-                await m.edit({content:"", embeds: [await this.create()]}))      
+                await m.edit({content:'', embeds: [await this.create()]}))      
             .catch(console.error)
 
         ).catch(console.error)
@@ -18,12 +18,12 @@ module.exports = {
 
     create(){
 
-		const members = data.get("members.list")
+		const members = data.get('members.list')
         let winnersPlumes = []
         let winnersId = []
 
         members.forEach(m=>{
-            plumes = data.get("members."+m+".plumes")
+            plumes = data.get('members.'+m+'.plumes')
             higher = true
             const l = winnersPlumes.length
             for (let i = 0; i < l; i++) {
@@ -51,28 +51,28 @@ module.exports = {
 
         })
 
-        let message = "\n"
+        let message = '\n'
         const l = winnersId.length
         for(i = l-1 ; (i >= l-10 && i >= 0) ; i--){
             id = winnersId[i]
             intId = json.ABCtoInt(id)
 
-            m = ""
+            m = ''
             if(i == l-1){
-                m += ":first_place: "
+                m += ':first_place: '
             }else if(i == l-2){
-                m += ":second_place: "
+                m += ':second_place: '
             }else if(i == l-3){
-                m += ":third_place: "
+                m += ':third_place: '
             }
 
-            message+= m+"<@"+intId+"> : " + winnersPlumes[i]+"\n---\n"
+            message+= m+'<@'+intId+'> : ' + winnersPlumes[i]+'\n---\n'
 
         }
 
         const messageUtil = require('./message')
         const Leaderboard = messageUtil.newEmbed()
-        .setTitle("LEADERBOARD :")
+        .setTitle('LEADERBOARD :')
         .setDescription(message)
 
         return Leaderboard

@@ -14,7 +14,7 @@ module.exports = {
             await inter.showModal(confirm.get()) 
 
         }else{
-            await inter.reply({content: "Seuls les caractères alphabétiques sont autorisés", ephemeral: true})
+            await inter.reply({content: 'Seuls les caractères alphabétiques sont autorisés', ephemeral: true})
             mUtils.removeFileInPosting(id)
         }
 
@@ -23,11 +23,11 @@ module.exports = {
     get(){
         const modal = new ModalBuilder()
         .setCustomId(this.name)
-        .setTitle("Saisis ici ton pseudo, il sera le tient ici-bas jusqu'au restant de tes jours !")
+        .setTitle('Saisis ici ton pseudo, il sera le tient ici-bas jusqu'au restant de tes jours !')
 
         const nick = new TextInputBuilder()
         .setCustomId('nick')
-        .setLabel("Entre ton pseudo :")
+        .setLabel('Entre ton pseudo :')
         .setMinLength(4)
         .setMaxLength(4)
         .setStyle(TextInputStyle.Short)

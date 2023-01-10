@@ -1,9 +1,9 @@
 const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js')
 
 module.exports = {
-    name: "textGet",
+    name: 'textGet',
     async execute(inter){
-        const textId = inter.customId.split("/")[1]
+        const textId = inter.customId.split('/')[1]
         const confirm = require('../modals/textDelete')
 
         inter.showModal(confirm.get(textId))
@@ -13,7 +13,7 @@ module.exports = {
         const button = new ActionRowBuilder()
         .addComponents(
             new ButtonBuilder()
-                .setCustomId(this.name+"/"+textId)
+                .setCustomId(this.name+'/'+textId)
                 .setLabel('DEL')
                 .setStyle(ButtonStyle.Secondary)
                 .setEmoji(':zap:')

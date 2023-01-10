@@ -20,25 +20,25 @@ module.exports = {
     getTime(){
         const data = editJsonFile(DATA)
 
-        time = data.get("sprint.timer")
+        time = data.get('sprint.timer')
 
         return time
     },
 
     setMaxTime(s){
         const data = editJsonFile(DATA)
-        data.set("sprint.maxTime",s)
+        data.set('sprint.maxTime',s)
         data.save()
     },
 
     getMaxTime(){
         const data = editJsonFile(DATA)
-        return data.get("sprint.maxTime",s)
+        return data.get('sprint.maxTime',s)
     },
 
     async setTime(s){
         const data = editJsonFile(DATA)
-        await data.set("sprint.timer",s)
+        await data.set('sprint.timer',s)
         await data.save()
     },
 
@@ -46,7 +46,7 @@ module.exports = {
         const data = editJsonFile(DATA)
 
         time = this.getTime()
-        await data.set("sprint.timer",time+sec)
+        await data.set('sprint.timer',time+sec)
         await data.save()
     },
 
@@ -64,7 +64,7 @@ module.exports = {
     getSprinters(){
         const data = editJsonFile(DATA)
 
-        const sprinters = data.get("sprint.sprinters")
+        const sprinters = data.get('sprint.sprinters')
 
         return sprinters
     },
@@ -73,12 +73,12 @@ module.exports = {
         const data = editJsonFile(DATA)
         id = json.intToABC(id)
 
-        const sprinters = data.get("sprint.sprinters")
+        const sprinters = data.get('sprint.sprinters')
 
         sprinters.push(id)
 
-        await data.set("sprint.sprinters",sprinters)
-        await data.set("sprint."+id.toString(),words.toString())
+        await data.set('sprint.sprinters',sprinters)
+        await data.set('sprint.'+id.toString(),words.toString())
         await data.save()
     },
 
@@ -86,19 +86,19 @@ module.exports = {
         const data = editJsonFile(DATA)
         id = json.intToABC(id)
 
-        const sprinters = data.get("sprint.sprinters")
+        const sprinters = data.get('sprint.sprinters')
 
         sprinters.filter(s => s == id)
 
-        await data.set("sprint.sprinters",sprinters)
-        await data.unset("sprint."+id)
+        await data.set('sprint.sprinters',sprinters)
+        await data.unset('sprint.'+id)
         await data.save()
     },
 
     async setMessage(id){
         const data = editJsonFile(DATA)
 
-        await data.set("sprint.message",id.toString())
+        await data.set('sprint.message',id.toString())
         await data.save()
     },
 
@@ -118,20 +118,20 @@ module.exports = {
 
     async beginMessageEdit(){
         const data = editJsonFile(DATA)
-        const message = require("./message.js")
+        const message = require('./message.js')
 
         const sec = sprint.getTime()
         const sprintChannel = config.channels.sprint
-        const id = data.get("sprint.message")
+        const id = data.get('sprint.message')
 
         let embed = message.newEmbed()
-        .setTitle(("Le sprint commence dans   " + sec.toString() + " secondes   :D"))
+        .setTitle(('Le sprint commence dans   ' + sec.toString() + ' secondes   :D'))
 
         client.channels.fetch(sprintChannel)
         .then(channel => 
             channel.messages.fetch(id)
             .then(async m =>
-                await m.edit({content:"",embeds:[embed],components: [await this.roleButton(), await this.joinButton()] }))      
+                await m.edit({content:'',embeds:[embed],components: [await this.roleButton(), await this.joinButton()] }))      
             .catch(console.error)
 
         ).catch(console.error)
@@ -140,22 +140,22 @@ module.exports = {
     
     async goMessageEdit(){
         const data = editJsonFile(DATA)
-        const message = require("./message.js")
+        const message = require('./message.js')
 
         sprintChannel = config.channels.sprint
-        id = data.get("sprint.message")
+        id = data.get('sprint.message')
 
-        description = ""
+        description = ''
 
         const sec = sprint.getTime()
         const sprinters = this.getSprinters()
 
         sprinters.forEach(s => {
-            description += "<@"+json.ABCtoInt(s)+">\n"
+            description += '<@'+json.ABCtoInt(s)+'>\n'
         })
 
         embed = message.newEmbed()
-        .setTitle(("__SPRINT !__       " + sec.toString() + " " + sec.toString() + " " + sec.toString() + " "))
+        .setTitle(('__SPRINT !__       ' + sec.toString() + ' ' + sec.toString() + ' ' + sec.toString() + ' '))
         .setDescription(description)
 
         client.channels.fetch(sprintChannel)
@@ -172,21 +172,21 @@ module.exports = {
     endMessageSend(){
         const data = editJsonFile(DATA)
 
-        const id = data.get("sprint.message")
+        const id = data.get('sprint.message')
         const channel = config.channels.sprint
 
         client.channels.fetch(channel)
         .then(channel =>{
             channel.messages.fetch(id)
             .then(m =>
-                m.reply("**Le sprint est terminé ! :3**")
+                m.reply('**Le sprint est terminé ! :3**')
 
             ).catch(console.error)
 
             this.getSprinters().forEach(sprinterABC =>{
                 sprinterId = json.ABCtoInt(sprinterABC)
 
-                channel.send("<@"+sprinterId+">")
+                channel.send('<@'+sprinterId+'>')
             })
 
         }).catch(console.error)
@@ -196,13 +196,13 @@ module.exports = {
 
     endMessageEdit(){
         const data = editJsonFile(DATA)
-        const message = require("./message.js")
+        const message = require('./message.js')
 
         sprintChannel = config.channels.sprint
-        id = data.get("sprint.message")
+        id = data.get('sprint.message')
 
         embed = message.newEmbed()
-        .setTitle(("LE SPRINT EST TERMINE ! :3"))
+        .setTitle(('LE SPRINT EST TERMINE ! :3'))
 
         client.channels.fetch(sprintChannel)
         .then(channel => 
@@ -217,18 +217,18 @@ module.exports = {
 
     endmessageUpdate(userId, words){
         const data = editJsonFile(DATA)
-        const message = require("./message.js")
+        const message = require('./message.js')
 
         const sprintChannel = config.channels.sprint
-        const id = data.get("sprint.message")
+        const id = data.get('sprint.message')
 
-        const beginWords = data.get("sprint."+json.intToABC(userId))
-        let description = data.get("sprint.description")
+        const beginWords = data.get('sprint.'+json.intToABC(userId))
+        let description = data.get('sprint.description')
         
-        description += "<@"+userId+"> a bien profité du sprint en imaginant ***" + (words-beginWords) + " ***mots "
+        description += '<@'+userId+'> a bien profité du sprint en imaginant ***' + (words-beginWords) + ' ***mots '
 
         embed = message.newEmbed()
-        .setTitle(("LE SPRINT EST TERMINE ! :3"))
+        .setTitle(('LE SPRINT EST TERMINE ! :3'))
         .setDescription(description)
 
         client.channels.fetch(sprintChannel)
@@ -246,7 +246,7 @@ module.exports = {
 
     removeMessageButtons(){
         const data = editJsonFile(DATA)
-        const messageId = data.get("sprint.message")
+        const messageId = data.get('sprint.message')
         const ChannelId = config.channels.sprint
 
         client.channels.fetch(ChannelId)
@@ -266,17 +266,17 @@ module.exports = {
         const data = editJsonFile(DATA)
 
         this.removeMessageButtons()
-        data.unset("sprint")
+        data.unset('sprint')
         data.save()
 
-        data.set("sprint.timer",0)
-        data.set("sprint.description","")
+        data.set('sprint.timer',0)
+        data.set('sprint.description','')
         const none = []
-        data.set("sprint.sprinters",none)
+        data.set('sprint.sprinters',none)
         data.save()
 
         sprintChannel = config.channels.sprint
-        sprintChannel.send(":3")
+        sprintChannel.send(':3')
         this.setMessage(messageId)
     },
 
@@ -315,7 +315,7 @@ module.exports = {
     END(){
         const data = editJsonFile(DATA)
 
-        data.set("timer",0)
+        data.set('timer',0)
         data.save()
         this.endMessageSend()
         this.endMessageEdit()

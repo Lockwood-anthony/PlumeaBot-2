@@ -4,22 +4,22 @@ module.exports = {
     name: 'sprintWords',
     async execute(inter){
         const member = inter.member
-        const sprint = require("../utils/sprint.js")
+        const sprint = require('../utils/sprint.js')
 
-        let words = inter.fields.getTextInputValue("words")     
+        let words = inter.fields.getTextInputValue('words')     
         try {
             if(!sprint.isSprinter(member.user.id)){
                 words = parseInt(words)
                 sprint.addSprinter(member.user.id, words)
-                inter.reply({content:"**Youpiii ! :D**", ephemeral:true})
+                inter.reply({content:'**Youpiii ! :D**', ephemeral:true})
 
             }else{
-                inter.reply({content:"**Tu en fais déjà parti ! Trop tard ;-;**", ephemeral:true})
+                inter.reply({content:'**Tu en fais déjà parti ! Trop tard ;-;**', ephemeral:true})
 
             }
 
         }catch (error) {
-            inter.reply({content:"**C'est pas nombre ca ! :D**", ephemeral:true})
+            inter.reply({content:'**C'est pas nombre ca ! :D**', ephemeral:true})
 
         }
 
@@ -32,7 +32,7 @@ module.exports = {
 
         const words = new TextInputBuilder()
         .setCustomId('words')
-        .setLabel("mots")
+        .setLabel('mots')
         .setRequired(true)
         .setMaxLength(6)
         .setStyle(TextInputStyle.Short)

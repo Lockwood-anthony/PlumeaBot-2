@@ -16,7 +16,7 @@ module.exports = {
 
         }else{
             mUtils.setNick(id, '')
-            await inter.reply({content: "Vous vous êtes trompés..", ephemeral: true})
+            await inter.reply({content: 'Vous vous êtes trompés..', ephemeral: true})
             mUtils.removeFileInPosting(id)
         }
 
@@ -25,11 +25,11 @@ module.exports = {
     get(){
         const modal = new ModalBuilder()
         .setCustomId(this.name)
-        .setTitle("Saisis ici ton pseudo, il sera le tient ici-bas jusqu'au restant de tes jours !")
+        .setTitle('Saisis ici ton pseudo, il sera le tient ici-bas jusqu'au restant de tes jours !')
 
         const nick = new TextInputBuilder()
         .setCustomId('nick')
-        .setLabel("Confirme ton pseudo :")
+        .setLabel('Confirme ton pseudo :')
         .setMinLength(4)
         .setMaxLength(4)
         .setStyle(TextInputStyle.Short)

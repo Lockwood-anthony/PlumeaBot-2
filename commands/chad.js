@@ -1,16 +1,16 @@
-const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js")
+const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js')
+const { cmdSuccess } =  require('../utils/message')
 const { config } = require('../config')
-const { sendDone } =  require('../utils/message')
 
 module.exports = {
 	data(){
         let data = new SlashCommandBuilder()
-        .setName("chad")
-        .setDescription("chad")
+        .setName('chad')
+        .setDescription('chad')
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .addIntegerOption(option => option
-            .setName("giga_chad_power_intensity")
-            .setDescription("Giga Chad power intensity")
+            .setName('giga_chad_power_intensity')
+            .setDescription('Giga Chad power intensity')
             .setRequired(true))
 
         return data
@@ -18,8 +18,9 @@ module.exports = {
     },
 
 	async execute(inter) {
-        const n = inter.options.getInteger("giga_chad_power_intensity")
-        inter.reply({ content: "GIGA CHAD!!!", ephemeral: true })
+        const n = inter.options.getInteger('giga_chad_power_intensity')
+        
+        await cmdSuccess(inter, { content: 'GIGA CHAD!!!', ephemeral: true })
 
         const chad = config.messageReplies.CHAD
 

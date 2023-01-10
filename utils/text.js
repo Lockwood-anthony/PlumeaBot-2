@@ -1,4 +1,4 @@
-const { dbGet, dbCreate, dbExist, dbDestroy, dbGetAtr, dbSetAtr, dbAddAtr, dbRemoveAtrIndex } = require("../dbObjects.js")
+const { dbGet, dbCreate, dbExist, dbDestroy, dbGetAtr, dbSetAtr, dbAddAtr, dbRemoveAtrIndex } = require('../dbObjects.js')
 const { config } = require('../config')
 
 module.exports = {
@@ -43,10 +43,10 @@ module.exports = {
     },
 
     countWords(str) {
-        str = str.replace(/(^\s*)|(\s*$)/gi,"")
-        str = str.replace(/[ ]{2,}/gi," ")
-        str = str.replace(/\n /,"\n")
-        words = str.split(" ").length
+        str = str.replace(/(^\s*)|(\s*$)/gi,'')
+        str = str.replace(/[ ]{2,}/gi,' ')
+        str = str.replace(/\n /,'\n')
+        words = str.split(' ').length
     },
 
     getDt(id){
@@ -180,7 +180,7 @@ module.exports = {
     words(dt){
         const data = editJson(DATA)
 
-        const words = data.get("texts."+dt+".words")
+        const words = data.get('texts.'+dt+'.words')
 
         return words
     },

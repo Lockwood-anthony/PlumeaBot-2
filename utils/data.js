@@ -23,8 +23,8 @@ module.exports = {
         .then(channel => 
             channel.messages.fetch(config.messages.data)
             .then(async m =>
-                await m.edit({content:"",
-                    files: ["./DATA.json"]
+                await m.edit({content:'',
+                    files: ['./DATA.json']
                 })) 
         
             .catch(console.error)
@@ -32,7 +32,7 @@ module.exports = {
 
         client.channels.fetch(config.channels.logs)
         .then(async channel => 
-            await channel.send({files: ["./DATA.json"]})
+            await channel.send({files: ['./DATA.json']})
             .catch(console.error)
         ).catch(console.error)
     }

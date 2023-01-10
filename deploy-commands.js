@@ -1,4 +1,4 @@
-global.DATA = "DATA.json"
+global.DATA = 'DATA.json'
 
 const fs = require('node:fs')
 const path = require('node:path')

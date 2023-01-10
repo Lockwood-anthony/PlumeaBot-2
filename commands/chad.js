@@ -24,7 +24,7 @@ module.exports = {
         const dataConfig = editJsonFile("DATA_CONFIG.json")
         const chad = dataConfig.get("messageReplies.CHAD")
 
-        for (;i < n;) {
+        for (i = 0 ; i < n ; i++) {
             interaction.channel.send(chad)
         } 
 

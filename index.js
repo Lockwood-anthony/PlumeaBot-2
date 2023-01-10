@@ -31,8 +31,8 @@ global.client = new Client({
 
 //DATABASE
 const Sequelize = require('sequelize')
-global.sequelize = new Sequelize('database', 'user', 'password', {
-	host: 'localhost',
+global.sequelize = new Sequelize(process.env.DATABASE_NAME, process.env.USER, process.env.DATABASE_PASSWORD, {
+	host: process.env.DATABASE_URL,
 	dialect: 'sqlite',
 	logging: false,
 	// SQLite only

@@ -1,10 +1,10 @@
 const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js')
 
 module.exports = {
-    name: "sprintFinal",
-    async execute(interaction){
+    name: 'sprintFinal',
+    async execute(inter){
         const modal = require('../modals/sprintFinalWords')
-		await interaction.showModal(modal.get()) 
+		await inter.showModal(modal.get()) 
 
     },
 
@@ -13,7 +13,7 @@ module.exports = {
         .addComponents(
             new ButtonBuilder()
                 .setCustomId(this.name)
-                .setLabel("mooots")
+                .setLabel('mooots')
                 .setStyle(ButtonStyle.Primary)
         )
 

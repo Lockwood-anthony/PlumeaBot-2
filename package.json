@@ -15,5 +15,8 @@
   },
   "scripts": {
     "start": "node deploy-commands & node index.js"
+  },
+  "devDependencies": {
+    "typescript": "^4.9.4"
   }
 }

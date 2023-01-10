@@ -1,4 +1,4 @@
-const { Member, FileInPosting, dbAddAtr, dbCreate, dbDestroy, dbExist, dbGetAtr, dbRemoveAtr, dbSetAtr, dbIncrementAtr, dbSetAtrToAll } = require("../dbObjects.js")
+const { Member, FileInPosting, dbAddAtr, dbCreate, dbDestroy, dbExist, dbGetAtr, dbRemoveAtr, dbSetAtr, dbIncrementAtr, dbSetAtrToAll } = require('../dbObjects.js')
 
 module.exports = {
 
@@ -103,7 +103,7 @@ module.exports = {
 
     addFileInPosting(id, file){
         const { sendOne } = require('../utils/message')
-        const fileInPostingId = sendOne('safe', {content: "Texte en cours de post", attachments: [file]})
+        const fileInPostingId = sendOne('safe', {content: 'Texte en cours de post', attachments: [file]})
 
         const fileInPosting = {
             id: id,

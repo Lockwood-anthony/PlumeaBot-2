@@ -1,31 +1,31 @@
-const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
-const { sendDone } =  require('../utils/message')
+const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js')
+const { cmdSuccess } =  require('../utils/message')
+const { config } = require('../config')
 
 module.exports = {
 	data(){
         let data = new SlashCommandBuilder()
-        .setName("chad")
-        .setDescription("chad")
+        .setName('chad')
+        .setDescription('chad')
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .addIntegerOption(option => option
-            .setName("giga_chad_power_intensity")
-            .setDescription("Giga Chad power intensity")
+            .setName('giga_chad_power_intensity')
+            .setDescription('Giga Chad power intensity')
             .setRequired(true))
 
         return data
 
     },
 
-	async execute(interaction) {
-        const n = interaction.options.getInteger("giga_chad_power_intensity")
-        interaction.reply({ content: "GIGA CHAD!!!", ephemeral: true })
+	async execute(inter) {
+        const n = inter.options.getInteger('giga_chad_power_intensity')
+        
+        await cmdSuccess(inter, { content: 'GIGA CHAD!!!', ephemeral: true })
 
-        const editJsonFile = require("edit-json-file")
-        const dataConfig = editJsonFile("DATA_CONFIG.json")
-        const chad = dataConfig.get("messageReplies.CHAD")
+        const chad = config.messageReplies.CHAD
 
         for (i = 0 ; i < n ; i++) {
-            interaction.channel.send(chad)
+            inter.channel.send(chad)
         } 
 
 	}

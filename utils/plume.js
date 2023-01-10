@@ -1,16 +1,15 @@
-const editJsonFile = require("edit-json-file")
-const dataConfig = editJsonFile(DATA_CONFIG)
+const { config } = require('../config')
 
 module.exports = {
-    async roles(member, plumes, interaction) {
-        json = dataConfig.get("roles")
+    async roles(member, plumes, inter) {
+        json = config.plumesRoles
         const roles = new Map(Object.entries(json))
         
         found =  false
         lower = 0
         roleBefore = 0
         await roles.forEach(async (points, roleid)=>{
-            const role = interaction.guild.roles.cache.get(roleid)
+            const role = inter.guild.roles.cache.get(roleid)
             if(member.roles.cache.find(r => r.id === roleid)){roleBefore = role}
 
             await member.roles.remove(role)
@@ -24,8 +23,8 @@ module.exports = {
                     await member.roles.add(lower)
 
                     if(roleBefore != lower){
-                        client.channels.fetch(dataConfig.get("channels.plumes"))
-                        .then(channel => channel.send("<@"+member.user.id+"> " + "devient un " + lower.name))
+                        client.channels.fetch(config.channels.plumes)
+                        .then(channel => channel.send('<@'+member.user.id+'> ' + 'devient un ' + lower.name))
                         .catch(console.error)
                     }                
 

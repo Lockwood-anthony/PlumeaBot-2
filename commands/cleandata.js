@@ -1,27 +1,27 @@
-const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
-const { sendDone } =  require('../utils/message')
+const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js')
+const { cmdSuccess } =  require('../utils/message')
 
 module.exports = {
 	data(){
     let data = new SlashCommandBuilder()
-        .setName("cleandata")
-        .setDescription("w")
+        .setName('cleandata')
+        .setDescription('w')
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
 
     return data
     }, 
 
-	async execute(interaction) {
-        const editJsonFile = require("edit-json-file")
+	async execute(inter) {
+        const editJsonFile = require('edit-json-file')
         const data = editJsonFile(DATA)
-        const members = data.get("members.list")
+        const members = data.get('members.list')
         const correctMembers = []
 
         await members.forEach(m => {
             
             try {
                 let date = 1
-                date += data.get("members."+m+".plumes")
+                date += data.get('members.'+m+'.plumes')
                 if(date >=0){
                     correctMembers.push(m)
                     console.log(m)
@@ -33,13 +33,13 @@ module.exports = {
             }
             
         })
-        console.log("DONE")
+        console.log('DONE')
 
         console.log(correctMembers)
-        await data.set("members.list", correctMembers)
+        await data.set('members.list', correctMembers)
         await data.save()
 
-        interaction.reply({content:DONE,ephemeral:true})
+        await cmdSuccess(inter)
 
 	}
 

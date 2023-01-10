@@ -1,10 +1,10 @@
 const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js')
 
 module.exports = {
-    name: "textGet",
-    async execute(interaction){
-        const textId = interaction.customId.split("/")[1]
-        const member = interaction.member
+    name: 'textGet',
+    async execute(inter){
+        const textId = inter.customId.split('/')[1]
+        const member = inter.member
 
         const tUtils = require('../utils/text')
         tUtils.sendFile(textId, member)
@@ -15,7 +15,7 @@ module.exports = {
         const button = new ActionRowBuilder()
         .addComponents(
             new ButtonBuilder()
-                .setCustomId(this.name+"/"+textId)
+                .setCustomId(this.name+'/'+textId)
                 .setLabel('Prend moi')
                 .setStyle(ButtonStyle.Success)
         )

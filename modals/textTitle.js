@@ -3,9 +3,9 @@ const { text } = require('stream/consumers')
 
 module.exports = {
     name: 'textTitle',
-    async execute(interaction){
-        const id = interaction.member.user.id
-        const title = interaction.fields.getTextInputValue('dt_title') 
+    async execute(inter){
+        const id = inter.member.user.id
+        const title = inter.fields.getTextInputValue('dt_title') 
         
         if(/^[a-zA-Z()]+$/.test(title)){
             const mUtils = require('../utils/member')
@@ -32,11 +32,11 @@ module.exports = {
             }
 
             const textModal = require('../modals/textModal')
-            await interaction.showModal(textModal.get(text)) 
+            await inter.showModal(textModal.get(text)) 
 
 
         }else{
-            await interaction.reply({content: "Seuls les caractères alphabétiques sont autorisés", ephemeral: true})
+            await inter.reply({content: 'Seuls les caractères alphabétiques sont autorisés', ephemeral: true})
         }
 
     },
@@ -44,12 +44,12 @@ module.exports = {
     get(){
         const modal = new ModalBuilder()
         .setCustomId(this.name)
-        .setTitle("6 lettres se rapportant à votre oeuvre (ex:LGUIDE pour Le Guide de Para")
+        .setTitle('6 lettres se rapportant à votre oeuvre (ex:LGUIDE pour Le Guide de Para')
 
         const dt_title = new TextInputBuilder()
         .setCustomId('dt_title')
-        .setLabel("Entre les lettres :")
-        .setPlaceholder("Vas-y ! Entre les ! Hmmmm, j'en frémis déjà~")
+        .setLabel('Entre les lettres :')
+        .setPlaceholder('Vas-y ! Entre les ! Hmmmm, j'en frémis déjà~')
         .setMinLength(6)
         .setMaxLength(6)
         .setStyle(TextInputStyle.Short)

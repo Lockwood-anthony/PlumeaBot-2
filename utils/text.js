@@ -1,4 +1,5 @@
-const { dbGet, dbCreate, dbExist, dbDestroy, dbGetAtr, dbSetAtr, dbAddAtr, dbRemoveAtrIndex } = require("../dbObjects.js")
+const { dbGet, dbCreate, dbExist, dbDestroy, dbGetAtr, dbSetAtr, dbAddAtr, dbRemoveAtrIndex } = require('../dbObjects.js')
+const { config } = require('../config')
 
 module.exports = {
 
@@ -42,10 +43,10 @@ module.exports = {
     },
 
     countWords(str) {
-        str = str.replace(/(^\s*)|(\s*$)/gi,"")
-        str = str.replace(/[ ]{2,}/gi," ")
-        str = str.replace(/\n /,"\n")
-        words = str.split(" ").length
+        str = str.replace(/(^\s*)|(\s*$)/gi,'')
+        str = str.replace(/[ ]{2,}/gi,' ')
+        str = str.replace(/\n /,'\n')
+        words = str.split(' ').length
     },
 
     getDt(id){
@@ -158,7 +159,8 @@ module.exports = {
 
     /*
     async forumPost(dt, file, description, author, title){
-        const forumId = dataConfig.get("channels.textForum")
+        const { config } = require('../config')
+        const forumId = config.channels.textForum
 
         client.channels.fetch(forumId)
 		.then(async forum => {
@@ -178,13 +180,13 @@ module.exports = {
     words(dt){
         const data = editJson(DATA)
 
-        const words = data.get("texts."+dt+".words")
+        const words = data.get('texts.'+dt+'.words')
 
         return words
     },
 
     removeMes1InChannel(id){
-        const text_channel = dataConfig.get("channels.text")
+        const text_channel = config.channels.text
         const mes1 = this.getMes1(id)
 
         client.channels.fetch(text_channel)
@@ -200,7 +202,7 @@ module.exports = {
     },
 
     removeMes2InChannel(id){
-        const safe = dataConfig.get("channels.safe")
+        const safe = config.channels.safe
         const mes2 = this.getMes1(id)
 
         client.channels.fetch(safe)
@@ -216,7 +218,7 @@ module.exports = {
     },
 
     async sendMessage(message1){
-        const text_channel = dataConfig.get("channels.text")
+        const text_channel = config.channels.text
         let id = 0
         client.channels.fetch(text_channel)
         .then(async channel => 
@@ -234,8 +236,7 @@ module.exports = {
     },
 
     sendFile(id, member){
-        const dataConfig = editJsonFile(DATA_CONFIG)
-        const safe = dataConfig.get('channels.safe')
+        const safe = config.channels.text
         const textUtil = require('../utils/text')
         const mes2 = textUtil.getMes2(id)
 

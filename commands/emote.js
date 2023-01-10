@@ -1,20 +1,19 @@
-const { SlashCommandBuilder } = require("discord.js");
-const { sendDone } =  require('../utils/message')
+const { SlashCommandBuilder } = require('discord.js')
+const { cmdSuccess } =  require('../utils/message')
+const { config } = require('../config')
 
 module.exports = {
 	data(){
 	let data = new SlashCommandBuilder()
-		.setName("emote")
-		.setDescription("plume")
+		.setName('emote')
+		.setDescription('plume')
 
 	return data
 	},
 
-	async execute(interaction) {
-		const editJsonFile = require("edit-json-file")
-        const dataConfig = editJsonFile(DATA_CONFIG)
-
-        await interaction.reply(dataConfig.get("emotes.plume"))
+	async execute(inter) {
+		await cmdSuccess(inter, config.emotes.plume)
+        await inter.reply(config.emotes.plume)
 
 	}
 

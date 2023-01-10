@@ -1,25 +1,25 @@
-const dataUtil = require("../utils/data.js")
+const dataUtil = require('../utils/data.js')
 
 module.exports = {
-	name: 'interactionCreate',
+	name: 'interCreate',
 	once: false,
-	async execute(interaction) {
-		const member = interaction.member
+	async execute(inter) {
+		const member = inter.member
 
-		if (interaction.isChatInputCommand()){
-			const command = interaction.client.commands.get(interaction.commandName)
+		if (inter.isChatInputCommand()){
+			const command = inter.client.commands.get(inter.commandName)
 	
 			if (!command) return
 		
 			try {
-				await command.execute(interaction);
+				await command.execute(inter)
 			} catch (error) {
 				console.error(error)
-				await interaction.reply({ content: "J'y arrive po ;-; Appelle mon papa Asra", ephemeral: true })
+				await inter.reply({ content: 'J~y arrive po ;-; Appelle mon papa Asra', ephemeral: true })
 			}
 
-		}else if(interaction.isButton()){
-			const buttonId = interaction.customId.split('/')[0]
+		}else if(inter.isButton()){
+			const buttonId = inter.customId.split('/')[0]
 
 			const buttonsPath = path.join(__dirname, 'buttons')
 			const buttons = fs.readdirSync(buttonsPath).filter(file => file.endsWith('.js'))
@@ -27,14 +27,14 @@ module.exports = {
 			for(b of buttons){
 
 				if(b.name == buttonId){
-					b.execute(interaction)
+					b.execute(inter)
 					return
 				}
 	
 			}
 
-		}else if(interaction.isModalSubmit()){
-			const modalId = interaction.customId.split('/')[0]
+		}else if(inter.isModalSubmit()){
+			const modalId = inter.customId.split('/')[0]
 
 			const modalsPath = path.join(__dirname, 'modals')
 			const modals = fs.readdirSync(modalsPath).filter(file => file.endsWith('.js'))
@@ -42,7 +42,7 @@ module.exports = {
 			for(m of modals){
 	
 				if(m.name == modalId){
-					m.execute(interaction)
+					m.execute(inter)
 					return
 				}
 	

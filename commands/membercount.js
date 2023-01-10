@@ -1,5 +1,5 @@
-const { SlashCommandBuilder } = require('discord.js');
-const { sendDone } =  require('../utils/message')
+const { SlashCommandBuilder } = require('discord.js')
+const { cmdSuccess } =  require('../utils/message')
 
 module.exports = {
 	data(){
@@ -11,11 +11,11 @@ module.exports = {
 
     },
 
-    async execute(interaction) {
-        let count = interaction.guild.memberCount
-        count -= interaction.guild.members.cache.filter(m => m.user.bot).size
+    async execute(inter) {
+        let count = inter.guild.memberCount
+        count -= inter.guild.members.cache.filter(m => m.user.bot).size
 
-        await interaction.reply("**Aujourd'hui Scriptura compte ||   " + count  + "   || âmes ! :D**")
+        await cmdSuccess(inter, '**Aujourdhui Scriptura compte ||   ' + count  + '   || âmes ! :D**')
     
     }
     

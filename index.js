@@ -4,8 +4,7 @@ require('dotenv').config({path: __dirname + '/.env'})
 const { Client, GatewayIntentBits } = require('discord.js')
 const path = require('path')
 const fs = require('fs')
-global.DATA = "DATA.json"
-global.DATA_CONFIG = "DATA_CONFIG.json"
+global.DATA = 'DATA.json'
 global.DIRNAME = __dirname
 
 global.client = new Client({
@@ -58,7 +57,7 @@ for (const file of eventFiles) {
 	}
 }
 
-console.log("Bibot is ready ! ;3")
+console.log('Bibot is ready ! ;3')
 
 //start
 start()
@@ -66,7 +65,7 @@ start()
 function start(){
     client.login(process.env.TOKEN)
     
-    const sprint = require("./utils/sprint.js")
+    const sprint = require('./utils/sprint.js')
 
     if (sprint.isSprinting()){
         const time = sprint.getTime()

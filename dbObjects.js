@@ -1,4 +1,5 @@
-const { Sequelize } = require("sequelize")
+const { Sequelize } = require('sequelize')
+const { config } = require('./config')
 
 module.exports = {
 
@@ -13,15 +14,13 @@ module.exports = {
     },
 
     logEdit(edit){
-        const messageUtil = require("./utils/message")
+        const messageUtil = require('./utils/message')
         const messageEmbed = messageUtil.newEmbed()
-        .setTitle("dbEdit")
-        .setAuthor({ name: "o", iconURL: "https://i.imgur.com/TYeapMy.png", url: "https://discord.gg/arbnrxWFVu" })
+        .setTitle('dbEdit')
+        .setAuthor({ name: 'o', iconURL: 'https://i.imgur.com/TYeapMy.png', url: 'https://discord.gg/arbnrxWFVu' })
         .setDescription(edit)
 
-        const editJsonFile = require("edit-json-file")
-        const dataConfig = editJsonFile(DATA_CONFIG)
-        const logsId = dataConfig.get("channels.logs")
+        const logsId = config.channels.logs
 
         client.channels.fetch(logsId)
 		.then(channel => channel.send({embeds:[messageEmbed]}))
@@ -36,7 +35,7 @@ module.exports = {
             },
             nick: {
                 type: Sequelize.STRING(),
-                defaultValue : ""
+                defaultValue : ''
 
             },
             joinDate: {
@@ -83,7 +82,7 @@ module.exports = {
             mes1 : Sequelize.INTEGER,
             mes2 : Sequelize.INTEGER,
             date: Sequelize.DATE,
-            password: "",
+            password: '',
             themes: Sequelize.ARRAY[Sequelize.STRING],
             questions: Sequelize.ARRAY[Sequelize.STRING],
 

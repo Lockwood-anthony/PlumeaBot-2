@@ -1,8 +1,6 @@
 const { SlashCommandBuilder} = require('discord.js')
-const { sendDone } =  require('../utils/message')
-
-const editJsonFile = require("edit-json-file")
-const dataConfig = editJsonFile(DATA_CONFIG)
+const { cmdSuccess, cmdError } =  require('../utils/message')
+const { config } = require('../config')
 
 module.exports = {
 	data(){
@@ -10,50 +8,52 @@ module.exports = {
         .setName('sprint')
         .addIntegerOption(option => option
             .setName('time')
-            .setDescription("Durée de sprint en minutes")
+            .setDescription('Durée de sprint en minutes')
             .setMinValue(1)
             .setMaxValue(60)
             .setRequired(true))
         .addIntegerOption(option => option
             .setName('words')
-            .setDescription("Ton nombre de mots de départ")
+            .setDescription('Ton nombre de mots de départ')
             .setMinValue(0)
             .setMaxValue(999999)
             .setRequired(true))
-        .setDescription("Bah ca lance un Sprint... O.o")
+        .setDescription('Bah ca lance un Sprint... O.o')
 
         return data
 
     },
 
-    async execute(interaction) {
-        const sprint = require("../utils/sprint.js")
+    async execute(inter) {
+        const sprint = require('../utils/sprint.js')
 
-        const time = interaction.options.getInteger("time")
-        const words = interaction.options.getInteger("words")
-        const member = interaction.member
+        const time = inter.options.getInteger('time')
+        const words = inter.options.getInteger('words')
+        const member = inter.member
         const user = member.user
-        const channelId = interaction.channel.id
+        const channelId = inter.channel.id
 
         if(!sprint.isSprinting()){
 
             if(sprint.isChannel(channelId)){
                 sprint.addSprinter(user.id, words)
                 sprint.setMaxTime(time)
-                const sprintRole = dataConfig.get("rolesId.sprinter")
-                await interaction.reply("***Sprint ! :3***")
-                await interaction.channel.send("<@&"+sprintRole+">")  
+                const sprintRole = config.roles.sprinter
+
+                await cmdSuccess(inter, '***Sprint ! :3***')
+
+                await inter.channel.send('<@&'+sprintRole+'>')  
                 
                 sprint.SETUP
                 sprint.BEGIN
 
             }else{
-                interaction.reply({content:"Mauvais salon uwu", ephemeral:true})
+                await cmdError('Mauvais salon uwu')
                 return
             }
 
         }else{
-            interaction.reply({content:"Y'en a déjà un en cours :3", ephemeral:true})
+            await cmdError('Yen a déjà un en cours :3')
             return
         }
     

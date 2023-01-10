@@ -1,37 +1,37 @@
-const { SlashCommandBuilder } = require("discord.js");
-const { sendDone, newEmbed } =  require('../utils/message')
+const { SlashCommandBuilder } = require('discord.js')
+const { cmdSuccess, newEmbed } =  require('../utils/message')
 const { getOne } = require('../utils/member')
 
 module.exports = {
 	data(){
 		let data = new SlashCommandBuilder()
 		.setName('profil')
-		.setDescription("Profil d'un scripturien")
+		.setDescription('Profil d'un scripturien')
 		.addUserOption(option => option
-			.setName("user")
-			.setDescription("Scripturien")
+			.setName('user')
+			.setDescription('Scripturien')
 			.setRequired(true))
 
 		return data
 
 	},
 
-	async execute(interaction) {
-		const user = interaction.options.getUser('user')
+	async execute(inter) {
+		const user = inter.options.getUser('user')
 		const id = user.id
 
 		const m = getOne(id)
 
-		message = "**Profil de : <@"+user.id+">**\n\n"
-		message += "Nick : *"+m.nick+"*\n"
-		message += "Arrivée : *"+m.joinDate+"*\n"
-		message += "Plumes : *"+m.plumes+"*\n"
-		message += "Coins : *"+m.coins+"*\n"
-		message += "MotsHebdo : *"+m.weeklyWords+"*\n\n"
+		message = '**Profil de : <@'+user.id+'>**\n\n'
+		message += 'Nick : *'+m.nick+'*\n'
+		message += 'Arrivée : *'+m.joinDate+'*\n'
+		message += 'Plumes : *'+m.plumes+'*\n'
+		message += 'Coins : *'+m.coins+'*\n'
+		message += 'MotsHebdo : *'+m.weeklyWords+'*\n\n'
 
 		const textsUUIDs = m.textsUUIDs
 		if(textsUUIDs){
-			message += "Textes : \n"
+			message += 'Textes : \n'
 			for(t in m.textsUUIDs){
 				message += `- ${t} \n`
 			}
@@ -39,7 +39,7 @@ module.exports = {
 		}
 
         newEmbed().setDescription(message)
-        await interaction.reply({ embeds: [messageEmbed]});
+		await cmdSuccess(inter, { embeds: [messageEmbed]})
 
 	}
 

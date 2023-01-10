@@ -1,9 +1,9 @@
 module.exports = {
 	name: 'ready',
 	execute(client) {
-		const dbObjects = require("../dbObjects.js")
+		const dbObjects = require('../dbObjects.js')
 		dbObjects.Sync()
 		
-		console.log(`Scriptubot pret ! ${client.user.tag}`);
+		console.log(`Scriptubot pret ! ${client.user.tag}`)
 	},
 };

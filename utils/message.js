@@ -1,22 +1,24 @@
+const { config } = require('../config')
+
 module.exports = {
 
     newEmbed(){
-        const { EmbedBuilder } = require('discord.js');
+        const { EmbedBuilder } = require('discord.js')
 
         const messageEmbed = new EmbedBuilder()
         .setColor(0x2C2F33)
         .setTimestamp()
-        .setFooter({ text: 'scriptubot', iconURL: 'https://i.imgur.com/TYeapMy.png' });
+        .setFooter({ text: 'scriptubot', iconURL: 'https://i.imgur.com/TYeapMy.png' })
         return messageEmbed
     },
 
-    getOneFormatted(message){
+    getFormattedMes(message){
         const attached = message.attachments
 		const content = message.content
 		const embeds = message.embeds
 
-        let mes = "<#"+message.channel.id+">  "
-		mes += "<@"+message.author.id+">\n\n"
+        let mes = '<#'+message.channel.id+'>  '
+		mes += '<@'+message.author.id+'>\n\n'
 
 		if(content != null){
 			mes += content
@@ -24,7 +26,7 @@ module.exports = {
 	
 		attached.forEach(attach => {	
 			isAttached = true
-			mes += attach.url + "\n\n"
+			mes += attach.url + '\n\n'
 		})
 
         return {content:mes,embeds:embeds}
@@ -32,22 +34,13 @@ module.exports = {
     },
 
     log(message, type){
-        const editJsonFile = require("edit-json-file")
-        const dataConfig = editJsonFile(DATA_CONFIG)
 
-        client.channels.fetch(dataConfig.get("channels."+type))
-		.then(channel => channel.send(this.getOneFormatted(message)))
+        client.channels.fetch(config.channels[type])
+		.then(channel => channel.send(this.getFormattedMes(message)))
 		.catch(console.error)
     },
 
-    getChannelId(name){
-        const editJsonFile = require("edit-json-file")
-        const dataConfig = editJsonFile(DATA_CONFIG)
-        return dataConfig.get(`channels.${name}`)
-    },
-
-    sendOne(cName, mes){
-        const cId = this.getChannelId(cName)
+    sendMes(cId, mes){
 
         client.channels.fetch(cId)
 
@@ -63,8 +56,7 @@ module.exports = {
 
     },
 
-    deleteOne(cName, mesId){
-        const cId = this.getChannelId(cName)
+    delMes(cId, mesId){
 
         client.channels.fetch(cId)
         .then(channel => 
@@ -81,8 +73,7 @@ module.exports = {
 
     },
 
-    getOne(cName, mesId){
-        const cId = this.getChannelId(cName)
+    getMes(cId, mesId){
 
         client.channels.fetch(cId)
         .then(channel => 
@@ -99,27 +90,33 @@ module.exports = {
 
     },
 
-    editOne(cName, mesId, mes){
-        this.getOne(cName, mesId).edit(mes)
+    editMes(cName, mesId, mes){
+        this.getMes(cName, mesId).edit(mes)
 
     },
 
-    sendDone(interaction){
-        const mes = "Action accomplie avec succès ! :D\nhttps://tenor.com/view/mujikcboro-seriymujik-gif-24361533"
-        interaction.reply({content: mes, ephemeral: true})
+    cmdSuccess(inter, reply){
+        const mes = {content: 'Action accomplie avec succès ! :D\nhttps://tenor.com/view/mujikcboro-seriymujik-gif-24361533', ephemeral: true}
+        if(reply) mes = reply
+        
+        inter.reply(mes)
+
+        const embed = this.newEmbed()
+        .setTitle(`${inter.commandName} | <@${inter.member.user.id}>`)
+        .setDescription('success')
+
+        this.sendMes(config.channels.logs, { embeds: [embed] })
 
     },
 
-    sendError(interaction, error){
-        const { EmbedBuilder } = require('discord.js');
+    cmdError(inter, error){
+        inter.reply(error)
 
-        const embed = new EmbedBuilder()
-        .setColor(0xF92F41)
+        const embed = this.newEmbed()
+        .setTitle(`${inter.commandName} | <@${inter.member.user.id}>`)
         .setDescription(error)
-        .setTimestamp()
-        .setFooter({ text: 'error', iconURL: 'https://i.imgur.com/TYeapMy.png' });
 
-        interaction.reply({embeds: [embed], ephemeral: true})
+        this.sendMes(config.channels.logs, { embeds: [embed] })
 
     }
     

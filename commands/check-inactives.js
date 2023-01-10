@@ -1,18 +1,18 @@
-const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
-const { sendDone } =  require('../utils/message')
+const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js')
+const { cmdSuccess } =  require('../utils/message')
 
 module.exports = {
 	data(){
         let data = new SlashCommandBuilder()
-        .setName("check-inactives")
-        .setDescription("Renvoie une liste des membres sans point et présents depuis au moins un mois")
+        .setName('check-inactives')
+        .setDescription('Renvoie une liste des membres sans point et présents depuis au moins un mois')
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
 
         return data
     },
 
-    async execute(interaction) {
-        let message = "\n"
+    async execute(inter) {
+        let message = '\n'
 
         const today = new Date()
         const limit = today.setDate(today.getDate() - 32)
@@ -26,20 +26,19 @@ module.exports = {
             let messageNumber = 1
 
             if(date <= limit){
-                message += ("<@"+m.id+"> - Arrivée : **"+date+"**\n")
+                message += ('<@'+m.id+'> - Arrivée : **'+date+'**\n')
                 n++
 
                 if(n > messageNumber*32-1 || n == noPlumes.length){
-                    const messageUtil = require("../utils/message");
+                    const messageUtil = require('../utils/message')
                     const messageEmbed = messageUtil.newEmbed()
-                    .setTitle("__**Liste des membres sans plume et présents depuis au moins un mois : **__" + n)
+                    .setTitle('__**Liste des membres sans plume et présents depuis au moins un mois : **__' + n)
                     .setDescription(message)
 
                     if(messageNumber == 1){
-                        await interaction.reply({ embeds: [messageEmbed]})
-
+                        await cmdSuccess(inter, { embeds: [messageEmbed]})
                     }else{
-                        await interaction.channel.send({ embeds: [messageEmbed]})
+                        await inter.channel.send({ embeds: [messageEmbed]})
                     }
 
                     messageNumber++

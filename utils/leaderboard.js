@@ -1,42 +1,36 @@
 const { config } = require('../config')
+const { editMes, newEmbed } =  require('../utils/message')
+const { getAllIdsPlumes } = require('../utils/member')
 
 module.exports = {
     edit(){
-        const channel_id = config.channels.leaderboard
-        const id = config.messages.leaderboard
+        const channelId = config.channels.leaderboard
+        const mesId = config.messages.leaderboard
 
-        client.channels.fetch(channel_id)
-        .then(channel => 
-            channel.messages.fetch(id)
-            .then(async m =>
-                await m.edit({content:'', embeds: [await this.create()]}))      
-            .catch(console.error)
-
-        ).catch(console.error)
+        editMes(channelId, mesId, {content:'', embeds: [this.create()]} )
 
     },
 
     create(){
-
-		const members = data.get('members.list')
+		const members = getAllIdsPlumes()
         let winnersPlumes = []
         let winnersId = []
 
         members.forEach(m=>{
-            plumes = data.get('members.'+m+'.plumes')
+            plumes = m[1]
             higher = true
             const l = winnersPlumes.length
-            for (let i = 0; i < l; i++) {
+            for (let i = 0 ; i < l ; i++) {
 
                 if(plumes < winnersPlumes[i]){
 
-                    for (let o = l; o > i; o--) {
+                    for (let o = l ; o > i ; o--) {
                         winnersPlumes[o] = winnersPlumes[o-1]
                         winnersId[o] = winnersId[o-1]
-
                     }
+
                     winnersPlumes[i] = plumes
-                    winnersId[i] = m
+                    winnersId[i] = m[0]
 
                     higher = false
                     break
@@ -46,7 +40,7 @@ module.exports = {
 
             if (higher){
                 winnersPlumes.push(plumes)
-                winnersId.push(m)
+                winnersId.push(m[0])
             }             
 
         })
@@ -70,8 +64,7 @@ module.exports = {
 
         }
 
-        const messageUtil = require('./message')
-        const Leaderboard = messageUtil.newEmbed()
+        const Leaderboard = newEmbed()
         .setTitle('LEADERBOARD :')
         .setDescription(message)
 

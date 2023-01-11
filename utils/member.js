@@ -1,8 +1,8 @@
-const { Member, FileInPosting, dbAddAtr, dbCreate, dbDestroy, dbExist, dbGetAtr, dbRemoveAtr, dbSetAtr, dbIncrementAtr, dbSetAtrToAll } = require('../dbObjects.js')
+const { Member, FileInPosting, dbAddAtr, dbCreate, dbDestroy, dbExist, dbGetAtr, dbRemoveAtr, dbSetAtr, dbIncrementAtr, dbSetAtrToAll, dbGetAll } = require('../dbObjects.js')
 
 module.exports = {
 
-    getOne(id){
+    getMember(id){
         dbGet(Member, id)
     },
 
@@ -148,6 +148,10 @@ module.exports = {
             textUtils.remove(t)
         })
 
+    },
+
+    getAllIdsPlumes(){
+        return dbGetAll(Member, ['id', 'plumes'])
     }
 
 }

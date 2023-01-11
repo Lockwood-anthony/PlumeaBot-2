@@ -1,21 +1,19 @@
-const dataUtil = require('../utils/data.js')
-
 module.exports = {
-	name: 'interCreate',
+	name: 'interactionCreate',
 	once: false,
-	async execute(inter) {
-		const member = inter.member
+
+	execute(inter) {
 
 		if (inter.isChatInputCommand()){
 			const command = inter.client.commands.get(inter.commandName)
-	
-			if (!command) return
-		
+			
 			try {
-				await command.execute(inter)
+				command.execute(inter)
+
 			} catch (error) {
 				console.error(error)
-				await inter.reply({ content: 'J~y arrive po ;-; Appelle mon papa Asra', ephemeral: true })
+				inter.reply({ content: 'J~y arrive po ;-; Appelle mon papa Astrant', ephemeral: true })
+
 			}
 
 		}else if(inter.isButton()){

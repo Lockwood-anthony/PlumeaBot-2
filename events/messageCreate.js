@@ -1,31 +1,21 @@
 const { config } = require('../config')
+const { getPlumes, addFileInPosting, hasNick } = require('../utils/member')
+const { getBumpDate, setBumpDate } = require('../utils/somes')
 
 module.exports = {
 	name: 'messageCreate',
-	async execute(message) {
+
+	execute(message) {
         const messageUtils = require('../utils/message')
         const channelName = message.channel.name
         const channelId = message.channel.id
-        const id = message.author.id
+        const author = message.author
+        const id = author.id
 
-        if (!message.author.bot){
+        if (!author.bot){
             const content = message.content
-            const roles = message.member.roles.cache.map(r => `${r}`).length
 
-            //message.react(':champagne_glass:')
-
-            /*
-            if(userId == 865929450109009941){
-                let rand = Math.floor(Math.random() * 38) //para choosed 38 ^^
-
-                if (rand == 32){
-                    await message.delete()
-                    await message.author.send('**Bravo ! Tu avais 1 chance sur 38 de faire 32 ^^\n et Souviens-toi, il ne faut pas oublier :3**```'+message.content+'```')
-
-                }
-
-            }
-            */
+            //message.react(':champagne_glass:') //pour noel
 
             const triggersJson = config.messageReplies
             const triggers = new Map(Object.entries(triggersJson))
@@ -36,35 +26,35 @@ module.exports = {
             })
 
             switch(channelId){
+
                 case config.channels.text:
                     const attach = message.attachments
-                    const mUtils = require('../utils/member')
 
-                    if(!mUtils.getPlumes <= 0){
+                    if(!getPlumes(id) <= 0){
 
-                        if(attach.length() == 1){
-                            mUtils.addFileInPosting(id, attach.first())
+                        if(attach){
+                            addFileInPosting(id, attach.first())
                             message.delete()
 
-                            if(mUtils.hasNick(id)){
-                                const textTitle = require('../modals/textTitle')
-                                await inter.showModal(textTitle.get()) 
+                            if(hasNick(id)){
+                                const modal = require('../modals/textTitle').get()
+                                inter.showModal(modal) 
     
                             }else{
-                                const textNick = require('../modals/textNick')
-                                await inter.showModal(textNick.get()) 
+                                const modal = require('../modals/textNick').get()
+                                inter.showModal(modal) 
     
                             }
                             
                         }else{
                             message.delete()
-                            message.author.send('Ton message ne contient pas le fichier de ton texte !')
+                            author.send('Ton message ne contient pas le fichier de ton texte !')
 
                         }
 
                     }else{
                         message.delete()
-                        message.author.send('Avant de poster un texte, donne au moins un avis et attend de recevoir une plume ;)')
+                        author.send('Avant de poster un texte, donne au moins un avis et attend de recevoir une plume ;)')
 
                     }
 
@@ -72,36 +62,36 @@ module.exports = {
 
                 case config.channels.general:
                     const today = new Date()
-                    const recall = new Date(data.get('bump'))
+                    const recall = getBumpDate()
     
                     if(today > recall){
-                        await message.reply('***Bumpy ! :3***')
+                        message.reply('***Bumpy ! :3***')
                         today.setFullYear(today.getFullYear()+66)
-                        await data.set('bump', today.toString())
+                        setBumpDate(today)
     
-                        await data.save()
-                        await dataUtils.upload()
                     }
                 break
 
             }
                         
-            if (roles == 1){
+            const power = message.member.roles.cache.map(r => `${r}`).length
+            if (power == 1){
                 if (message.attachments.size == 0 && !message.content.includes('http')) return
                 message.delete()
-                await message.author.send('__**Impossible d~envoyer ce message :**__```md\n#Tu ne peux poster ni lien, ni fichier, ni gif sans n~avoir jamais gagné de plumes :D```')
+                author.send('__**Impossible d~envoyer ce message :**__```md\n#Tu ne peux poster ni lien, ni fichier, ni gif sans n~avoir jamais gagné de plumes :D```')
             }
 
         }else{
-
+            //messages de bibot
             if(id == 1018969464739467317){
 
-                if(!config.channels.nologs.includes(channelName) && message.flags.bitfield != 64){
-                    await messageUtils.log(message,'logs')
+                if(!config.channels.nologs.includes(channelName) && message.flags.bitfield != 64){ //!= 64 => n'est pas un ephemeral
+                     messageUtils.log(message,'logs')
                 }
 
             }
-
+            
+            //messages disboard
             if(id == 302050872383242240){
                 const embeds = message.embeds
 
@@ -112,10 +102,7 @@ module.exports = {
                         recall.setHours(('0' + (recall.getHours() + 2)).slice(-2))
                         recall.setMinutes(('0' + (recall.getMinutes() + 30)).slice(-2))
         
-                        data.set('bump', recall.toString())
-    
-                        data.save()
-                        dataUtils.upload()
+                        setBumpDate(recall)
                     }
 
                 })

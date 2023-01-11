@@ -1,24 +1,69 @@
-module.exports = {
+const { dbGetAtr, ParameterDate, dbSetAtr, ParameterId } =  require('../dbObjects')
+const { sendMes } =  require('../utils/message')
 
-    async setWeeklyReset(){
-        const date = new Date()
-        date.setDate(date.getDate() - date.getDay() + 7)
-        date.setHours(('0' + 23).slice(-2))
-        date.setMinutes(('0' + 0).slice(-2))
-        
-        await data.set('weeklyReset',date.toString())
-        await data.save()
-    },
+module.exports = {
 
     isWeeklyResetTime(){
         today = new Date()
-        resetDay = new Date(data.get('weeklyReset'))
+        resetDay = this.getWeeklyResetDate()
 
-        if (today > resetDay){
-            return true
-        }else{
-            return false
-        }
+        if (today > resetDay) return true
+
+        return false
+    },
+
+    getWeeklyResetDate(){
+        return dbGetAtr(ParameterDate, 'weeklyResetDate', 'date')
+    },
+
+    setWeeklyResetDate(){
+        const date = new Date()
+        dbSetAtr(ParameterDate, 'weeklyResetDate', 'date', date)
+    }, 
+
+    getBumpDate(){
+        return dbGetAtr(ParameterDate, 'BumpDate', 'date')
+    },
+
+    setBumpDate(){
+        const date = new Date()
+        dbSetAtr(ParameterDate, 'BumpDate', 'date', date)
+    }, 
+
+    plumesRolesSet(member, plumes, inter) {
+        json = config.plumesRoles
+        const roles = new Map(Object.entries(json))
+        
+        found =  false
+        lower = 0
+        roleBefore = 0
+        roles.forEach((points, roleid)=>{
+            const role = inter.guild.roles.cache.get(roleid)
+            if(member.roles.cache.find(r => r.id === roleid)){roleBefore = role}
+
+            member.roles.remove(role)
+
+            if (points <= plumes) {
+                lower = role
+
+            }else{
+
+                if(!found && lower != 0){
+                    found = true
+
+                    member.roles.add(lower)
+
+                    if(roleBefore != lower){
+                        const channel = config.channels.plumes
+                        sendMes(channel, `<@${member.user.id}> devient un  ${lower.name}`)
+
+                    }                
+
+                } 
+
+            }
+
+        })
 
     }
 

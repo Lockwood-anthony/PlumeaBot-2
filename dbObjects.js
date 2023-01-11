@@ -153,11 +153,11 @@ module.exports = {
 
     ParameterId(){
         parameterId = sequelize.define('parameterId', {
-            name: {
+            id: {
                 type: Sequelize.STRING,
                 unique: true,
             },
-            id: Sequelize.INTEGER
+            paramId: Sequelize.INTEGER
 
         })
 
@@ -166,7 +166,7 @@ module.exports = {
 
     ParameterDate(){
         parameterDate = sequelize.define('parameterDate', {
-            name: {
+            id: {
                 type: Sequelize.STRING,
                 unique: true,
             },
@@ -191,6 +191,12 @@ module.exports = {
         db.count({ where: { id: id } })
         .then(count => {
           return count == 0
+        })
+    },
+
+    dbGetAll(db, Atr){
+        return db.findAll({
+            attributes: Atr
         })
     },
 

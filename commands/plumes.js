@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js')
-const { cmdSuccess } =  require('../utils/message')
+const { cmdSuccess, cmdError } =  require('../utils/message')
 const { config } = require('../config')
+const { getPlumes, addPlumes } = require('../utils/member')
 
 module.exports = {
 	data(){
@@ -27,49 +28,43 @@ module.exports = {
         return data
     },  
         
-    async execute(inter) {
-        const plume = require('../utils/plume.js')
-        const json = require('../utils/json.js')
-        const leaderboard = require('../utils/leaderboard.js')
-
+    execute(inter) {
         const member = inter.options.getMember('user')
         const dt = inter.options.getString('dt')
-        const memberId = member.id
-        const stringId = json.intToABC(memberId)
+        const id = member.id
         let p = inter.options.getInteger('plumes')    
 
         try {
             if(!p.length){}
 
-        } catch (error) {
+        }catch (error) {
             const text = require('../utils/text.js')
 
-            if(text.exists(dt)){
+            if(text.exist(dt)){
                 p = Math.floor(text.words(dt)/1000)
 
             }else{
-                inter.reply({content:'**Ce dt n~existe point owo**',ephemeral:true})
+                cmdError(inter, '**Ce dt n~existe point owo**')
                 return
 
             }
 
         }
 
-        await (plumes = parseInt(data.get('members.'+stringId + '.plumes')), 
-        plumes +=  p)
+        addPlumes(id, p)
+        const plumes = getPlumes(id)
 
-        await data.set('members.' + stringId + '.plumes', plumes)
-        await data.save()
+        message = `**<@'${id}> possède maintenant *${plumes}* ${config.emotes.plume}**\n`
+        message += `${p} plumes\n`
+        message += `${dt}\n`
 
-        await( message = '**<@' + memberId + '> possède maintenant *' + plumes + '* '+config.emotes.plume+'**\n',
-        message += p+' plumes\n',
-        message += dt+'\n') //DONT MOVE ! or plumes will be equal to 0 bruh
+        require('../utils/somes')
+        .plumesRolesSet(member, plumes, inter)
 
-        await plume.roles(member, plumes, inter)
+        require('../utils/leaderboard.js')
+        .edit()
 
-        await leaderboard.edit()
-
-        await cmdSuccess(inter, message)
+        cmdSuccess(inter, message)
                 
     }
 

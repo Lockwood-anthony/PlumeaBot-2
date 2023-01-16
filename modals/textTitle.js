@@ -49,7 +49,7 @@ module.exports = {
         const dt_title = new TextInputBuilder()
         .setCustomId('dt_title')
         .setLabel('Entre les lettres :')
-        .setPlaceholder('Vas-y ! Entre les ! Hmmmm, j'en frémis déjà~')
+        .setPlaceholder('Vas-y ! Entre les ! Hmmmm, j~en frémis déjà~')
         .setMinLength(6)
         .setMaxLength(6)
         .setStyle(TextInputStyle.Short)

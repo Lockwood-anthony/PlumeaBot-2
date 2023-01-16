@@ -19,7 +19,7 @@ module.exports = {
             }
 
         }catch (error) {
-            inter.reply({content:'**C'est pas nombre ca ! :D**', ephemeral:true})
+            inter.reply({content:'**C~est pas nombre ca ! :D**', ephemeral:true})
 
         }
 

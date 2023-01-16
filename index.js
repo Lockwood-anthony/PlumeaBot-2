@@ -38,8 +38,9 @@ global.sequelize = new Sequelize(process.env.DATABASE_NAME, process.env.USER, pr
 	storage: 'database.sqlite',
 })
 
-//CommandHandler
-require('./deploy-commands')
+const db = require('./dbObjects')
+db.Sync()
+db.autoSet()
 
 //EventHandler
 const eventsPath = path.join(__dirname, 'events')
@@ -67,13 +68,13 @@ function start(){
     
     const sprint = require('./utils/sprint.js')
 
-    if (sprint.isSprinting()){
-        const time = sprint.getTime()
+    if (sprint.isSprinting(0)){
+        const time = sprint.getTime(0)
 
         if(time < 0){
-            sprint.BEGIN()
+            sprint.BEGIN(0)
         }else{
-            sprint.GO()
+            sprint.GO(0)
         }
 
     }

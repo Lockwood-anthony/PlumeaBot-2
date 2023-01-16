@@ -27,7 +27,7 @@ module.exports = {
             new ButtonBuilder()
                 .setCustomId(this.name)
                 .setStyle(ButtonStyle.Danger)
-                .setEmoji('<:Scriptuplume:1027094890099781673>')
+                .setEmoji(config.emotes.plume)
                 
         )
 

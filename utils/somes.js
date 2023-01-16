@@ -1,4 +1,4 @@
-const { dbGetAtr, ParameterDate, dbSetAtr, ParameterId } =  require('../dbObjects')
+const { dbGetAtr, ParameterDate, dbSetAtr, ParameterId, dbExist } =  require('../dbObjects')
 const { sendMes } =  require('../utils/message')
 
 module.exports = {
@@ -18,17 +18,26 @@ module.exports = {
 
     setWeeklyResetDate(){
         const date = new Date()
+        date.setDate(date.getDate() - date.getDay() + 7);
         dbSetAtr(ParameterDate, 'weeklyResetDate', 'date', date)
     }, 
 
+    isWeeklyResetDate(){
+        return dbExist(ParameterDate, 'weeklyResetDate')
+    },
+
     getBumpDate(){
-        return dbGetAtr(ParameterDate, 'BumpDate', 'date')
+        return dbGetAtr(ParameterDate, 'bumpDate', 'date')
     },
 
     setBumpDate(){
         const date = new Date()
-        dbSetAtr(ParameterDate, 'BumpDate', 'date', date)
+        dbSetAtr(ParameterDate, 'bumpDate', 'date', date)
     }, 
+
+    isBumpDate(){
+        return dbExist(ParameterDate, 'bumpDate')
+    },
 
     plumesRolesSet(member, plumes, inter) {
         json = config.plumesRoles

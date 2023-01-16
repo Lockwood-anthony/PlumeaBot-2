@@ -29,7 +29,7 @@ module.exports = {
                         }
 
                     }else{
-                        inter.reply({content: 'Ton chap2: Ce n'est pas un nombre que tu as donné là !', ephemeral: true})
+                        inter.reply({content: 'Ton chap2: Ce n~est pas un nombre que tu as donné là !', ephemeral: true})
                         mUtils.removeFileInPosting(id)
                         return
                     }
@@ -56,7 +56,7 @@ module.exports = {
 
                 }catch(Error){
                     console.log(Error)
-                    inter.reply({content: 'le fichier n'existe plus mon cher', ephemeral: true})
+                    inter.reply({content: 'le fichier n~existe plus mon cher', ephemeral: true})
                     mUtils.removeFileInPosting(id)
                     return
                 }
@@ -134,7 +134,7 @@ module.exports = {
                     tUtils.add(uuid, dt, title, desc, chap1, chap2, words, id1, id2, today, password, themes, questions)
     
                     if(toMuchWords){
-                        inter.reply({content: 'En tenant compte de la modification de mot, il s'avère que l'auteur a bypass la limite hebdomadaire !', ephemeral: true})
+                        inter.reply({content: 'En tenant compte de la modification de mot, il s~avère que l~auteur a bypass la limite hebdomadaire !', ephemeral: true})
 
                     }else{
                         inter.reply({content: DONE, ephemeral: true})
@@ -144,13 +144,13 @@ module.exports = {
                 }
 
             }else{
-                inter.reply({content: 'Ton chap1: Ce n'est pas un nombre que tu as donné là !', ephemeral: true})
+                inter.reply({content: 'Ton chap1: Ce n~est pas un nombre que tu as donné là !', ephemeral: true})
                 mUtils.removeFileInPosting(id)
 
             }
 
         }else{
-            inter.reply({content: 'Ton titre: Ce n'est pas une lettre de l'alphabet que tu as donné là !', ephemeral: true})
+            inter.reply({content: 'Ton titre: Ce n~est pas une lettre de l~alphabet que tu as donné là !', ephemeral: true})
             mUtils.removeFileInPosting(id)
         }    
 
@@ -160,7 +160,7 @@ module.exports = {
         const { getTitle, getChap1, getChap2, getDesc, getPassword, getThemes, getQuestions, getDt, getWords, getDt } = require('../utils/text')
         const modal = new ModalBuilder()
         .setCustomId(this.name)
-        .setTitle('Formulaire d'edit du texte :')
+        .setTitle('Formulaire d~edit du texte :')
 
         if(admin){
             modal.addComponents(
@@ -215,7 +215,7 @@ module.exports = {
             .addComponents(
                 new TextInputBuilder()
                 .setCustomId('chap1')
-                .setLabel('Premier chapitre d'où commence l'extrait :')
+                .setLabel('Premier chapitre d~où commence l~extrait :')
                 .setValue(getChap1(id))
                 .setMaxLength(3)
                 .setStyle(TextInputStyle.Short)
@@ -228,7 +228,7 @@ module.exports = {
             .addComponents(
                 new TextInputBuilder()
                 .setCustomId('chap2')
-                .setLabel('Dernier chapitre où se termine l'extrait :')
+                .setLabel('Dernier chapitre où se termine l~extrait :')
                 .setValue(getChap2(id))
                 .setMaxLength(3)
                 .setStyle(TextInputStyle.Short)
@@ -252,7 +252,7 @@ module.exports = {
             .addComponents(
                 new TextInputBuilder()
                 .setCustomId('password')
-                .setLabel('Mot de passe pour limiter l'accès au texte :\n(attention: est save en clair, ne pas utiliser un mdp important)')
+                .setLabel('Mot de passe pour limiter l~accès au texte :\n(attention: est save en clair, ne pas utiliser un mdp important)')
                 .setValue(getPassword(id))
                 .setStyle(TextInputStyle.Short)
                 .setMinLength(8)

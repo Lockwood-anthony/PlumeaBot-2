@@ -6,10 +6,10 @@ module.exports = {
 	data(){
 		let data = new SlashCommandBuilder()
 		.setName('profil')
-		.setDescription('Profil d'un scripturien')
+		.setDescription('Profil d~un plumeen')
 		.addUserOption(option => option
 			.setName('user')
-			.setDescription('Scripturien')
+			.setDescription('plumeen')
 			.setRequired(true))
 
 		return data

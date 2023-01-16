@@ -1,18 +1,18 @@
-const { ModalBuilder, TextInputBuilder, TextInputStyle, StringSelectMenuBuilder, CategoryChannelChildManager } = require('discord.js')
+const { ModalBuilder, TextInputBuilder, TextInputStyle, StringSelectMenuBuilder } = require('discord.js')
 
 module.exports = {
     themes: [
         {name: 'amour', desc: 'uwu !'},
-        {name: 'autobiographie', desc: 'Car le réel est toujours mieux que l'imaginaire'},
+        {name: 'autobiographie', desc: 'Car le réel est toujours mieux que l~imaginaire'},
         {name: 'chronique', desc: 'Je saispa cé qué cé'},
         {name: 'conte', desc: 'pas réservé aux enfants !'},
-        {name: 'contemporain', desc: 'c'était po mieux avant'},
-        {name: 'fantasy', desc: 'pas d'elfes à la Légolas, pitié ;-;'},
+        {name: 'contemporain', desc: 'c~était po mieux avant'},
+        {name: 'fantasy', desc: 'pas d~elfes à la Légolas, pitié ;-;'},
         {name: 'fantastique', desc: 'bouhouhou'},
         {name: 'historique', desc: 'À la lanterne ! Bahaha..'},
         {name: 'horreur', desc: 'Tronçonneuse'},
         {name: 'humour', desc: 'Aaaah, humur'},
-        {name: 'jeunesse', desc: 'c'est jeune ?'},
+        {name: 'jeunesse', desc: 'c~est jeune ?'},
         {name: 'policier', desc: 'pan pan'},
         {name: 'tragédie', desc: 'valls devient président'}
     ],
@@ -43,7 +43,7 @@ module.exports = {
                         }
 
                     }else{
-                        inter.reply({content: 'Ton chap2: Ce n'est pas un nombre que tu as donné là !', ephemeral: true})
+                        inter.reply({content: 'Ton chap2: Ce n~est pas un nombre que tu as donné là !', ephemeral: true})
                         mUtils.removeFileInPosting(id)
                         return
                     }
@@ -69,7 +69,7 @@ module.exports = {
 
                 }catch(Error){
                     console.log(Error)
-                    inter.reply({content: 'le fichier n'existe plus mon cher', ephemeral: true})
+                    inter.reply({content: 'le fichier n~existe plus mon cher', ephemeral: true})
                     mUtils.removeFileInPosting(id)
                     return
                 }
@@ -77,7 +77,7 @@ module.exports = {
                 const extension = path.extname(file.name)
         
                 if(extension != '.pdf'){
-                    inter.reply({ content: 'C'est pas .PDF ca ;-;\nVa donc sur ce site :\n\n https://www.ilovepdf.com/fr', ephemeral: true })
+                    inter.reply({ content: 'C~est pas .PDF ca ;-;\nVa donc sur ce site :\n\n https://www.ilovepdf.com/fr', ephemeral: true })
                     mUtils.removeFileInPosting(id)
                     return
                 }
@@ -101,8 +101,8 @@ module.exports = {
             
                     const somesUtils = require('../utils/somes')
                     if(somesUtils.isWeeklyResetTime()){
-                        somesUtils.resetAllWeeklyWords()
-                        somesUtils.setWeeklyReset()
+                        mUtils.resetAllWeeklyWords()
+                        somesUtils.setWeeklyResetDate()
                     }
         
                     if(mUtils.toMuchWeeklyWords(user.id, words)){
@@ -115,13 +115,13 @@ module.exports = {
                         try{
                             inter.reply({ content: '**NO !**  Soit un chad et envoie plus de 1000 mots.\nMots Comptés: '+words
                             +'\nhttps://tenor.com/view/no-chad-giga-chad-giga-chet-gif-25063092'+
-                            '\nSi c'est largement éloigné du nombre de mots réel, converti ton fichier en pdf grâce à ce site :'
+                            '\nSi c~est largement éloigné du nombre de mots réel, converti ton fichier en pdf grâce à ce site :'
                             +'\nhttps://www.ilovepdf.com/fr/word_en_pdf'
                             , ephemeral: true })
                             mUtils.removeFileInPosting(id)
 
                         }catch(Error){
-                            member.send('Hhhh... appelle asra, le gars qui s'occupe du bot et dit lui de ma part que ton pdf est bizarre et que j'ai faillit crash... Hhhh... bisou')
+                            member.send('Hhhh... appelle asra, le gars qui s~occupe du bot et dit lui de ma part que ton pdf est bizarre et que j~ai faillit crash... Hhhh... bisou')
                             mUtils.removeFileInPosting(id)
                         }
         
@@ -173,13 +173,13 @@ module.exports = {
                 }
 
             }else{
-                inter.reply({content: 'Ton chap1: Ce n'est pas un nombre que tu as donné là !', ephemeral: true})
+                inter.reply({content: 'Ton chap1: Ce n~est pas un nombre que tu as donné là !', ephemeral: true})
                 mUtils.removeFileInPosting(id)
 
             }
 
         }else{
-            inter.reply({content: 'Ton titre: Ce n'est pas une lettre de l'alphabet que tu as donné là !', ephemeral: true})
+            inter.reply({content: 'Ton titre: Ce n~est pas une lettre de l~alphabet que tu as donné là !', ephemeral: true})
             mUtils.removeFileInPosting(id)
         }
 
@@ -209,7 +209,7 @@ module.exports = {
             .addComponents(
                 new TextInputBuilder()
                 .setCustomId('chap1')
-                .setLabel('Premier chapitre d'où commence l'extrait :')
+                .setLabel('Premier chapitre d~où commence l~extrait :')
                 .setValue(text.chapter1+1)
                 .setMaxLength(3)
                 .setStyle(TextInputStyle.Short)
@@ -222,7 +222,7 @@ module.exports = {
             .addComponents(
                 new TextInputBuilder()
                 .setCustomId('chap2')
-                .setLabel('Dernier chapitre où se termine l'extrait :')
+                .setLabel('Dernier chapitre où se termine l~extrait :')
                 .setMaxLength(3)
                 .setStyle(TextInputStyle.Short)
             )
@@ -244,7 +244,7 @@ module.exports = {
             .addComponents(
                 new TextInputBuilder()
                 .setCustomId('password')
-                .setLabel('Mot de passe pour limiter l'accès au texte :')
+                .setLabel('Mot de passe pour limiter l~accès au texte :')
                 .setStyle(TextInputStyle.Short)
                 .setMinLength(8)
                 .setMaxLength(16)

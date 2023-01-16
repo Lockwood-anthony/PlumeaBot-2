@@ -15,7 +15,7 @@ module.exports = {
         }else if(member.hasPermission('ADMINISTRATOR', true)){
 
         }else{
-            inter.reply({content: 'bruh, t'es pas l'auteur, tu peux pas faire ca..', ephemeral: true})
+            inter.reply({content: 'bruh, t~es pas l~auteur, tu peux pas faire ca..', ephemeral: true})
             
         }
 

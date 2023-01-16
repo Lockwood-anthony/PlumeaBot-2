@@ -1,8 +1,12 @@
-const { Sprint, dbGetAtr, dbSetAtr, dbIncrementAtr, dbAddAtr, dbRemoveAtr, dbCreate } =  require('../dbObjects')
+const { sprint: Sprint, dbGetAtr, dbSetAtr, dbIncrementAtr, dbAddAtr, dbRemoveAtr, dbCreate, dbExist } =  require('../dbObjects')
 const { editMes, getMes, newEmbed } =  require('../utils/message')
 const { config } = require('../config')
 
 module.exports = {
+
+    exists(id){
+        return dbExist(id)
+    }, 
 
     addOne(id){
         const sprint = {

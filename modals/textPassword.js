@@ -26,7 +26,7 @@ module.exports = {
         const password = new TextInputBuilder()
         .setCustomId('password')
         .setLabel('Entre le mot de passe :')
-        .setPlaceholder('Vas-y ! Entre le ! Hmmmm, j'en frémis déjà~')
+        .setPlaceholder('Vas-y ! Entre le ! Hmmmm, j~en frémis déjà~')
         .setMinLength(8)
         .setMaxLength(16)
         .setStyle(TextInputStyle.Short)

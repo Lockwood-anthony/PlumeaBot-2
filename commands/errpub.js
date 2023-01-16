@@ -3,13 +3,13 @@ const { cmdSuccess, cmdError } =  require('../utils/message')
 
 module.exports = {
 	ERROR: [
-		{id: 'ALL', desc: 'Les publications sur ce serveur sont soumises à des consignes. Elles peuvent être complexes à première vue, mais pas de panique ! Si vous avez besoin d'assistance, n'hésitez pas à solliciter le staff.'},
-		{id: 'MAUVAISE_SERIE', desc: 'Le dt_titre n'est pas similaire à la série dont il appartient.'},
+		{id: 'ALL', desc: 'Les publications sur ce serveur sont soumises à des consignes. Elles peuvent être complexes à première vue, mais pas de panique ! Si vous avez besoin d~assistance, n~hésitez pas à solliciter le staff.'},
+		{id: 'MAUVAISE_SERIE', desc: 'Le dt_titre n~est pas similaire à la série dont il appartient.'},
 		{id: 'BIENSCEANCE', desc: 'Ton texte enfreint les règles de la communauté.'},
 		{id: 'COPYRIGHT', desc: 'Ton texte est une fanfiction. Il contient un matériel source étranger au serveur, copyrighté et non original, et donc par conséquent ne peut pas être commenté par tous. Désolé!'},
-		{id: 'MAUVAIS_AUTEUR', desc: 'Ton texte porte le dt_auteur d'un autre membre'},
-		{id: 'FANFICTION', desc: 'Ton texte est une fanfiction. Compte tenu que tout le monde n'a pas accès au matériaux de base sur lequel se base ton histoire. Ton texte a été retiré, désolé!'},
-		{id: 'NON_FONCTION', desc: 'Ton texte n'est pas de la fiction. Nous n'acceptons pas les essais ou biographies car ils sont par essences difficilement critiquables. Ton texte a été retiré, désolé!'},
+		{id: 'MAUVAIS_AUTEUR', desc: 'Ton texte porte le dt_auteur d~un autre membre'},
+		{id: 'FANFICTION', desc: 'Ton texte est une fanfiction. Compte tenu que tout le monde n~a pas accès au matériaux de base sur lequel se base ton histoire. Ton texte a été retiré, désolé!'},
+		{id: 'NON_FONCTION', desc: 'Ton texte n~est pas de la fiction. Nous n~acceptons pas les essais ou biographies car ils sont par essences difficilement critiquables. Ton texte a été retiré, désolé!'},
 	],
 
 	data(){

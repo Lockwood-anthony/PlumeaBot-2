@@ -26,7 +26,7 @@ module.exports = {
 
         data.addStringOption(option => {
             option.setName('name')
-                .setDescription('Button's name')
+                .setDescription('Button name')
                 .setRequired(true)
 
             for(let i = 0 ; i < choices.length ; i++) {

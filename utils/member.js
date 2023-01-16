@@ -18,7 +18,7 @@ module.exports = {
     },
 
     exists(id){
-        return dbExist(id)
+        return dbExist(Member, id)
     },
 
     getAllNoPlumes(){

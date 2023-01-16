@@ -23,7 +23,7 @@ module.exports = {
     get(){
         const modal = new ModalBuilder()
         .setCustomId(this.name)
-        .setTitle('Saisis ici ton pseudo, il sera le tient ici-bas jusqu'au restant de tes jours !')
+        .setTitle('Saisis ici ton pseudo, il sera le tient ici-bas jusqu~au restant de tes jours !')
 
         const nick = new TextInputBuilder()
         .setCustomId('nick')

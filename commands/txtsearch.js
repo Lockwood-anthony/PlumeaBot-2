@@ -4,7 +4,7 @@ module.exports = {
 	data(){
         let data = new SlashCommandBuilder()
         .setName('txtsearch')
-        .setDescription('Chercher le post d'un certains texte')
+        .setDescription('Chercher le post d~un certains texte')
         .addStringOption(option => option
             .setName('uuid')
             .setDescription('uuid du texte')

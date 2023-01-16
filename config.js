@@ -41,7 +41,8 @@ module.exports = {
         },
 
         'emotes': {
-            'plume':'<:Scriptuplume:1027094890099781673>'
+            'plume': '<:Scriptuplume:1027094890099781673>',
+            'love': '<:Mido:1062488633594101831>'
         },
 
         'roles': {

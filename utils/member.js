@@ -1,24 +1,25 @@
-const { Member, FileInPosting, dbAddAtr, dbCreate, dbDestroy, dbExist, dbGetAtr, dbRemoveAtr, dbSetAtr, dbIncrementAtr, dbSetAtrToAll, dbGetAll } = require('../dbObjects.js')
+const { FileInPosting, dbAddAtr, dbCreate, dbDestroy, dbExist, dbGetAtr, dbRemoveAtr, dbSetAtr, dbIncrementAtr, dbSetAtrToAll, dbGetAll } = require('../dbObjects.js')
+const { sendMes, delMes } = require('../utils/message')
 
 module.exports = {
 
     getMember(id){
-        dbGet(Member, id)
+        dbGet(M_TAB, id)
     },
 
     addMember(id){
         const member = {
             id: id
         }
-        dbCreate(Member, member)
+        dbCreate(M_TAB, member)
     },
 
     removeMember(id){
-        dbDestroy(Member, id)
+        dbDestroy(M_TAB, id)
     },
 
     exists(id){
-        return dbExist(Member, id)
+        return dbExist(M_TAB, id)
     },
 
     getAllNoPlumes(){
@@ -31,11 +32,11 @@ module.exports = {
     },
 
     getNick(id){
-        return dbGetAtr(Member, id, 'nick')
+        return dbGetAtr(M_TAB, id, 'nick')
     },
 
     setNick(id, nick){
-        dbSetAtr(Member, id, 'nick', nick)
+        dbSetAtr(M_TAB, id, 'nick', nick)
     },
 
     hasNick(id){
@@ -43,39 +44,39 @@ module.exports = {
     },
 
     getPlumes(id){
-        return dbGetAtr(Member, id, 'plumes')
+        return dbGetAtr(M_TAB, id, 'plumes')
     },
 
     addPlumes(id, plumes){
-        dbIncrementAtr(Member, id, 'plumes', plumes)
+        dbIncrementAtr(M_TAB, id, 'plumes', plumes)
     },
 
     removePlumes(id, plumes){
-        dbIncrementAtr(Member, id, 'plumes', -plumes)
+        dbIncrementAtr(M_TAB, id, 'plumes', -plumes)
     },
 
     getCoins(id){
-        return dbGetAtr(Member, id, 'coins')
+        return dbGetAtr(M_TAB, id, 'coins')
     },
 
     addCoins(id, coins){
-        dbIncrementAtr(Member, id, 'coins', coins)
+        dbIncrementAtr(M_TAB, id, 'coins', coins)
     },
 
     removeCoins(id, coins){
-        dbIncrementAtr(Member, id, 'coins', -coins)
+        dbIncrementAtr(M_TAB, id, 'coins', -coins)
     },
 
     getWeeklyWords(id){
-        dbGetAtr(Member, id, 'weeklyWords')
+        dbGetAtr(M_TAB, id, 'weeklyWords')
     },
 
     addWeeklyWords(id, weeklyWords){
-        dbIncrementAtr(Member, id, 'weeklyWords', weeklyWords)
+        dbIncrementAtr(M_TAB, id, 'weeklyWords', weeklyWords)
     },
 
     removeWeeklyWords(id, weeklyWords){
-        dbIncrementAtr(Member, id, 'weeklyWords', -weeklyWords)
+        dbIncrementAtr(M_TAB, id, 'weeklyWords', -weeklyWords)
     },
 
     toMuchWeeklyWords(id, words){
@@ -90,7 +91,7 @@ module.exports = {
     },
 
     resetAllWeeklyWords(){
-        dbSetAtrToAll(Member, 'weeklyWords', 0)
+        dbSetAtrToAll(M_TAB, 'weeklyWords', 0)
     },
 
     getFileInPostingId(id){
@@ -102,8 +103,7 @@ module.exports = {
     },
 
     addFileInPosting(id, file){
-        const { sendOne } = require('../utils/message')
-        const fileInPostingId = sendOne('safe', {content: 'Texte en cours de post', attachments: [file]})
+        const fileInPostingId = sendMes('safe', {content: 'Texte en cours de post', attachments: [file]})
 
         const fileInPosting = {
             id: id,
@@ -119,23 +119,22 @@ module.exports = {
     removeFileInPosting(id){
         const fileId = this.getFileInPosting(id)
 
-        const { deleteOne } = require('../utils/message')
-        deleteOne('safe', fileId)
+        delMes('safe', fileId)
 
         dbDestroy(FileInPosting, id)
     },
 
     getTextsUUIDs(id){
-        return dbGetAtr(Member, id, 'textUUIDs')
+        return dbGetAtr(M_TAB, id, 'textUUIDs')
     },
 
     addTextUUID(id, UUID, dt){
-        dbAddAtr(Member, id, 'textUUIDs', [UUID, dt])
+        dbAddAtr(M_TAB, id, 'textUUIDs', [UUID, dt])
     },
 
     removeTextUUID(id, UUID){        
         const dt = require('../utils/text').getDt(UUID)
-        dbRemoveAtr(Member, id, 'textUUIDs', [UUID, dt])
+        dbRemoveAtr(M_TAB, id, 'textUUIDs', [UUID, dt])
     },
 
     removeAllTexts(id){
@@ -151,7 +150,7 @@ module.exports = {
     },
 
     getAllIdsPlumes(){
-        return dbGetAll(Member, ['id', 'plumes'])
+        return dbGetAll(M_TAB, ['id', 'plumes'])
     }
 
 }

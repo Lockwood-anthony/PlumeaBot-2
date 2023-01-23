@@ -1,6 +1,6 @@
 const { config } = require('../config')
-const { getPlumes, addFileInPosting, hasNick } = require('../utils/member')
 const { getBumpDate, setBumpDate } = require('../utils/somes')
+const m = require('../utils/member')
 
 module.exports = {
 	name: 'messageCreate',
@@ -32,19 +32,19 @@ module.exports = {
                 case config.channels.text:
                     const attach = message.attachments
 
-                    if(!getPlumes(id) <= 0){
+                    if(!m.getPlumes(id) <= 0){
 
                         if(attach){
-                            addFileInPosting(id, attach.first())
+                            m.addFileInPosting(id, attach.first())
                             message.delete()
 
-                            if(hasNick(id)){
+                            if(m.hasNick(id)){
                                 const modal = require('../modals/textTitle').get()
-                                inter.showModal(modal) 
+                                message.showModal(modal)
     
                             }else{
                                 const modal = require('../modals/textNick').get()
-                                inter.showModal(modal) 
+                                message.showModal(modal) 
     
                             }
                             

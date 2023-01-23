@@ -1,10 +1,11 @@
-const { dbGet, dbCreate, dbExist, dbDestroy, dbGetAtr, dbSetAtr, dbAddAtr, dbRemoveAtrIndex } = require('../dbObjects.js')
+const { dbGet, dbCreate, dbExist, dbDestroy, dbGetAtr, dbSetAtr, dbRemoveAtrIndex } = require('../dbObjects.js')
+const { delMes, sendMes, getMes } = require('../utils/message')
 const { config } = require('../config')
 
 module.exports = {
 
     get(id){
-        dbGet(Text, id)
+        dbGet(T_TAB, id)
     },
 
     add(id, dt, title, desc, author, chap1, chap2, words, mes1, mes2, date, password, themes, questions){
@@ -24,22 +25,22 @@ module.exports = {
             themes: themes,
             questions: questions
         }
-        dbCreate(Text, text)
+        dbCreate(T_TAB, text)
     },
 
     exist(id){
-        dbExist(Text, id)
+        dbExist(T_TAB, id)
     },
 
     remove(id){
         const { removeTextUUID } = require('../utils/member')
-        const authorId = dbGet(Text, id, 'authorId')
+        const authorId = dbGet(T_TAB, id, 'authorId')
         removeTextUUID(authorId, id)
 
         this.removeMes1InChannel(id)
         this.removeMes2InChannel(id)
         
-        dbDestroy(Text, id)
+        dbDestroy(T_TAB, id)
     },
 
     countWords(str) {
@@ -50,111 +51,111 @@ module.exports = {
     },
 
     getDt(id){
-        return dbGetAtr(Text, id, 'dt')
+        return dbGetAtr(T_TAB, id, 'dt')
     },
 
     setDt(id, dt){
-        dbSetAtr(Text, id, 'dt', dt)
+        dbSetAtr(T_TAB, id, 'dt', dt)
     },
 
     getTitle(id){
-        dbGetAtr(Text, id, 'title')
+        dbGetAtr(T_TAB, id, 'title')
     },
 
     setTitle(id, title){
-        dbSetAtr(Text, id, 'title', title)
+        dbSetAtr(T_TAB, id, 'title', title)
     },
 
     getDesc(id){
-        dbGetAtr(Text, id, 'desc')
+        dbGetAtr(T_TAB, id, 'desc')
     },
 
     setDesc(id, desc){
-        dbSetAtr(Text, id, 'desc', desc)
+        dbSetAtr(T_TAB, id, 'desc', desc)
     },
 
     getAuthorId(id){
-        dbGetAtr(Text, id, 'author')
+        dbGetAtr(T_TAB, id, 'author')
     },
 
     setAuthorId(id, authorId){
-        dbGetAtr(Text, id, 'authorId', authorId)
+        dbGetAtr(T_TAB, id, 'authorId', authorId)
     },
 
     getChap1(id){
-        dbGetAtr(Text, id, 'chap1')
+        dbGetAtr(T_TAB, id, 'chap1')
     },
 
     setChap1(id, chap1){
-        dbSetAtr(Text, id, 'chap1', 'chap1')
+        dbSetAtr(T_TAB, id, 'chap1', 'chap1')
     },
 
     getChap2(id){
-        dbGetAtr(Text, id, 'chap2')
+        dbGetAtr(T_TAB, id, 'chap2')
     },
 
     setChap2(id, chap2){
-        dbSetAtr(Text, id, 'chap2', chap2)
+        dbSetAtr(T_TAB, id, 'chap2', chap2)
     },
 
     getWords(id){
-        dbGetAtr(Text, id, 'words')
+        dbGetAtr(T_TAB, id, 'words')
     },
 
     setWords(id, words){
-        dbSetAtr(Text, id, 'words', words)
+        dbSetAtr(T_TAB, id, 'words', words)
     },
 
     getMes1(id){
-        dbGetAtr(Text, id, 'mes1')
+        dbGetAtr(T_TAB, id, 'mes1')
     },
 
     setMes1(id, mes1){
-        dbSetAtr(Text, id, 'mes1', mes1)
+        dbSetAtr(T_TAB, id, 'mes1', mes1)
     },
 
     getMes2(id){
-        dbGetAtr(Text, id, 'mes2')
+        dbGetAtr(T_TAB, id, 'mes2')
     },
 
     setMes2(id, mes2){
-        dbSetAtr(Text, id, 'mes2', mes2)
+        dbSetAtr(T_TAB, id, 'mes2', mes2)
     },
 
     getDate(id){
-        dbGetAtr(Text, id, 'date')
+        dbGetAtr(T_TAB, id, 'date')
     },
 
     setDate(id, date){
-        dbSetAtr(Text, id, 'date', date)
+        dbSetAtr(T_TAB, id, 'date', date)
     },
     
     getPassword(id){
-        dbGetAtr(Text, id, 'password')
+        dbGetAtr(T_TAB, id, 'password')
     },
 
     setPassword(id, password){
-        dbSetAtr(Text, id, 'password', password)
+        dbSetAtr(T_TAB, id, 'password', password)
     },
 
     getThemes(id){
-        dbGetAtr(Text, id, 'themes')
+        dbGetAtr(T_TAB, id, 'themes')
     },
 
     setThemes(id, themes){
-        dbSetAtr(Text, id, 'themes', themes)
+        dbSetAtr(T_TAB, id, 'themes', themes)
     },
 
     getQuestions(id){
-        dbGetAtr(Text, id, 'questions')
+        dbGetAtr(T_TAB, id, 'questions')
     },
     
     addQuestion(id, questionIndex){
-        dbAddAtrIndex(Text, id, 'questions', questionIndex)
+        dbAddAtrIndex(T_TAB, id, 'questions', questionIndex)
     },
 
     removeQuestion(id, questionIndex){
-        dbRemoveAtrIndex(Text, id, 'questions', questionIndex)
+        dbRemoveAtrIndex(T_TAB, id, 'questions', questionIndex)
     },
 
     /*
@@ -186,47 +187,15 @@ module.exports = {
     },
 
     removeMes1InChannel(id){
-        const text_channel = config.channels.text
-        const mes1 = this.getMes1(id)
-
-        client.channels.fetch(text_channel)
-        .then(channel =>{
-
-            channel.messages.fetch(mes1)
-            .then(async m =>
-                await m.delete())  
-            .catch(console.error)
-
-        }).catch(console.error)
-
+        delMes(config.channels.text, this.getMes1(id))
     },
 
     removeMes2InChannel(id){
-        const safe = config.channels.safe
-        const mes2 = this.getMes1(id)
-
-        client.channels.fetch(safe)
-        .then(channel =>{
-
-            channel.messages.fetch(mes2)
-            .then(async m =>
-                await m.delete())  
-            .catch(console.error)
-
-        }).catch(console.error)
-
+        delMes(config.channels.safe, this.getMes2(id))
     },
 
     async sendMessage(message1){
-        const text_channel = config.channels.text
-        let id = 0
-        client.channels.fetch(text_channel)
-        .then(async channel => 
-            await channel.send(message1).then(sent => {
-                console.log(sent.id)
-                return sent.id
-              })
-        ).catch(console.error)
+        return sendMes(config.channels.text, message1)
 
     },
 
@@ -236,20 +205,14 @@ module.exports = {
     },
 
     sendFile(id, member){
-        const safe = config.channels.text
-        const textUtil = require('../utils/text')
-        const mes2 = textUtil.getMes2(id)
-
-        let file
-        client.channels.fetch(safe)
-        .then(channel => 
-            channel.messages.fetch(mes2)
-            .then(mes =>
-                file = mes.attachments.first())
-            .catch(console.error)
-        ).catch(console.error)
-
+        const mes = getMes(config.channels.text, this.getMes2(id))
+        const file = mes.attachments.first()
         member.send({content: id, attachments: [file]})
+        
+    }, 
+
+    sendPostBtton(){
+        
     }
 
 }

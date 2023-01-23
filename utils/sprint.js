@@ -1,26 +1,26 @@
-const { sprint: Sprint, dbGetAtr, dbSetAtr, dbIncrementAtr, dbAddAtr, dbRemoveAtr, dbCreate, dbExist } =  require('../dbObjects')
+const { dbGetAtr, dbSetAtr, dbIncrementAtr, dbAddAtr, dbRemoveAtr, dbCreate, dbExist } =  require('../dbObjects')
 const { editMes, getMes, newEmbed } =  require('../utils/message')
 const { config } = require('../config')
 
 module.exports = {
 
     exists(id){
-        return dbExist(id)
+        return dbExist(S_TAB, id)
     }, 
 
     addOne(id){
         const sprint = {
             id: id
         }
-        dbCreate(Sprint, sprint)    
+        dbCreate(S_TAB, sprint)    
     },
 
     getTime(id){
-        return dbGetAtr(Sprint, id, 'time')
+        return dbGetAtr(S_TAB, id, 'time')
     },
 
     setTime(id, time){
-        dbSetAtr(Sprint, id, 'time', time)
+        dbSetAtr(S_TAB, id, 'time', time)
     },
 
     isSprinting(id) {
@@ -35,27 +35,27 @@ module.exports = {
     },
 
     getMaxTime(id){
-        return dbGetAtr(Sprint, id, 'maxTime')
+        return dbGetAtr(S_TAB, id, 'maxTime')
     },
 
     setMaxTime(id, sec){
-        dbSetAtr(Sprint, id, 'maxTime', sec)
+        dbSetAtr(S_TAB, id, 'maxTime', sec)
     },
 
     getTime(id){
-        return dbGetAtr(Sprint, id, 'time')
+        return dbGetAtr(S_TAB, id, 'time')
     },
 
     setTime(id, sec){
-        dbSetAtr(Sprint, id, 'time', sec)
+        dbSetAtr(S_TAB, id, 'time', sec)
     },
 
     addTime(id, sec){
-        dbIncrementAtr(Sprint, id, 'time', sec)
+        dbIncrementAtr(S_TAB, id, 'time', sec)
     },
 
     getSprinters(id){
-        return dbGetAtr(Sprint, id, 'sprinters')
+        return dbGetAtr(S_TAB, id, 'sprinters')
     },
 
     getSprinter(id, sprinterId){
@@ -69,11 +69,11 @@ module.exports = {
     },
 
     addSprinter(id, sprinterId, words){
-        dbAddAtr(Sprint, id, 'sprinters', [sprinterId][words])
+        dbAddAtr(S_TAB, id, 'sprinters', [sprinterId][words])
     },
 
     removeSprinter(id, sprinterId){
-        dbRemoveAtr(Sprint, id, 'sprinters', [sprinterId][any])
+        dbRemoveAtr(S_TAB, id, 'sprinters', [sprinterId][any])
     },
 
     removeAllSprinters(id){
@@ -99,11 +99,11 @@ module.exports = {
     },
 
     getMessageId(id){
-        dbGetAtr(Sprint, id, 'messageId')
+        dbGetAtr(S_TAB, id, 'messageId')
     },
 
     setMessageId(id, mesId){
-        dbSetAtr(Sprint, id, 'messageId', mesId)
+        dbSetAtr(S_TAB, id, 'messageId', mesId)
     },
 
     isChannel(id){
@@ -138,7 +138,7 @@ module.exports = {
 
         description = ''
 
-        const sec = sprint.getTime(id)
+        const sec = this.getTime(id)
         const sprinters = this.getSprinters(id)
 
         sprinters.forEach(s => {
@@ -236,14 +236,15 @@ module.exports = {
     },
 
     GO(id){
+        const t = this
 
-        let GO = setInterval(function() {      
-            this.goMessageEdit(id)
-            this.timerProgress(id, -2)
+        let GOscope = setInterval(function() {      
+            t.goMessageEdit(id)
+            t.timerProgress(id, -2)
 
             if(sprint.isFishished(id)){
-                this.END(id)
-                clearInterval(GO)
+                t.END(id)
+                clearInterval(GOscope)
             }
 
         }, 2000)  

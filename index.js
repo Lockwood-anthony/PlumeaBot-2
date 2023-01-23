@@ -30,17 +30,27 @@ global.client = new Client({
 
 //DATABASE
 const Sequelize = require('sequelize')
-global.sequelize = new Sequelize(process.env.DATABASE_NAME, process.env.USER, process.env.DATABASE_PASSWORD, {
-	host: process.env.DATABASE_URL,
-	dialect: 'sqlite',
-	logging: false,
-	// SQLite only
-	storage: 'database.sqlite',
-})
+global.sequelize = new Sequelize(process.env.DB, process.env.DB_USER, process.env.DB_PASS, {
+	host: process.env.DB_HOST,
+	dialect: 'postgres',
+    logging: false,
+    port: process.env.DB_PORT,
+    dialectOptions: {
+        ssl: {
+            require: true,
+            rejectUnauthorized: false // <<<<<<< YOU NEED THIS
+        }
+      }
+    })
 
-const db = require('./dbObjects')
-db.Sync()
-db.autoSet()
+sequelize
+        .authenticate()
+        .then(async () => {
+            await console.log('Connection has been established successfully.')
+            await require('./dbObjects').setUp()
+
+        })
+
 
 //EventHandler
 const eventsPath = path.join(__dirname, 'events')
@@ -58,25 +68,10 @@ for (const file of eventFiles) {
 	}
 }
 
-console.log('Bibot is ready ! ;3')
-
 //start
 start()
 
 function start(){
     client.login(process.env.TOKEN)
-    
-    const sprint = require('./utils/sprint.js')
-
-    if (sprint.isSprinting(0)){
-        const time = sprint.getTime(0)
-
-        if(time < 0){
-            sprint.BEGIN(0)
-        }else{
-            sprint.GO(0)
-        }
-
-    }
 
 }

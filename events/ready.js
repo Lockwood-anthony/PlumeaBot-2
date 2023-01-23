@@ -1,11 +1,12 @@
 module.exports = {
 	name: 'ready',
 
-	execute(client) {
+	async execute(client) {
 		//CommandHandler
-		require('./deploy-commands')
+		require('../deploy-commands')
 		
-		console.log(`Scriptubot pret ! ${client.user.tag}`)
+		console.log(`Bibot is ready ! ;3 ${client.user.tag}`)
+
 	},
 
 }

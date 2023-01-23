@@ -1,7 +1,17 @@
-const { dbGetAtr, ParameterDate, dbSetAtr, ParameterId, dbExist } =  require('../dbObjects')
+const { dbGetAtr, dbSetAtr, ParameterId, dbExist, dbCreate } =  require('../dbObjects')
 const { sendMes } =  require('../utils/message')
 
 module.exports = {
+
+    createWeeklyResetTime(){
+        const date = new Date()
+        date.setDate(date.getDate() + 7)
+        dbCreate(PDATES_TAB, {
+            id: 'weeklyResetDate',
+            date: date
+        })
+
+    },
 
     isWeeklyResetTime(){
         today = new Date()
@@ -13,30 +23,42 @@ module.exports = {
     },
 
     getWeeklyResetDate(){
-        return dbGetAtr(ParameterDate, 'weeklyResetDate', 'date')
+        return dbGetAtr(PDATES_TAB, 'weeklyResetDate', 'date')
     },
 
     setWeeklyResetDate(){
         const date = new Date()
-        date.setDate(date.getDate() - date.getDay() + 7);
-        dbSetAtr(ParameterDate, 'weeklyResetDate', 'date', date)
+        date.setDate(date.getDate() + 7)
+        console.log(date)
+        dbSetAtr(PDATES_TAB, 'weeklyResetDate', 'date', date)
     }, 
 
     isWeeklyResetDate(){
-        return dbExist(ParameterDate, 'weeklyResetDate')
+        return dbExist(PDATES_TAB, 'weeklyResetDate')
+    },
+
+    createBumpDate(){
+        const date = new Date()
+        date.setHours(date.getHours + 2)
+        dbCreate(PDATES_TAB, {
+            id: 'bumpDate',
+            date: date
+        })
     },
 
     getBumpDate(){
-        return dbGetAtr(ParameterDate, 'bumpDate', 'date')
+        return dbGetAtr(PDATES_TAB, 'bumpDate', 'date')
     },
 
     setBumpDate(){
         const date = new Date()
-        dbSetAtr(ParameterDate, 'bumpDate', 'date', date)
+        date.setHours(date.getHours + 2)
+
+        dbSetAtr(PDATES_TAB, 'bumpDate', 'date', date)
     }, 
 
     isBumpDate(){
-        return dbExist(ParameterDate, 'bumpDate')
+        return dbExist(PDATES_TAB, 'bumpDate')
     },
 
     plumesRolesSet(member, plumes, inter) {

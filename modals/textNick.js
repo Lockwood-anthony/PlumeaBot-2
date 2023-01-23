@@ -1,4 +1,4 @@
-const { ModalBuilder, TextInputBuilder, TextInputStyle } = require('discord.js')
+const { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder } = require('discord.js')
 
 module.exports = {
     name: 'textNick',
@@ -23,7 +23,7 @@ module.exports = {
     get(){
         const modal = new ModalBuilder()
         .setCustomId(this.name)
-        .setTitle('Saisis ici ton pseudo, il sera le tient ici-bas jusqu~au restant de tes jours !')
+        .setTitle('Saisis ici ton pseudo !')
 
         const nick = new TextInputBuilder()
         .setCustomId('nick')

@@ -135,7 +135,7 @@ module.exports = {
             primaryKey: true,
             unique: true,
         },
-        paramId: DataTypes.DATE
+        date: DataTypes.DATE
     }),
 
     async setUp(){
@@ -166,16 +166,17 @@ module.exports = {
 
     },
 
-    autoSet(){
+    async autoSet(){
         const sprint = require ('./utils/sprint')
         if(!sprint.exists(0)){ sprint.addOne(0) } 
 
         const { isWeeklyResetDate, isBumpDate, createWeeklyResetTime, createBumpDate } =  require('./utils/somes')
-        if(!isWeeklyResetDate()){ createWeeklyResetTime() } 
-        if(!isBumpDate()){ createBumpDate() } 
+        if(! await isWeeklyResetDate()){ createWeeklyResetTime() } 
+        if(! await isBumpDate()){ createBumpDate() } 
 
     },
 
+    /*
     logEdit(edit){
         const messageUtil = require('./utils/message')
         const messageEmbed = messageUtil.newEmbed()
@@ -189,15 +190,14 @@ module.exports = {
 		.then(channel => channel.send({embeds:[messageEmbed]}))
 		.catch(console.error)
     },
+    */
 
     async dbCreate(db, what){
-        const edit = await db.create(what)
-        await this.logEdit(edit)
+        await db.create(what)
     },
 
     async dbDestroy(db, id){
-        const edit = await db.destroy({ where: { id: id } })
-        this.logEdit(edit)
+        await db.destroy({ where: { id: id } })
     },
 
     async dbExist(db, id){
@@ -222,28 +222,24 @@ module.exports = {
     },
 
     async dbSetAtr(db, id, atr, val){
-        const edit = await db.update({ [atr]: val}, { where: { id: id } })
-        await this.logEdit(edit)
+        await db.update({ [atr]: val}, { where: { id: id } })
     },
 
     async dbSetAtrToAll(db, atr, val){
-        const edit = await db.update({ [atr]: val} )
-        this.logEdit(edit)
+        await db.update({ [atr]: val} )
     },
 
     async dbAddAtr(db, id, atr, val){
         const append = {[atr]: DataTypes.fn('array_append', DataTypes.col(atr), val)}
 
-        const edit = await db.update( append, { 'where': { id: id } })
-        this.logEdit(edit)
+        db.update( append, { 'where': { id: id } })
     },
 
     async dbRemoveAtr(db, id, atr, val){
         const append = {}
         append[atr] = DataTypes.fn('array_remove', DataTypes.col(atr), val)
 
-        const edit = await db.update( append, { 'where': { id: id } })
-        this.logEdit(edit)
+        await db.update( append, { 'where': { id: id } })
     },
 
     async dbRemoveAtrIndex(db, id, atr, index){
@@ -253,8 +249,7 @@ module.exports = {
     },
 
     async dbIncrementAtr(db, id, atr, i){
-        const edit = await db.increment(atr, { by: i, where: { id: id }})
-        this.logEdit(edit)
+        await db.increment(atr, { by: i, where: { id: id }})
     }
 
 }

@@ -1,5 +1,4 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js')
-const { cmdSuccess } =  require('../utils/message')
 const { config } = require('../config')
 
 module.exports = {
@@ -17,10 +16,11 @@ module.exports = {
 
     },
 
-	async execute(inter) {
+	execute(inter) {
         const n = inter.options.getInteger('giga_chad_power_intensity')
         
-        await cmdSuccess(inter, { content: 'GIGA CHAD!!!', ephemeral: true })
+        require('../utils/message')
+        .cmdSuccess(inter, { content: 'GIGA CHAD!!!', ephemeral: true })
 
         const chad = config.messageReplies.CHAD
 

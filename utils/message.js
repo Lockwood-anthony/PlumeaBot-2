@@ -44,8 +44,8 @@ module.exports = {
 
         client.channels.fetch(cId)
 
-        .then(channel => 
-            message = channel.send(mes)
+        .then(async channel => 
+            message = await channel.send(mes)
 
             .then(m => {
                 return m.id
@@ -62,8 +62,8 @@ module.exports = {
         .then(channel => 
             channel.messages.fetch(mesId)
             
-            .then(mes => {
-                mes.delete()
+            .then(async mes => {
+                await mes.delete()
 
             })
 
@@ -110,6 +110,7 @@ module.exports = {
     },
 
     cmdError(inter, error){
+        if(!error) error = 'Une erreur est survenue, veuillez appeler mon popa AstrantV#1053'
         inter.reply(error)
 
         const embed = this.newEmbed()

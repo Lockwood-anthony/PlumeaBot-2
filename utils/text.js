@@ -211,8 +211,25 @@ module.exports = {
         
     }, 
 
-    sendPostBtton(){
-        
+    sendPostButton(){
+        const mes = (config.channels.text, {content: '```o\no\no\no```', components: [ require('../buttons/textPost').get() ]})
+
+        if(dbExist(PIDS_TAB, 'textPostMessage')){
+            const id = sendMes(mes)
+            dbSetAtr(PIDS_TAB, 'textPostMessage', 'paramId', id)
+
+        }else{
+            const postMesId = dbGetAtr(PIDS_TAB, 'textPostMessage', 'paramId')
+            delMes(config.channels.text, postMesId)
+
+            const id = sendMes(mes)
+            dbCreate(PIDS_TAB, {
+                id: 'textPostMessage',
+                paramId: id
+            })
+
+        }
+
     }
 
 }

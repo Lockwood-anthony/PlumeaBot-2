@@ -1,23 +1,19 @@
 const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js')
 
 module.exports = {
-    name: 'textGet',
+    name: 'textPost',
     async execute(inter){
-        const textId = inter.customId.split('/')[1]
-        const member = inter.member
-
-        const tUtils = require('../utils/text')
-        tUtils.sendFile(textId, member)
-
+        
     },
 
     get(textId){
         const button = new ActionRowBuilder()
         .addComponents(
             new ButtonBuilder()
-                .setCustomId(this.name+'/'+textId)
-                .setLabel('Prend moi')
+                .setCustomId(this.name)
+                .setLabel('Fait /post dans ce channel')
                 .setStyle(ButtonStyle.Success)
+                .setURL('https://discord.com/channels/1027089727360344144/1060675312955961384/1064623854984646696')
         )
 
         return button

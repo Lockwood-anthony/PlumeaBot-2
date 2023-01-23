@@ -1,5 +1,4 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js')
-const { cmdSuccess } =  require('../utils/message')
 
 module.exports = {
 	data(){
@@ -24,7 +23,7 @@ module.exports = {
         await channel.messages.fetch({limit: n})
         .then(messages => channel.bulkDelete(messages))
 		
-        await cmdSuccess(inter)
+        require('../utils/message').cmdSuccess(inter)
         
 	}
     

@@ -1,6 +1,5 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js')
-const { cmdSuccess, cmdError } =  require('../utils/message')
-
+const mes = require('../utils/message')
 const path = require('node:path')
 const fs = require('node:fs')
 
@@ -57,11 +56,10 @@ module.exports = {
         }
         try{
             inter.channel.send({components: [button.get()]})
-        
-            cmdSuccess(inter)
+            mes.cmdSuccess(inter)
 
         }catch(Error){
-            cmdError(inter, 'Impossible de créer ce bouton manuellement')
+            mes.cmdError(inter, 'Impossible de créer ce bouton manuellement')
 
         }
 

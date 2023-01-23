@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js')
-const { cmdSuccess, cmdError } =  require('../utils/message')
+const mes =  require('../utils/message')
 
 module.exports = {
 	data(){
@@ -27,10 +27,10 @@ module.exports = {
 
         if(member != owner){
             member.setNickname(nick)
-            await cmdSuccess(inter)
+            await mes.cmdSuccess(inter)
 
         }else{
-            await cmdError(inter, 'On ne peut changer le pseudo du owner')
+            await mes.cmdError(inter, 'On ne peut changer le pseudo du owner')
 
         }
 

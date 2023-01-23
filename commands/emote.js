@@ -1,5 +1,4 @@
 const { SlashCommandBuilder } = require('discord.js')
-const { cmdSuccess } =  require('../utils/message')
 const { config } = require('../config')
 
 module.exports = {
@@ -11,9 +10,8 @@ module.exports = {
 	return data
 	},
 
-	async execute(inter) {
-		await cmdSuccess(inter, config.emotes.plume)
-        await inter.reply(config.emotes.plume)
+	execute(inter) {
+		require('../utils/message').cmdSuccess(inter, config.emotes.plume)
 
 	}
 

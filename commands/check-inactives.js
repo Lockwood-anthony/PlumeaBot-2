@@ -1,5 +1,4 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js')
-const { cmdSuccess } =  require('../utils/message')
 
 module.exports = {
 	data(){
@@ -11,7 +10,7 @@ module.exports = {
         return data
     },
 
-    async execute(inter) {
+    execute(inter) {
         let message = '\n'
 
         const today = new Date()
@@ -36,9 +35,11 @@ module.exports = {
                     .setDescription(message)
 
                     if(messageNumber == 1){
-                        await cmdSuccess(inter, { embeds: [messageEmbed]})
+                        require('../utils/message')
+                        .cmdSuccess(inter, { embeds: [messageEmbed]})
+
                     }else{
-                        await inter.channel.send({ embeds: [messageEmbed]})
+                        inter.channel.send({ embeds: [messageEmbed]})
                     }
 
                     messageNumber++

@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js')
-const { cmdSuccess, cmdError } =  require('../utils/message')
+const mes =  require('../utils/message')
 const { config } = require('../config')
 const { getPlumes, addPlumes } = require('../utils/member')
 
@@ -44,7 +44,7 @@ module.exports = {
                 p = Math.floor(text.words(dt)/1000)
 
             }else{
-                cmdError(inter, '**Ce dt n~existe point owo**')
+                mes.cmdError(inter, '**Ce dt n~existe point owo**')
                 return
 
             }
@@ -64,7 +64,7 @@ module.exports = {
         require('../utils/leaderboard.js')
         .edit()
 
-        cmdSuccess(inter, message)
+        mes.cmdSuccess(inter, message)
                 
     }
 

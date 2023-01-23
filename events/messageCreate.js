@@ -1,6 +1,5 @@
 const { config } = require('../config')
 const { getBumpDate, setBumpDate } = require('../utils/somes')
-const m = require('../utils/member')
 
 module.exports = {
 	name: 'messageCreate',
@@ -30,35 +29,8 @@ module.exports = {
             switch(channelId){
 
                 case config.channels.text:
-                    const attach = message.attachments
-
-                    if(!m.getPlumes(id) <= 0){
-
-                        if(attach){
-                            m.addFileInPosting(id, attach.first())
-                            message.delete()
-
-                            if(m.hasNick(id)){
-                                const modal = require('../modals/textTitle').get()
-                                message.showModal(modal)
-    
-                            }else{
-                                const modal = require('../modals/textNick').get()
-                                message.showModal(modal) 
-    
-                            }
-                            
-                        }else{
-                            message.delete()
-                            author.send('Ton message ne contient pas le fichier de ton texte !')
-
-                        }
-
-                    }else{
-                        message.delete()
-                        author.send('Avant de poster un texte, donne au moins un avis et attend de recevoir une plume ;)')
-
-                    }
+                    message.delte()
+                    author.send('Utilise la commande /post pour partager ton texte owo')
 
                 break
 

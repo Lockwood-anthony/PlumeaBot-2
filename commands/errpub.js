@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js')
-const { cmdSuccess, cmdError } =  require('../utils/message')
+const mes =  require('../utils/message')
 
 module.exports = {
 	ERROR: [
@@ -48,7 +48,7 @@ module.exports = {
 			
 	},
 
-	async execute(inter) {
+	execute(inter) {
 		var target = inter.options.getUser('target')
 		var id0 = inter.options.getString('id0')
 		var ids = [id0]
@@ -73,12 +73,12 @@ module.exports = {
 
 		message += '```Toutes nos consignes sont disponibles dans les messages épinglés du salon réservé aux posts :D'
 
-		target.send(message).catch(async error => {
-			await cmdError(inter, 'Cet utilisateur ne souhaite hélas pas recevoir mes messages ;-;')
+		target.send(message).catch(error => {
+			mes.cmdError(inter, 'Cet utilisateur ne souhaite hélas pas recevoir mes messages ;-;')
 			return
 		})
 
-		await cmdSuccess(inter)
+		mes.cmdSuccess(inter)
 
 	}
 

@@ -128,7 +128,10 @@ module.exports = {
         let embed = message.newEmbed()
         .setTitle(('Le sprint commence dans   ' + sec.toString() + ' secondes   :D'))
 
-        editMes(sprintChannel, mesId, { content: '', embeds: [embed], components: [ this.roleButton(),  this.joinButton()] })
+        const rButton = require('../buttons/sprintRole').get()
+        const jButton = require('../buttons/sprintJoin').get()
+
+        editMes(sprintChannel, mesId, { content: '', embeds: [embed], components: [ rButton, jButton] })
 
     },
     
@@ -149,7 +152,8 @@ module.exports = {
         .setTitle(('__SPRINT !__       ' + sec.toString() + ' ' + sec.toString() + ' ' + sec.toString() + ' '))
         .setDescription(description)
 
-        editMes(sprintChannel, mesId, { embeds:[embed],components: [this.roleButton(),  this.joinButton()] })
+
+        editMes(sprintChannel, mesId, { embeds: [embed] })
 
     },
 
@@ -171,7 +175,7 @@ module.exports = {
         embed = message.newEmbed()
         .setTitle(('LE SPRINT EST TERMINE ! :3'))
 
-        editMes(channel, mesId, { embeds:[embed],components: [ this.finalButton()] })
+        editMes(channel, mesId, { embeds:[embed], components: [ require('../buttons/sprintFinal').get() ] })
 
     },
 

@@ -163,7 +163,8 @@ module.exports = {
                         const id2 = sendOne('safe', { content: dt+'\n'+uuid, files: [file] })
         
                         tUtils.add(uuid, dt, title, desc, chap1, chap2, words, id1, id2, today, password, themes, questions)
-        
+                        tUtils.sendPostButton()
+
                         mUtils.addWeeklyWords(user.id,words)
                         mUtils.addText(id, uuid)
                         mUtils.removeFileInPosting(id)

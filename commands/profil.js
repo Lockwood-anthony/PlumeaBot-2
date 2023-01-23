@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js')
-const { cmdSuccess, newEmbed } =  require('../utils/message')
+const mes =  require('../utils/message')
 const { getOne } = require('../utils/member')
 
 module.exports = {
@@ -16,7 +16,7 @@ module.exports = {
 
 	},
 
-	async execute(inter) {
+	execute(inter) {
 		const user = inter.options.getUser('user')
 		const id = user.id
 
@@ -38,8 +38,8 @@ module.exports = {
 
 		}
 
-        newEmbed().setDescription(message)
-		await cmdSuccess(inter, { embeds: [messageEmbed]})
+        mes.newEmbed().setDescription(message)
+		mes.cmdSuccess(inter, { embeds: [messageEmbed]})
 
 	}
 

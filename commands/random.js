@@ -1,5 +1,4 @@
 const { SlashCommandBuilder } = require('discord.js')
-const { cmdSuccess } =  require('../utils/message')
 
 module.exports = {
 	data(){
@@ -17,11 +16,12 @@ module.exports = {
 
     },
 
-	async execute(inter) {
+	execute(inter) {
         let n = inter.options.getInteger('faces')
         const r = Math.floor(Math.random() * (n + 1))
 
-        await cmdSuccess(inter, `Tu avais une chance sur ${n}, et c~est un: ||     ${r}     || !\n**^^**`)
+        require('../utils/message').
+        cmdSuccess(inter, `Tu avais une chance sur ${n}, et c~est un: ||     ${r}     || !\n**^^**`)
 
 	}
 

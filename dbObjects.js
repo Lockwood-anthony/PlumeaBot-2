@@ -30,10 +30,6 @@ module.exports = {
         weeklyWords: {
             type: DataTypes.INTEGER,
             defaultValue: 0,
-        },
-        textsUUIDs: {
-            type: DataTypes.ARRAY(DataTypes.ARRAY(DataTypes.UUID, DataTypes.STRING(6))),
-            defaultValue: [[]]
         }
 
     }),
@@ -222,6 +218,8 @@ module.exports = {
     },
 
     async dbSetAtr(db, id, atr, val){
+        console.log('c')
+
         await db.update({ [atr]: val}, { where: { id: id } })
     },
 

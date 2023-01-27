@@ -1,25 +1,25 @@
-const { FileInPosting, dbAddAtr, dbCreate, dbDestroy, dbExist, dbGetAtr, dbRemoveAtr, dbSetAtr, dbIncrementAtr, dbSetAtrToAll, dbGetAll } = require('../dbObjects.js')
+const db = require('../dbObjects.js')
 const { sendMes, delMes } = require('../utils/message')
+const { config } = require('../config')
 
 module.exports = {
 
     getMember(id){
-        dbGet(M_TAB, id)
+        db.dbGet(M_TAB, id)
     },
 
     addMember(id){
-        const member = {
+        db.dbCreate(M_TAB, {
             id: id
-        }
-        dbCreate(M_TAB, member)
+        })
     },
 
     removeMember(id){
-        dbDestroy(M_TAB, id)
+        db.dbDestroy(M_TAB, id)
     },
 
     exists(id){
-        return dbExist(M_TAB, id)
+        return db.dbExist(M_TAB, id)
     },
 
     getAllNoPlumes(){
@@ -32,11 +32,11 @@ module.exports = {
     },
 
     getNick(id){
-        return dbGetAtr(M_TAB, id, 'nick')
+        return db.dbGetAtr(M_TAB, id, 'nick')
     },
 
     setNick(id, nick){
-        dbSetAtr(M_TAB, id, 'nick', nick)
+        db.dbSetAtr(M_TAB, id, 'nick', nick)
     },
 
     hasNick(id){
@@ -44,39 +44,39 @@ module.exports = {
     },
 
     getPlumes(id){
-        return dbGetAtr(M_TAB, id, 'plumes')
+        return db.dbGetAtr(M_TAB, id, 'plumes')
     },
 
     addPlumes(id, plumes){
-        dbIncrementAtr(M_TAB, id, 'plumes', plumes)
+        db.dbIncrementAtr(M_TAB, id, 'plumes', plumes)
     },
 
     removePlumes(id, plumes){
-        dbIncrementAtr(M_TAB, id, 'plumes', -plumes)
+        db.dbIncrementAtr(M_TAB, id, 'plumes', -plumes)
     },
 
     getCoins(id){
-        return dbGetAtr(M_TAB, id, 'coins')
+        return db.dbGetAtr(M_TAB, id, 'coins')
     },
 
     addCoins(id, coins){
-        dbIncrementAtr(M_TAB, id, 'coins', coins)
+        db.dbIncrementAtr(M_TAB, id, 'coins', coins)
     },
 
     removeCoins(id, coins){
-        dbIncrementAtr(M_TAB, id, 'coins', -coins)
+        db.dbIncrementAtr(M_TAB, id, 'coins', -coins)
     },
 
     getWeeklyWords(id){
-        dbGetAtr(M_TAB, id, 'weeklyWords')
+        db.dbGetAtr(M_TAB, id, 'weeklyWords')
     },
 
     addWeeklyWords(id, weeklyWords){
-        dbIncrementAtr(M_TAB, id, 'weeklyWords', weeklyWords)
+        db.dbIncrementAtr(M_TAB, id, 'weeklyWords', weeklyWords)
     },
 
     removeWeeklyWords(id, weeklyWords){
-        dbIncrementAtr(M_TAB, id, 'weeklyWords', -weeklyWords)
+        db.dbIncrementAtr(M_TAB, id, 'weeklyWords', -weeklyWords)
     },
 
     toMuchWeeklyWords(id, words){
@@ -91,50 +91,49 @@ module.exports = {
     },
 
     resetAllWeeklyWords(){
-        dbSetAtrToAll(M_TAB, 'weeklyWords', 0)
+        db.dbSetAtrToAll(M_TAB, 'weeklyWords', 0)
     },
 
     getFileInPostingId(id){
-        return dbGetAtr(FileInPosting, id, 'fileId')
+        return db.dbGetAtr(F_TAB, id, 'fileId')
     },
 
     getFileInPostingDt(id){
-        return dbGetAtr(FileInPosting, id, 'dt')
+        return db.dbGetAtr(F_TAB, id, 'dt')
     },
 
     addFileInPosting(id, file){
-        const fileInPostingId = sendMes('safe', {content: 'Texte en cours de post', attachments: [file]})
-
+        const fileInPostingId = sendMes(config.channels.safe, {content: 'Texte en cours de post', attachments: [file]})
         const fileInPosting = {
             id: id,
             fileId: fileInPostingId
         }
-        dbCreate(FileInPosting, fileInPosting)
+
     },
 
     setFileInPostingDt(id, dt){
-        dbSetAtr(FileInPosting, id, 'dt', dt)
+        db.dbSetAtr(F_TAB, id, 'dt', dt)
     },
 
     removeFileInPosting(id){
         const fileId = this.getFileInPosting(id)
 
-        delMes('safe', fileId)
+        delMes(config.channels.safe, fileId)
 
-        dbDestroy(FileInPosting, id)
+        db.dbDestroy(F_TAB, id)
     },
 
     getTextsUUIDs(id){
-        return dbGetAtr(M_TAB, id, 'textUUIDs')
+        return db.dbGetAtr(M_TAB, id, 'textUUIDs')
     },
 
     addTextUUID(id, UUID, dt){
-        dbAddAtr(M_TAB, id, 'textUUIDs', [UUID, dt])
+        db.dbAddAtr(M_TAB, id, 'textUUIDs', [UUID, dt])
     },
 
     removeTextUUID(id, UUID){        
         const dt = require('../utils/text').getDt(UUID)
-        dbRemoveAtr(M_TAB, id, 'textUUIDs', [UUID, dt])
+        db.dbRemoveAtr(M_TAB, id, 'textUUIDs', [UUID, dt])
     },
 
     removeAllTexts(id){
@@ -150,7 +149,7 @@ module.exports = {
     },
 
     getAllIdsPlumes(){
-        return dbGetAll(M_TAB, ['id', 'plumes'])
+        return db.dbGetAll(M_TAB, ['id', 'plumes'])
     }
 
 }

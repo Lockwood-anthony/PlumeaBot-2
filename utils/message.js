@@ -44,8 +44,8 @@ module.exports = {
 
         client.channels.fetch(cId)
 
-        .then(async channel => 
-            message = await channel.send(mes)
+        .then(channel => 
+            channel.send(mes)
 
             .then(m => {
                 return m.id
@@ -102,8 +102,8 @@ module.exports = {
         inter.reply(mes)
 
         const embed = this.newEmbed()
-        .setTitle(`${inter.commandName} | <@${inter.member.user.id}>`)
-        .setDescription('success')
+        .setTitle(inter.commandName)
+        .setDescription(`success | ${inter.member.user}`)
 
         this.sendMes(config.channels.logs, { embeds: [embed] })
 

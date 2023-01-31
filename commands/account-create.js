@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js')
 const m =  require('../utils/member')
+const mes = require('../utils/message')
 
 module.exports = {
 	data(){
@@ -15,12 +16,16 @@ module.exports = {
         return data
     }, 
 
-	execute(inter) {
+	async execute(inter) {
         const user = inter.options.getUser('user')
 
-        m.addMember(user.id)
+        if(! await m.exists(user.id)){
+            m.addMember(user.id)
+            mes.interSuccess(inter)
 
-        require('../utils/message').cmdSuccess(inter)
+        }else{
+            mes.interError(inter, "Cet utilisateur existe déjà !")
+        }
 
 	}
 

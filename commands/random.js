@@ -21,7 +21,7 @@ module.exports = {
         const r = Math.floor(Math.random() * (n + 1))
 
         require('../utils/message').
-        cmdSuccess(inter, `Tu avais une chance sur ${n}, et c~est un: ||     ${r}     || !\n**^^**`)
+        interSuccess(inter, `Tu avais une chance sur ${n}, et c~est un: ||     ${r}     || !\n**^^**`)
 
 	}
 

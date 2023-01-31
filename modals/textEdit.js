@@ -1,7 +1,7 @@
 const { ModalBuilder, TextInputBuilder, TextInputStyle, StringSelectMenuBuilder, ActionRowBuilder } = require('discord.js')
 
 module.exports = {
-    name: 'textModal',
+    name: 'textEdit',
     execute(inter){
         const { getOne, sendOne } = require('../utils/message')
         const mUtils = require('../utils/member.js')
@@ -125,7 +125,7 @@ module.exports = {
     
                     let id2
                     if(dt != getDt(uuid)){
-                        deleteOne('safe', tUtils.getMes2(uuid))
+                        deleteOne('safe', tUtils.getMes2Id(uuid))
                         id2 = sendOne('safe', { content: dt+'\n'+uuid, files: [file] })
                     }
     
@@ -157,7 +157,7 @@ module.exports = {
     },
 
     get(id, admin){
-        const { getTitle, getChap1, getChap2, getDesc, getPassword, getThemes, getQuestions, getDt, getWords, getDt } = require('../utils/text')
+        const { getTitle, getChap1, getChap2, getDesc, getPassword, getThemes, getQuestions, getWords, getDt } = require('../utils/text')
         const modal = new ModalBuilder()
         .setCustomId(this.name)
         .setTitle('Formulaire d~edit du texte :')

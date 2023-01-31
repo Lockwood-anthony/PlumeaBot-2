@@ -27,10 +27,10 @@ module.exports = {
 
         if(member != owner){
             member.setNickname(nick)
-            await mes.cmdSuccess(inter)
+            await mes.interSuccess(inter)
 
         }else{
-            await mes.cmdError(inter, 'On ne peut changer le pseudo du owner')
+            await mes.interError(inter, 'On ne peut changer le pseudo du owner')
 
         }
 

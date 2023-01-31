@@ -39,7 +39,7 @@ module.exports = {
 		}
 
         mes.newEmbed().setDescription(message)
-		mes.cmdSuccess(inter, { embeds: [messageEmbed]})
+		mes.interSuccess(inter, { embeds: [messageEmbed]})
 
 	}
 

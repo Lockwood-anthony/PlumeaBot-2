@@ -28,7 +28,7 @@ module.exports = {
         return data
     },  
         
-    execute(inter) {
+    async execute(inter) {
         const member = inter.options.getMember('user')
         const dt = inter.options.getString('dt')
         const id = member.id
@@ -44,17 +44,17 @@ module.exports = {
                 p = Math.floor(text.words(dt)/1000)
 
             }else{
-                mes.cmdError(inter, '**Ce dt n~existe point owo**')
+                mes.interError(inter, '**Ce dt n~existe point owo**')
                 return
 
             }
 
         }
 
-        addPlumes(id, p)
-        const plumes = getPlumes(id)
+        await addPlumes(id, p)
+        const plumes = await getPlumes(id)
 
-        message = `**<@'${id}> possède maintenant *${plumes}* ${config.emotes.plume}**\n`
+        message = `**${member} possède maintenant *${plumes}* ${config.emotes.plume}**\n`
         message += `${p} plumes\n`
         message += `${dt}\n`
 
@@ -64,7 +64,7 @@ module.exports = {
         require('../utils/leaderboard.js')
         .edit()
 
-        mes.cmdSuccess(inter, message)
+        mes.interSuccess(inter, { content: message })
                 
     }
 

@@ -1,25 +1,28 @@
 const db = require('../dbObjects.js')
-const { sendMes, delMes } = require('../utils/message')
+const mes = require('../utils/message')
 const { config } = require('../config')
 
 module.exports = {
 
     getMember(id){
-        db.dbGet(M_TAB, id)
+        db.tabGet(M_TAB, id)
     },
 
     addMember(id){
-        db.dbCreate(M_TAB, {
-            id: id
+        const date = new Date()
+
+        db.tabCreate(M_TAB, {
+            id: id,
+            joinDate: date
         })
     },
 
     removeMember(id){
-        db.dbDestroy(M_TAB, id)
+        db.tabDestroy(M_TAB, id)
     },
 
     exists(id){
-        return db.dbExist(M_TAB, id)
+        return db.tabExist(M_TAB, id)
     },
 
     getAllNoPlumes(){
@@ -32,51 +35,52 @@ module.exports = {
     },
 
     getNick(id){
-        return db.dbGetAtr(M_TAB, id, 'nick')
+        return db.tabGetAtr(M_TAB, id, 'nick')
     },
 
     setNick(id, nick){
-        db.dbSetAtr(M_TAB, id, 'nick', nick)
+        db.tabSetAtr(M_TAB, id, 'nick', nick)
     },
 
-    hasNick(id){
-        return this.getNick(id).length == 4
+    async hasNick(id){
+        const nick = await this.getNick(id)
+        return await nick.length == 4
     },
 
     getPlumes(id){
-        return db.dbGetAtr(M_TAB, id, 'plumes')
+        return db.tabGetAtr(M_TAB, id, 'plumes')
     },
 
     addPlumes(id, plumes){
-        db.dbIncrementAtr(M_TAB, id, 'plumes', plumes)
+        db.tabIncrementAtr(M_TAB, id, 'plumes', plumes)
     },
 
     removePlumes(id, plumes){
-        db.dbIncrementAtr(M_TAB, id, 'plumes', -plumes)
+        db.tabIncrementAtr(M_TAB, id, 'plumes', -plumes)
     },
 
     getCoins(id){
-        return db.dbGetAtr(M_TAB, id, 'coins')
+        return db.tabGetAtr(M_TAB, id, 'coins')
     },
 
     addCoins(id, coins){
-        db.dbIncrementAtr(M_TAB, id, 'coins', coins)
+        db.tabIncrementAtr(M_TAB, id, 'coins', coins)
     },
 
     removeCoins(id, coins){
-        db.dbIncrementAtr(M_TAB, id, 'coins', -coins)
+        db.tabIncrementAtr(M_TAB, id, 'coins', -coins)
     },
 
     getWeeklyWords(id){
-        db.dbGetAtr(M_TAB, id, 'weeklyWords')
+        db.tabGetAtr(M_TAB, id, 'weeklyWords')
     },
 
     addWeeklyWords(id, weeklyWords){
-        db.dbIncrementAtr(M_TAB, id, 'weeklyWords', weeklyWords)
+        db.tabIncrementAtr(M_TAB, id, 'weeklyWords', weeklyWords)
     },
 
     removeWeeklyWords(id, weeklyWords){
-        db.dbIncrementAtr(M_TAB, id, 'weeklyWords', -weeklyWords)
+        db.tabIncrementAtr(M_TAB, id, 'weeklyWords', -weeklyWords)
     },
 
     toMuchWeeklyWords(id, words){
@@ -91,65 +95,62 @@ module.exports = {
     },
 
     resetAllWeeklyWords(){
-        db.dbSetAtrToAll(M_TAB, 'weeklyWords', 0)
+        db.tabSetAtrToAll(M_TAB, 'weeklyWords', 0)
     },
 
-    getFileInPostingId(id){
-        return db.dbGetAtr(F_TAB, id, 'fileId')
+    async isFileInPosting(id){
+        return await this.getFileInPostingMesId(id) !== 0
+    },
+
+    async deleteFileInPostingMessage(id){
+        await mes.delMes(config.channels.safe, await this.getFileInPostingMesId(id))
     },
 
     getFileInPostingDt(id){
-        return db.dbGetAtr(F_TAB, id, 'dt')
+        return db.tabGetAtr(M_TAB, id, 'fileInPostingDt')
     },
 
-    addFileInPosting(id, file){
-        const fileInPostingId = sendMes(config.channels.safe, {content: 'Texte en cours de post', attachments: [file]})
-        const fileInPosting = {
-            id: id,
-            fileId: fileInPostingId
-        }
+    setFileInPostingDt(id, fileInPostingDt){
+        db.tabSetAtr(M_TAB, id, 'fileInPostingMesId', fileInPostingDt)
+    },
+
+    setFileInPostingMesId(id, fileInPostingMesId){
+        db.tabSetAtr(M_TAB, id, 'fileInPostingMesId', fileInPostingMesId)
+    },
+
+    getFileInPostingMesId(id){
+        return db.tabGetAtr(M_TAB, id, 'fileInPostingMesId')
+    },
+
+    async addFileInPosting(user, file){
+        const embed = mes.newEmbed()
+            .setTitle("Texte en /post")
+            .setDescription(`par ${user}`)
+
+        const fileInPostingMes = await mes.sendMes(config.channels.safe, {embeds: [embed], files: [file]})
+        this.setFileInPostingMesId(user.id, fileInPostingMes.id)
 
     },
 
-    setFileInPostingDt(id, dt){
-        db.dbSetAtr(F_TAB, id, 'dt', dt)
-    },
-
-    removeFileInPosting(id){
-        const fileId = this.getFileInPosting(id)
-
-        delMes(config.channels.safe, fileId)
-
-        db.dbDestroy(F_TAB, id)
-    },
-
-    getTextsUUIDs(id){
-        return db.dbGetAtr(M_TAB, id, 'textUUIDs')
+    async getTextsUUIDs(id){
+        return await db.tabGetAtr(M_TAB, id, 'textsUUIDs')
     },
 
     addTextUUID(id, UUID, dt){
-        db.dbAddAtr(M_TAB, id, 'textUUIDs', [UUID, dt])
+        db.tabAddAtr(M_TAB, id, 'textsUUIDs', [UUID, dt])
     },
 
     removeTextUUID(id, UUID){        
         const dt = require('../utils/text').getDt(UUID)
-        db.dbRemoveAtr(M_TAB, id, 'textUUIDs', [UUID, dt])
+        db.tabRemoveAtr(M_TAB, id, 'textsUUIDs', [UUID, dt])
     },
 
-    removeAllTexts(id){
-        const texts = this.getTextsUUIDs(id)
-        const textUtils = require('../utils/text')
-
-        texts.array.forEach(t => {
-            textUtils.removeMes1InChannel(t)
-            textUtils.removeMes2InChannel(t)
-            textUtils.remove(t)
-        })
-
+    async removeAllTextsUUIDs(id){
+        await db.tabSetAtr(M_TAB, id, "textsUUIDs", [])
     },
 
     getAllIdsPlumes(){
-        return db.dbGetAll(M_TAB, ['id', 'plumes'])
+        return db.tabGetMultipleAtr(M_TAB, null, ['id', 'plumes'])
     }
 
 }

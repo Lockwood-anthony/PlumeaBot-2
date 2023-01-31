@@ -2,7 +2,7 @@ module.exports = {
     config: 
     {
         'messages': {
-            'leaderboard': '1030404879585398794',
+            'leaderboard': '1069290621552033863',
         },
 
         'channels': {
@@ -18,7 +18,6 @@ module.exports = {
             'cya': '1066783579926966278',
             'delete':'1066783580191195326',
             'logs': '1066783580371554463',
-            'nologs': ['💾scriptu-logs','👀panoptique-del'],
             'safe': '1066783580371554462'
         },
 

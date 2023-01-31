@@ -20,7 +20,7 @@ module.exports = {
         const n = inter.options.getInteger('giga_chad_power_intensity')
         
         require('../utils/message')
-        .cmdSuccess(inter, { content: 'GIGA CHAD!!!', ephemeral: true })
+        .interSuccess(inter, 'GIGA CHAD!!!')
 
         const chad = config.messageReplies.CHAD
 

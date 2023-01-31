@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js')
-const { cmdSuccess } =  require('../utils/message')
+const { interSuccess } =  require('../utils/message')
 
 module.exports = {
 	data(){
@@ -14,7 +14,7 @@ module.exports = {
     execute(inter) {
         const general = inter.channel.id
 
-        cmdSuccess(inter)
+        interSuccess(inter)
 
         const messages = ['https://tenor.com/view/perfect-10-score-gif-7911501',
         'https://tenor.com/view/wow-omg-surprised-scared-kid-gif-15526979',

@@ -2,7 +2,7 @@ const { doesNotMatch } = require('assert')
 const { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder } = require('discord.js')
 
 module.exports = {
-    name: 'textNick',
+    name: 'textDelete',
     async execute(inter){
         const tUtils = require('../utils/text')
         const uuid = inter.customID.split('/')[1]

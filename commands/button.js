@@ -39,14 +39,15 @@ module.exports = {
         return data
     }, 
 
-	execute(inter) {
+     execute(inter) {
         const value = inter.options.getString('name')
 
-        const buttonsPath = path.join(__dirname, 'buttons')
+        const buttonsPath = path.join(DIRNAME, 'buttons')
         const buttons = fs.readdirSync(buttonsPath).filter(file => file.endsWith('.js'))
 
         let button
         for(b of buttons){
+            b = require(path.join(buttonsPath, b))
 
             if(b.name == value){
                 button = b
@@ -56,10 +57,11 @@ module.exports = {
         }
         try{
             inter.channel.send({components: [button.get()]})
-            mes.cmdSuccess(inter)
+            mes.interSuccess(inter)
 
         }catch(Error){
-            mes.cmdError(inter, 'Impossible de créer ce bouton manuellement')
+            mes.interError(inter, 'Impossible de générer ce bouton manuellement')
+            console.log(Error)
 
         }
 

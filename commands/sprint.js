@@ -39,7 +39,7 @@ module.exports = {
                 setMaxTime(0, time)
                 const sprintRole = config.roles.sprinter
 
-                mes.cmdSuccess(inter, '***Sprint ! :3***')
+                mes.interSuccess(inter, '***Sprint ! :3***')
 
                 await nter.channel.send('<@&'+sprintRole+'>')  
                 
@@ -47,12 +47,12 @@ module.exports = {
                 BEGIN(0)
 
             }else{
-                mes.cmdError('Mauvais salon uwu')
+                mes.interError('Mauvais salon uwu')
                 return
             }
 
         }else{
-            mes.cmdError('Yen a déjà un en cours :3')
+            mes.interError('Yen a déjà un en cours :3')
             return
         }
     

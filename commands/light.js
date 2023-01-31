@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js')
-const { cmdSuccess } =  require('../utils/message')
+const { interSuccess } =  require('../utils/message')
 
 module.exports = {
 	data(){
@@ -15,7 +15,7 @@ module.exports = {
         const name = inter.channel.name
         const channel =  inter.channel.id
 
-        cmdSuccess(inter)
+        interSuccess(inter)
 
         let i =  0
         let C =  setInterval(function() {    

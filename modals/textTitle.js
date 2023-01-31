@@ -1,39 +1,40 @@
 const { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder } = require('discord.js')
-const { text } = require('stream/consumers')
+const mUtils = require('../utils/member')
+const mes = require("../utils/message")
 
 module.exports = {
     name: 'textTitle',
+
     async execute(inter){
         const id = inter.member.user.id
         const title = inter.fields.getTextInputValue('dt_title') 
         
         if(/^[a-zA-Z()]+$/.test(title)){
-            const mUtils = require('../utils/member')
-            const texts = mUtils.getTextsUUIDs(id)
-            mUtils.setFileInPostingDt(id, title)
+            const textsUUIDs = await mUtils.getTextsUUIDs(id)
+            await mUtils.setFileInPostingDt(id, title)
 
             let serie = []
             const tUtils = require('../utils/text')
-            for(t of texts){
+            for(let t of textsUUIDs){
 
-                if(t[1] == title){
+                if(t[1] === title){
                     serie.push(tUtils.get(t[0]))
 
                 }
 
             }
 
-            text = null
-            for(t of serie){
+            let text = null
+            for(let t of serie){
                 if(t.chapter1 > text.chapter1){
                     text = t
                 }
 
             }
 
-            const textModal = require('../modals/textModal')
-            await inter.showModal(textModal.get(text)) 
-
+            const t = require('../modals/textModal')
+            const textModal = await t.get(text)
+            await inter.showModal(textModal)
 
         }else{
             await inter.reply({content: 'Seuls les caractères alphabétiques sont autorisés', ephemeral: true})
@@ -44,11 +45,11 @@ module.exports = {
     get(){
         const modal = new ModalBuilder()
         .setCustomId(this.name)
-        .setTitle('6 lettres se rapportant à votre oeuvre (ex:LGUIDE pour Le Guide de Para')
+        .setTitle('Id du Texte')
 
         const dt_title = new TextInputBuilder()
         .setCustomId('dt_title')
-        .setLabel('Entre les lettres :')
+        .setLabel('ex : LGUIDE pour Le Guide de Para :')
         .setPlaceholder('Vas-y ! Entre les ! Hmmmm, j~en frémis déjà~')
         .setMinLength(6)
         .setMaxLength(6)

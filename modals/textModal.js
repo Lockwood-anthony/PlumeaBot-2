@@ -73,14 +73,6 @@ module.exports = {
                     mUtils.removeFileInPosting(id)
                     return
                 }
-
-                const extension = path.extname(file.name)
-        
-                if(extension != '.pdf'){
-                    inter.reply({ content: 'C~est pas .PDF ca ;-;\nVa donc sur ce site :\n\n https://www.ilovepdf.com/fr', ephemeral: true })
-                    mUtils.removeFileInPosting(id)
-                    return
-                }
                
                 //rename
                 Object.defineProperty(fichier, 'name', {
@@ -130,22 +122,22 @@ module.exports = {
                         const desc = inter.fields.getTextInputValue('desc')
                         const themes = inter.fields.getTextInputValue('themes')
                         const questions = inter.fields.getTextInputValue('questions')
-                        const password = inter.fields.getTextInputValue('password')
+                        let password = inter.fields.getTextInputValue('password')
                         if(password == null){ password = '' }
 
                         const { fromString} = require('uuidv4')
                         const uuid  = fromString(today.toString()+dt+id)
                         
                         const spaceEmbed = new EmbedBuilder()
-                        .setColor(0x2C2F33)
-                        .setTitle('.\n.\n.')
+                            .setColor(0x2C2F33)
+                            .setTitle('.\n.\n.')
                         
                         const mesUtils = require('../utils/message')
                         const textEmbed = mesUtils.newEmbed()
-                        .setTitle(title)
-                        .setAuthor({ name: dt + ' | ' + words + ' mots', iconURL: 'https://i.imgur.com/TYeapMy.png', url: 'https://discord.gg/arbnrxWFVu' })
-                        .setDescription(desc)
-                        .setFooter(uuid)
+                            .setTitle(title)
+                            .setAuthor({ name: dt + ' | ' + words + ' mots', iconURL: 'https://i.imgur.com/TYeapMy.png', url: 'https://discord.gg/arbnrxWFVu' })
+                            .setDescription(desc)
+                            .setFooter(uuid)
                         
                         const delButton = require('../buttons/textDelete').get(uuid)
                         const editButton = require('../buttons/textEdit').get(uuid)
@@ -166,8 +158,9 @@ module.exports = {
                         tUtils.sendPostButton()
 
                         mUtils.addWeeklyWords(user.id,words)
-                        mUtils.addText(id, uuid)
-                        mUtils.removeFileInPosting(id)
+                        mUtils.addTextUUID(id, uuid)
+                        mUtils.deleteFileInPostingMessage(id)
+                        mUtils.setFileInPostingMesId(id, 0)
 
                     }
 
@@ -186,108 +179,108 @@ module.exports = {
 
     },
 
-    get(text){
+    get(text = null){
         const modal = new ModalBuilder()
-        .setCustomId(this.name)
-        .setTitle('Formulaire de post du texte :')
+            .setCustomId(this.name)
+            .setTitle('Formulaire de post du texte :')
 
-        modal.addComponents(
-            new ActionRowBuilder()
-            .addComponents(
-                new TextInputBuilder()
+        let comp = []
+
+        const title =
+            new TextInputBuilder()
                 .setCustomId('title')
                 .setLabel('Le titre en entier :')
-                .setValue(text.title)
                 .setMaxLength(64)
                 .setStyle(TextInputStyle.Short)
                 .setRequired(true)
 
-            )
-        )
 
-        modal.addComponents(
-            new ActionRowBuilder()
-            .addComponents(
-                new TextInputBuilder()
+        const chap1 =
+            new TextInputBuilder()
                 .setCustomId('chap1')
                 .setLabel('Premier chapitre d~où commence l~extrait :')
-                .setValue(text.chapter1+1)
                 .setMaxLength(3)
                 .setStyle(TextInputStyle.Short)
                 .setRequired(true)
-            )
-        )
 
-        modal.addComponents(
-            new ActionRowBuilder()
-            .addComponents(
-                new TextInputBuilder()
+
+        const chap2 =
+            new TextInputBuilder()
                 .setCustomId('chap2')
                 .setLabel('Dernier chapitre où se termine l~extrait :')
                 .setMaxLength(3)
                 .setStyle(TextInputStyle.Short)
-            )
-        )
 
-        modal.addComponents(
-            new ActionRowBuilder()
-            .addComponents(
-                new TextInputBuilder()
+
+        const desc =
+            new TextInputBuilder()
                 .setCustomId('desc')
                 .setLabel('Description du texte :')
                 .setStyle(TextInputStyle.Paragraph)
                 .setRequired(true)
-            )
-        )
 
-        modal.addComponents(
-            new ActionRowBuilder()
-            .addComponents(
-                new TextInputBuilder()
+        const password =
+            new TextInputBuilder()
                 .setCustomId('password')
                 .setLabel('Mot de passe pour limiter l~accès au texte :')
                 .setStyle(TextInputStyle.Short)
                 .setMinLength(8)
                 .setMaxLength(16)
-            )
-        )
+
 
         let themesOptions = []
-        for(e of this.themes){
-            let option = { label: '', description: '', value: '', }
-            option.label = e.name
-            option.description = e.desc
-            option.value = e.name
-
-            themesOptions.push(option)
+        for(const e of this.themes){
+            themesOptions.push( { label: e.name, description: e.desc, value: e.name, } )
         }
-        modal.addComponents(
-            new ActionRowBuilder()
-            .addComponents(
-                new StringSelectMenuBuilder()
+        const themes =
+            new StringSelectMenuBuilder()
                 .setCustomId('themes')
                 .setPlaceholder('Choisis en au moins **1**')
                 .setMaxValues(4)
-                .setOptions(text.themes)
-                .addOptions(themesOptions),
-            )  
-        )
+                .addOptions(themesOptions)
 
-        const maxQuestion = text.questions.length()
-        for(let i = 0 ;i<4;){
+
+        //autocompletion
+        if(text){
+            title.setValue(text.title)
+            chap1.setValue(text.chap2+1)
+            chap2.setValue(text.chap2+2)
+            desc.setValue(text.desc)
+
+            themes.setOptions(text.themes)
+        }
+
+
+        comp = [title, chap1, chap2, desc, password, themes]
+
+
+        for(let i = 0 ; i < 4 ; i++){
             const question = new TextInputBuilder()
-            .setCustomId('question'+i)
-            .setLabel('Pose une question à tes lecteurs :')
-            .setStyle(TextInputStyle.Short)
+                .setCustomId('question'+i)
+                .setLabel('Pose une question à tes lecteurs :')
+                .setStyle(TextInputStyle.Short)
 
-            if(i <= maxQuestion){
-                question.setValue(text.questions[i])
+            if(text){
+                const maxQuestion = text.questions.length()
+                if(i <= maxQuestion){
+                    question.setValue(text.questions[i])
+                }
+
             }
             
-            modal.addComponents(
-                new ActionRowBuilder().addComponents(question)
-            )
+            comp.push(question)
+
         }
+
+        comp.forEach(c => {
+
+            modal.addComponents(
+                new ActionRowBuilder()
+                    .addComponents(c)
+
+            )
+
+        })
         
         return modal
 

@@ -36,7 +36,7 @@ module.exports = {
 
                     if(messageNumber == 1){
                         require('../utils/message')
-                        .cmdSuccess(inter, { embeds: [messageEmbed]})
+                        .interSuccess(inter, { embeds: [messageEmbed]})
 
                     }else{
                         inter.channel.send({ embeds: [messageEmbed]})

@@ -3,17 +3,18 @@ const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js')
 module.exports = {
     name: 'textPost',
     async execute(inter){
+        inter.showModal(
+            require("../modals/textModal").get())
         
     },
 
-    get(textId){
+    get(){
         const button = new ActionRowBuilder()
         .addComponents(
             new ButtonBuilder()
                 .setCustomId(this.name)
-                .setLabel('Fait /post dans ce channel')
+                .setLabel('~~~~~~~~~~~~~~~~~~~~~~~~! POST !~~~~~~~~~~~~~~~~~~~~~~~~')
                 .setStyle(ButtonStyle.Success)
-                .setURL('https://discord.com/channels/1027089727360344144/1060675312955961384/1064623854984646696')
         )
 
         return button

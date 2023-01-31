@@ -1,11 +1,11 @@
-const { dbGet, dbCreate, dbExist, dbDestroy, dbGetAtr, dbSetAtr, dbRemoveAtrIndex } = require('../dbObjects.js')
+const { tabGet, tabCreate, tabExist, tabDestroy, tabGetAtr, tabSetAtr, tabRemoveAtrIndex } = require('../dbObjects.js')
 const { delMes, sendMes, getMes } = require('../utils/message')
 const { config } = require('../config')
 
 module.exports = {
 
     get(id){
-        dbGet(T_TAB, id)
+        return tabGet(T_TAB, id)
     },
 
     add(id, dt, title, desc, author, chap1, chap2, words, mes1, mes2, date, password, themes, questions){
@@ -25,22 +25,22 @@ module.exports = {
             themes: themes,
             questions: questions
         }
-        dbCreate(T_TAB, text)
+        tabCreate(T_TAB, text)
     },
 
     exist(id){
-        dbExist(T_TAB, id)
+        return tabExist(T_TAB, id)
     },
 
     remove(id){
         const { removeTextUUID } = require('../utils/member')
-        const authorId = dbGet(T_TAB, id, 'authorId')
+        const authorId = tabGet(T_TAB, id, 'authorId')
         removeTextUUID(authorId, id)
 
         this.removeMes1InChannel(id)
         this.removeMes2InChannel(id)
         
-        dbDestroy(T_TAB, id)
+        tabDestroy(T_TAB, id)
     },
 
     countWords(str) {
@@ -51,103 +51,112 @@ module.exports = {
     },
 
     getDt(id){
-        return dbGetAtr(T_TAB, id, 'dt')
+        return tabGetAtr(T_TAB, id, 'dt')
     },
 
     setDt(id, dt){
-        dbSetAtr(T_TAB, id, 'dt', dt)
+        tabSetAtr(T_TAB, id, 'dt', dt)
     },
 
     getTitle(id){
-        dbGetAtr(T_TAB, id, 'title')
+        return tabGetAtr(T_TAB, id, 'title')
     },
 
     setTitle(id, title){
-        dbSetAtr(T_TAB, id, 'title', title)
+        tabSetAtr(T_TAB, id, 'title', title)
     },
 
     getDesc(id){
-        dbGetAtr(T_TAB, id, 'desc')
+        return tabGetAtr(T_TAB, id, 'desc')
     },
 
     setDesc(id, desc){
-        dbSetAtr(T_TAB, id, 'desc', desc)
+        tabSetAtr(T_TAB, id, 'desc', desc)
     },
 
     getAuthorId(id){
-        dbGetAtr(T_TAB, id, 'author')
+        return tabGetAtr(T_TAB, id, 'author')
     },
 
     setAuthorId(id, authorId){
-        dbGetAtr(T_TAB, id, 'authorId', authorId)
+        tabGetAtr(T_TAB, id, 'authorId', authorId)
     },
 
     getChap1(id){
-        dbGetAtr(T_TAB, id, 'chap1')
+        return tabGetAtr(T_TAB, id, 'chap1')
     },
 
     setChap1(id, chap1){
-        dbSetAtr(T_TAB, id, 'chap1', 'chap1')
+        tabSetAtr(T_TAB, id, 'chap1', 'chap1')
     },
 
     getChap2(id){
-        dbGetAtr(T_TAB, id, 'chap2')
+        return tabGetAtr(T_TAB, id, 'chap2')
     },
 
     setChap2(id, chap2){
-        dbSetAtr(T_TAB, id, 'chap2', chap2)
+        tabSetAtr(T_TAB, id, 'chap2', chap2)
     },
 
     getWords(id){
-        dbGetAtr(T_TAB, id, 'words')
+        return tabGetAtr(T_TAB, id, 'words')
     },
 
     setWords(id, words){
-        dbSetAtr(T_TAB, id, 'words', words)
+        tabSetAtr(T_TAB, id, 'words', words)
     },
 
-    getMes1(id){
-        dbGetAtr(T_TAB, id, 'mes1')
+    getMes1Id(id){
+        return tabGetAtr(T_TAB, id, 'mes1')
     },
 
-    setMes1(id, mes1){
-        dbSetAtr(T_TAB, id, 'mes1', mes1)
+    setMes1Id(id, mes1){
+        tabSetAtr(T_TAB, id, 'mes1', mes1)
     },
 
-    getMes2(id){
-        dbGetAtr(T_TAB, id, 'mes2')
+    getMes2Id(id){
+        return tabGetAtr(T_TAB, id, 'mes2')
     },
 
-    setMes2(id, mes2){
-        dbSetAtr(T_TAB, id, 'mes2', mes2)
+    setMes2Id(id, mes2){
+        tabSetAtr(T_TAB, id, 'mes2', mes2)
+    },
+
+    async delAllMessages(id){
+        const cId = config.channels.text
+        const mes1Id = await this.getMes1Id(id)
+        await delMes(cId, mes1Id)
+        const mes2Id = await this.getMes1Id(id)
+        await delMes(cId, mes2Id)
+
     },
 
     getDate(id){
-        dbGetAtr(T_TAB, id, 'date')
+        tabGetAtr(T_TAB, id, 'date')
     },
 
     setDate(id, date){
-        dbSetAtr(T_TAB, id, 'date', date)
+        tabSetAtr(T_TAB, id, 'date', date)
     },
     
     getPassword(id){
-        dbGetAtr(T_TAB, id, 'password')
+        tabGetAtr(T_TAB, id, 'password')
     },
 
     setPassword(id, password){
-        dbSetAtr(T_TAB, id, 'password', password)
+        tabSetAtr(T_TAB, id, 'password', password)
     },
 
     getThemes(id){
-        dbGetAtr(T_TAB, id, 'themes')
+        tabGetAtr(T_TAB, id, 'themes')
     },
 
     setThemes(id, themes){
-        dbSetAtr(T_TAB, id, 'themes', themes)
+        tabSetAtr(T_TAB, id, 'themes', themes)
     },
 
     getQuestions(id){
-        dbGetAtr(T_TAB, id, 'questions')
+        tabGetAtr(T_TAB, id, 'questions')
     },
     
     addQuestion(id, questionIndex){
@@ -155,7 +164,7 @@ module.exports = {
     },
 
     removeQuestion(id, questionIndex){
-        dbRemoveAtrIndex(T_TAB, id, 'questions', questionIndex)
+        tabRemoveAtrIndex(T_TAB, id, 'questions', questionIndex)
     },
 
     /*
@@ -187,11 +196,11 @@ module.exports = {
     },
 
     removeMes1InChannel(id){
-        delMes(config.channels.text, this.getMes1(id))
+        delMes(config.channels.text, this.getMes1Id(id))
     },
 
     removeMes2InChannel(id){
-        delMes(config.channels.safe, this.getMes2(id))
+        delMes(config.channels.safe, this.getMes2Id(id))
     },
 
     async sendMessage(message1){
@@ -205,7 +214,7 @@ module.exports = {
     },
 
     sendFile(id, member){
-        const mes = getMes(config.channels.text, this.getMes2(id))
+        const mes = getMes(config.channels.text, this.getMes2Id(id))
         const file = mes.attachments.first()
         member.send({content: id, attachments: [file]})
         
@@ -214,16 +223,16 @@ module.exports = {
     sendPostButton(){
         const mes = (config.channels.text, {content: '```o\no\no\no```', components: [ require('../buttons/textPost').get() ]})
 
-        if(dbExist(PIDS_TAB, 'textPostMessage')){
+        if(tabExist(PIDS_TAB, 'textPostMessage')){
             const id = sendMes(mes)
-            dbSetAtr(PIDS_TAB, 'textPostMessage', 'paramId', id)
+            tabSetAtr(PIDS_TAB, 'textPostMessage', 'paramId', id)
 
         }else{
-            const postMesId = dbGetAtr(PIDS_TAB, 'textPostMessage', 'paramId')
+            const postMesId = tabGetAtr(PIDS_TAB, 'textPostMessage', 'paramId')
             delMes(config.channels.text, postMesId)
 
             const id = sendMes(mes)
-            dbCreate(PIDS_TAB, {
+            tabCreate(PIDS_TAB, {
                 id: 'textPostMessage',
                 paramId: id
             })

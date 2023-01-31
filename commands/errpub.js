@@ -74,11 +74,11 @@ module.exports = {
 		message += '```Toutes nos consignes sont disponibles dans les messages épinglés du salon réservé aux posts :D'
 
 		target.send(message).catch(error => {
-			mes.cmdError(inter, 'Cet utilisateur ne souhaite hélas pas recevoir mes messages ;-;')
+			mes.interError(inter, 'Cet utilisateur ne souhaite hélas pas recevoir mes messages ;-;')
 			return
 		})
 
-		mes.cmdSuccess(inter)
+		mes.interSuccess(inter)
 
 	}
 

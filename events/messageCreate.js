@@ -10,7 +10,7 @@ module.exports = {
         const channelId = message.channel.id
         const author = message.author
         const id = author.id
-
+        !author.bot
         if (!author.bot){
             const content = message.content
 
@@ -29,7 +29,7 @@ module.exports = {
             switch(channelId){
 
                 case config.channels.text:
-                    message.delte()
+                    message.delete()
                     author.send('Utilise la commande /post pour partager ton texte owo')
 
                 break
@@ -56,14 +56,6 @@ module.exports = {
             }
 
         }else{
-            //messages de bibot
-            if(id == 1018969464739467317){
-
-                if(!config.channels.nologs.includes(channelName) && message.flags.bitfield != 64){ //!= 64 => n'est pas un ephemeral
-                     messageUtils.log(message,'logs')
-                }
-
-            }
             
             //messages disboard
             if(id == 302050872383242240){

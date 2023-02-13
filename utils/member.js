@@ -1,14 +1,15 @@
 const db = require('../dbObjects.js')
 const mes = require('../utils/message')
 const { config } = require('../config')
+const tUtils = require('../utils/text')
 
 module.exports = {
 
-    getMember(id){
+    async getMember(id){
         db.tabGet(M_TAB, id)
     },
 
-    addMember(id){
+    async addMember(id){
         const date = new Date()
 
         db.tabCreate(M_TAB, {
@@ -17,15 +18,15 @@ module.exports = {
         })
     },
 
-    removeMember(id){
+    async removeMember(id){
         db.tabDestroy(M_TAB, id)
     },
 
-    exists(id){
+    async exists(id){
         return db.tabExist(M_TAB, id)
     },
 
-    getAllNoPlumes(){
+    async getAllNoPlumes(){
         return Member.findAll({
             where: {
                 plumes: 0
@@ -34,12 +35,12 @@ module.exports = {
         })
     },
 
-    getNick(id){
+    async getNick(id){
         return db.tabGetAtr(M_TAB, id, 'nick')
     },
 
-    setNick(id, nick){
-        db.tabSetAtr(M_TAB, id, 'nick', nick)
+    async setNick(id, nick){
+        await db.tabSetAtr(M_TAB, id, 'nick', nick)
     },
 
     async hasNick(id){
@@ -47,43 +48,43 @@ module.exports = {
         return await nick.length == 4
     },
 
-    getPlumes(id){
+    async getPlumes(id){
         return db.tabGetAtr(M_TAB, id, 'plumes')
     },
 
-    addPlumes(id, plumes){
+    async addPlumes(id, plumes){
         db.tabIncrementAtr(M_TAB, id, 'plumes', plumes)
     },
 
-    removePlumes(id, plumes){
+    async removePlumes(id, plumes){
         db.tabIncrementAtr(M_TAB, id, 'plumes', -plumes)
     },
 
-    getCoins(id){
+    async getCoins(id){
         return db.tabGetAtr(M_TAB, id, 'coins')
     },
 
-    addCoins(id, coins){
+    async addCoins(id, coins){
         db.tabIncrementAtr(M_TAB, id, 'coins', coins)
     },
 
-    removeCoins(id, coins){
+    async removeCoins(id, coins){
         db.tabIncrementAtr(M_TAB, id, 'coins', -coins)
     },
 
-    getWeeklyWords(id){
-        db.tabGetAtr(M_TAB, id, 'weeklyWords')
+    async getWeeklyWords(id){
+        return db.tabGetAtr(M_TAB, id, 'weeklyWords')
     },
 
-    addWeeklyWords(id, weeklyWords){
+    async addWeeklyWords(id, weeklyWords){
         db.tabIncrementAtr(M_TAB, id, 'weeklyWords', weeklyWords)
     },
 
-    removeWeeklyWords(id, weeklyWords){
+    async removeWeeklyWords(id, weeklyWords){
         db.tabIncrementAtr(M_TAB, id, 'weeklyWords', -weeklyWords)
     },
 
-    toMuchWeeklyWords(id, words){
+    async toMuchWeeklyWords(id, words){
         const weekly = this.getWeeklyWords(id)
 
         if (weekly + words > 20000){
@@ -94,7 +95,7 @@ module.exports = {
 
     },
 
-    resetAllWeeklyWords(){
+    async resetAllWeeklyWords(){
         db.tabSetAtrToAll(M_TAB, 'weeklyWords', 0)
     },
 
@@ -102,23 +103,11 @@ module.exports = {
         return await this.getFileInPostingMesId(id) !== 0
     },
 
-    async deleteFileInPostingMessage(id){
-        await mes.delMes(config.channels.safe, await this.getFileInPostingMesId(id))
-    },
-
-    getFileInPostingDt(id){
-        return db.tabGetAtr(M_TAB, id, 'fileInPostingDt')
-    },
-
-    setFileInPostingDt(id, fileInPostingDt){
-        db.tabSetAtr(M_TAB, id, 'fileInPostingMesId', fileInPostingDt)
-    },
-
-    setFileInPostingMesId(id, fileInPostingMesId){
+    async setFileInPostingMesId(id, fileInPostingMesId){
         db.tabSetAtr(M_TAB, id, 'fileInPostingMesId', fileInPostingMesId)
     },
 
-    getFileInPostingMesId(id){
+    async getFileInPostingMesId(id){
         return db.tabGetAtr(M_TAB, id, 'fileInPostingMesId')
     },
 
@@ -132,15 +121,28 @@ module.exports = {
 
     },
 
+    async setTextInPostingUUID(id, textInPostingUUID){
+        db.tabSetAtr(M_TAB, id, 'textInPostingUUID', textInPostingUUID)
+    },
+
+    async getTextInPostingUUID(id){
+        return db.tabGetAtr(M_TAB, id, 'textInPostingUUID')
+    },
+
+    async getTextInPosting(id){
+        const uuid = await this.getTextInPostingUUID(id)
+        return tUtils.get(uuid)
+    },
+
     async getTextsUUIDs(id){
         return await db.tabGetAtr(M_TAB, id, 'textsUUIDs')
     },
 
-    addTextUUID(id, UUID, dt){
-        db.tabAddAtr(M_TAB, id, 'textsUUIDs', [UUID, dt])
+    async addTextUUID(id, UUID){
+        await db.tabAddAtr(M_TAB, id, 'textsUUIDs', UUID)
     },
 
-    removeTextUUID(id, UUID){        
+    async removeTextUUID(id, UUID){
         const dt = require('../utils/text').getDt(UUID)
         db.tabRemoveAtr(M_TAB, id, 'textsUUIDs', [UUID, dt])
     },
@@ -149,7 +151,7 @@ module.exports = {
         await db.tabSetAtr(M_TAB, id, "textsUUIDs", [])
     },
 
-    getAllIdsPlumes(){
+    async getAllIdsPlumes(){
         return db.tabGetMultipleAtr(M_TAB, null, ['id', 'plumes'])
     }
 

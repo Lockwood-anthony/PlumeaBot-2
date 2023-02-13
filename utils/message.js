@@ -6,21 +6,20 @@ module.exports = {
     newEmbed(color = "00112B"){
         const { EmbedBuilder } = require('discord.js')
 
-        const messageEmbed = new EmbedBuilder()
-        .setColor("0x"+color)
-        .setTimestamp()
-        .setFooter({ text: 'scriptubot', iconURL: 'https://i.imgur.com/TYeapMy.png' })
-        return messageEmbed
+        return new EmbedBuilder()
+            .setColor("0x"+color)
+            .setTimestamp()
+            .setFooter({ text: 'scriptubot', iconURL: 'https://i.imgur.com/TYeapMy.png' })
     },
 
     async delMessagesBeforeOne(channel, mesId, n, safe){
         let option = {}
 
-        if(mesId != 0){
+        if(mesId !== 0){
             option["before"] = mesId
         }
 
-        while(n != 0){
+        while(n !== 0){
             let fetch
             if(n > 100){
                 option["limit"] = 100
@@ -101,6 +100,7 @@ module.exports = {
 
     async sendMes(cId, mes){
         const channel = await client.channels.fetch(cId)
+
         const m = await channel.send(mes)
         return await m
 
@@ -113,17 +113,21 @@ module.exports = {
 
         if(message){
             message.delete({ timeout: 1000 })
+            return true
 
         }else{
-             console.log(__dirname+" l:117 delMes Message doesnt exist")
+            return false
         }
 
     },
 
     async getMes(cId, mesId){
         const channel = await client.channels.fetch(cId)
-        const message = await channel.messages.fetch(mesId)
-        return message
+        try{
+            return await channel.messages.fetch(mesId)
+        }catch(e){
+            return null
+        }
 
     },
 
@@ -177,12 +181,17 @@ module.exports = {
 
     },
 
-    async interSuccess(inter, reply = "", modal = null, components= []){
+    async interSuccess(inter, reply = null, modal = null, components= [], defer = false){
 
         if(!modal){
 
             if(this.isContent(reply)){
-                await inter.reply(reply)
+
+                if(defer){
+                    await inter.editReply(reply)
+                }else{
+                    await inter.reply(reply)
+                }
 
             }else{
                 let desc = "Action accomplie avec succès ! :D"
@@ -192,7 +201,11 @@ module.exports = {
                     .setDescription(`**${desc}**`)
                     .setImage("https://media.tenor.com/jHvyFefhKmcAAAAd/mujikcboro-seriymujik.gif")
 
-                await inter.reply({ embeds: [embed], components: components, ephemeral: true })
+                if(defer) {
+                    await inter.editReply({embeds: [embed], components: components, ephemeral: true})
+                }else{
+                    await inter.reply({embeds: [embed], components: components, ephemeral: true})
+                }
 
             }
 
@@ -210,14 +223,18 @@ module.exports = {
 
     },
 
-    async interError(inter, error, level = 0){
+    async interError(inter, error, level = 0, components= []){
         if(!error) error = 'Une erreur est survenue, veuillez appeler mon popa AstrantV#1053'
 
         const embed = this.newEmbed()
             .setTitle("Error ;-;")
             .setDescription(`**${error}**`)
 
-        await inter.reply({ embeds: [embed], ephemeral: true })
+        await inter.reply({ embeds: [embed], components: components, ephemeral: true })
+
+        setTimeout(async () => {
+            await inter.deleteReply()
+        }, 32000)
 
         const red = "D52B1E"
         const yellow = "FFB612"

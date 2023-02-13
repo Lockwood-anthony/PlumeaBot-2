@@ -7,7 +7,7 @@ module.exports = {
         const channelId = config.channels.leaderboard
         const mesId = config.messages.leaderboard
 
-        mes.editMes(channelId, mesId, {content:'', embeds: [await this.create()]} )
+        await mes.editMes(channelId, mesId, {content:'', embeds: [await this.create()]} )
 
     },
 

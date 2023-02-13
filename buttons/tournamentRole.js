@@ -1,4 +1,4 @@
-const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js')
+const { ActionRowBuilder, ButtonBuilder } = require('discord.js')
 const { config } = require('../config')
 
 module.exports = {
@@ -26,7 +26,7 @@ module.exports = {
         .addComponents(
             new ButtonBuilder()
                 .setCustomId(this.name)
-                .setStyle(ButtonStyle.Danger)
+                .setStyle('Danger')
                 .setEmoji(config.emotes.plume)
                 
         )

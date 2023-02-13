@@ -5,51 +5,52 @@ module.exports = {
 	name: 'interactionCreate',
 	once: false,
 
-	execute(inter) {
+	async execute(inter) {
 
-		if (inter.isChatInputCommand()){
-			const command = inter.client.commands.get(inter.commandName)
-			
-			try {
+		try{
+
+			if (inter.isChatInputCommand()){
+				const command = inter.client.commands.get(inter.commandName)
 				command.execute(inter)
 
-			} catch (error) {
-				console.error(error)
-				inter.reply({ content: 'J~y arrive po ;-; Appelle mon papa Astrant', ephemeral: true })
+			}else if(inter.isButton()){
+				const buttonId = inter.customId.split('/')[0]
 
-			}
+				const buttonsPath = path.join(DIRNAME, 'buttons')
+				const buttons = fs.readdirSync(buttonsPath).filter(file => file.endsWith('.js'))
 
-		}else if(inter.isButton()){
-			const buttonId = inter.customId.split('/')[0]
+				for(let b of buttons){
+					b = require(path.join(buttonsPath, b))
 
-			const buttonsPath = path.join(DIRNAME, 'buttons')
-			const buttons = fs.readdirSync(buttonsPath).filter(file => file.endsWith('.js'))
+					if(b.name === buttonId){
+						b.execute(inter)
+						return
+					}
 
-			for(b of buttons){
-				b = require(path.join(buttonsPath, b))
-
-				if(b.name == buttonId){
-					b.execute(inter)
-					return
 				}
-	
-			}
 
-		}else if(inter.isModalSubmit()){
-			const modalId = inter.customId.split('/')[0]
+			}else if(inter.isModalSubmit()){
+				const modalId = inter.customId.split('/')[0]
 
-			const modalsPath = path.join(DIRNAME, 'modals')
-			const modals = fs.readdirSync(modalsPath).filter(file => file.endsWith('.js'))
+				const modalsPath = path.join(DIRNAME, 'modals')
+				const modals = fs.readdirSync(modalsPath).filter(file => file.endsWith('.js'))
 
-			for(m of modals){
-				m = require(path.join(modalsPath, m))
+				for(let m of modals){
+					m = require(path.join(modalsPath, m))
 
-				if(m.name == modalId){
-					m.execute(inter)
-					return
+					if(m.name === modalId){
+						m.execute(inter)
+						return
+					}
+
 				}
-	
+
 			}
+
+		}catch(e){
+			console.log(e)
+			const mes = require("../utils/message")
+			await mes.interError(inter, e, 1)
 
 		}
 		

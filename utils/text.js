@@ -1,244 +1,267 @@
-const { tabGet, tabCreate, tabExist, tabDestroy, tabGetAtr, tabSetAtr, tabRemoveAtrIndex } = require('../dbObjects.js')
-const { delMes, sendMes, getMes } = require('../utils/message')
+const mesUtils = require('../utils/message')
 const { config } = require('../config')
+const db = require("../dbObjects")
+const {Op} = require("sequelize")
 
 module.exports = {
 
-    get(id){
-        return tabGet(T_TAB, id)
+    async get(id){
+        return db.tabGet(T_TAB, id)
     },
 
-    add(id, dt, title, desc, author, chap1, chap2, words, mes1, mes2, date, password, themes, questions){
-        const text = {
-            id: id,
-            dt: dt,
-            title: title,
-            desc: desc,
-            author: author,
-            chap1: chap1,
-            chap2: chap2,
-            words: words,
-            mes1: mes1,
-            mes2: mes2,
-            date: date,
-            password: password,
-            themes: themes,
-            questions: questions
-        }
-        tabCreate(T_TAB, text)
+    async addText(text){
+        await db.tabCreate(T_TAB, text)
     },
 
-    exist(id){
-        return tabExist(T_TAB, id)
+    async exist(id){
+        return db.tabExist(T_TAB, id)
     },
 
-    remove(id){
-        const { removeTextUUID } = require('../utils/member')
-        const authorId = tabGet(T_TAB, id, 'authorId')
-        removeTextUUID(authorId, id)
+    async dtExist(dt, authorId){
 
-        this.removeMes1InChannel(id)
-        this.removeMes2InChannel(id)
+        return T_TAB.count({ where: { dt: dt, authorId: authorId } })
+            .then(count => {
+                return count !== 0
+
+            })
+    },
+
+    async remove(id){
+        await db.tabDestroy(T_TAB, id)
+    },
+
+    async vanish(id){
+        const m = require('../utils/member')
+        const authorId = db.tabGet(T_TAB, id, 'authorId')
+        await m.removeTextUUID(authorId, id)
+
+        await this.removeMes1InChannel(id)
+        await this.removeMes2InChannel(id)
         
-        tabDestroy(T_TAB, id)
+        await db.tabDestroy(T_TAB, id)
     },
 
-    countWords(str) {
-        str = str.replace(/(^\s*)|(\s*$)/gi,'')
-        str = str.replace(/[ ]{2,}/gi,' ')
-        str = str.replace(/\n /,'\n')
-        words = str.split(' ').length
+    async getDt(id){
+        return db.tabGetAtr(T_TAB, id, 'dt')
     },
 
-    getDt(id){
-        return tabGetAtr(T_TAB, id, 'dt')
+    async setDt(id, dt){
+        await db.tabSetAtr(T_TAB, id, 'dt', dt)
     },
 
-    setDt(id, dt){
-        tabSetAtr(T_TAB, id, 'dt', dt)
+    async getDtTitle(id){
+        return db.tabGetAtr(T_TAB, id, 'dt_title')
     },
 
-    getTitle(id){
-        return tabGetAtr(T_TAB, id, 'title')
+    async setDtTitle(id, dtTitle){
+        await db.tabSetAtr(T_TAB, id, 'dt_title', dtTitle)
     },
 
-    setTitle(id, title){
-        tabSetAtr(T_TAB, id, 'title', title)
+    async getTitle(id){
+        return db.tabGetAtr(T_TAB, id, 'title')
     },
 
-    getDesc(id){
-        return tabGetAtr(T_TAB, id, 'desc')
+    async setTitle(id, title){
+        db.tabSetAtr(T_TAB, id, 'title', title)
     },
 
-    setDesc(id, desc){
-        tabSetAtr(T_TAB, id, 'desc', desc)
+    async getDesc(id){
+        return db.tabGetAtr(T_TAB, id, 'desc')
     },
 
-    getAuthorId(id){
-        return tabGetAtr(T_TAB, id, 'author')
+    async setDesc(id, desc){
+        db.tabSetAtr(T_TAB, id, 'desc', desc)
     },
 
-    setAuthorId(id, authorId){
-        tabGetAtr(T_TAB, id, 'authorId', authorId)
+    async getAuthorId(id){
+        return db.tabGetAtr(T_TAB, id, 'authorId')
     },
 
-    getChap1(id){
-        return tabGetAtr(T_TAB, id, 'chap1')
+    async setAuthorId(id, authorId){
+        db.tabGetAtr(T_TAB, id, 'authorId', authorId)
     },
 
-    setChap1(id, chap1){
-        tabSetAtr(T_TAB, id, 'chap1', 'chap1')
+    async getChap1(id){
+        return db.tabGetAtr(T_TAB, id, 'chap1')
     },
 
-    getChap2(id){
-        return tabGetAtr(T_TAB, id, 'chap2')
+    async setChap1(id, chap1){
+        db.tabSetAtr(T_TAB, id, 'chap1', chap1)
     },
 
-    setChap2(id, chap2){
-        tabSetAtr(T_TAB, id, 'chap2', chap2)
+    async getChap2(id){
+        return db.tabGetAtr(T_TAB, id, 'chap2')
     },
 
-    getWords(id){
-        return tabGetAtr(T_TAB, id, 'words')
+    async setChap2(id, chap2){
+        await db.tabSetAtr(T_TAB, id, 'chap2', chap2)
     },
 
-    setWords(id, words){
-        tabSetAtr(T_TAB, id, 'words', words)
+    async getWords(id){
+        return db.tabGetAtr(T_TAB, id, 'words')
     },
 
-    getMes1Id(id){
-        return tabGetAtr(T_TAB, id, 'mes1')
+    async setWords(id, words){
+        db.tabSetAtr(T_TAB, id, 'words', words)
     },
 
-    setMes1Id(id, mes1){
-        tabSetAtr(T_TAB, id, 'mes1', mes1)
+    async getMes1Id(id){
+        return db.tabGetAtr(T_TAB, id, 'mes1')
     },
 
-    getMes2Id(id){
-        return tabGetAtr(T_TAB, id, 'mes2')
+    async setMes1Id(id, mes1){
+        db.tabSetAtr(T_TAB, id, 'mes1', mes1)
     },
 
-    setMes2Id(id, mes2){
-        tabSetAtr(T_TAB, id, 'mes2', mes2)
+    async getMes2Id(id){
+        return db.tabGetAtr(T_TAB, id, 'mes2')
     },
+
+    async setMes2Id(id, mes2){
+        db.tabSetAtr(T_TAB, id, 'mes2', mes2)
+    },
+
+    async setPostId(id, postId){
+        db.tabSetAtr(T_TAB, id, 'postId', postId)
+    },
+
+    async getPostId(id){
+        return db.tabGetAtr(T_TAB, id, 'postId')
+    },
+
+    async setPostMesId(id, postMesId){
+        await db.tabSetAtr(T_TAB, id, 'postMesId', postMesId)
+    },
+
+    async getPostMesId(id){
+        return db.tabGetAtr(T_TAB, id, 'postMesId')
+    },
+
 
     async delAllMessages(id){
         const cId = config.channels.text
         const mes1Id = await this.getMes1Id(id)
-        await delMes(cId, mes1Id)
+        await mesUtils.delMes(cId, mes1Id)
         const mes2Id = await this.getMes1Id(id)
-        await delMes(cId, mes2Id)
+        await mesUtils.delMes(cId, mes2Id)
 
     },
 
-    getDate(id){
-        tabGetAtr(T_TAB, id, 'date')
+    async getDate(id){
+        return db.tabGetAtr(T_TAB, id, 'date')
     },
 
-    setDate(id, date){
-        tabSetAtr(T_TAB, id, 'date', date)
-    },
-    
-    getPassword(id){
-        tabGetAtr(T_TAB, id, 'password')
+    async setDate(id, date){
+        db.tabSetAtr(T_TAB, id, 'date', date)
     },
 
-    setPassword(id, password){
-        tabSetAtr(T_TAB, id, 'password', password)
+    async getPassword(id){
+        return db.tabGetAtr(T_TAB, id, 'password')
     },
 
-    getThemes(id){
-        tabGetAtr(T_TAB, id, 'themes')
+    async setPassword(id, password){
+        db.tabSetAtr(T_TAB, id, 'password', password)
     },
 
-    setThemes(id, themes){
-        tabSetAtr(T_TAB, id, 'themes', themes)
+    async getThemes(id){
+        return db.tabGetAtr(T_TAB, id, 'themes')
     },
 
-    getQuestions(id){
-        tabGetAtr(T_TAB, id, 'questions')
-    },
-    
-    addQuestion(id, questionIndex){
-        dbAddAtrIndex(T_TAB, id, 'questions', questionIndex)
+    async setThemes(id, themes){
+        db.tabSetAtr(T_TAB, id, 'themes', themes)
     },
 
-    removeQuestion(id, questionIndex){
-        tabRemoveAtrIndex(T_TAB, id, 'questions', questionIndex)
+    async getQuestions(id){
+        return db.tabGetAtr(T_TAB, id, 'questions')
     },
 
-    /*
-    async forumPost(dt, file, description, author, title){
-        const { config } = require('../config')
-        const forumId = config.channels.textForum
-
-        client.channels.fetch(forumId)
-		.then(async forum => {
-
-            await forum.threads.create({ 
-                name: dt, 
-                message: {content: description,files:[file]}, 
-                appliedTags: [author, title, dt] 
-            })
-
-        })
-		.catch(console.error)
-
-    },
-    */
-
-    words(dt){
-        const data = editJson(DATA)
-
-        const words = data.get('texts.'+dt+'.words')
-
-        return words
+    async setQuestions(id, questions){
+        db.tabSetAtr(T_TAB, id, 'questions', questions)
     },
 
-    removeMes1InChannel(id){
-        delMes(config.channels.text, this.getMes1Id(id))
+    async removeMes1InChannel(id){
+        await mesUtils.delMes(config.channels.text, this.getMes1Id(id))
     },
 
-    removeMes2InChannel(id){
-        delMes(config.channels.safe, this.getMes2Id(id))
+    async removeMes2InChannel(id){
+        await mesUtils.delMes(config.channels.safe, this.getMes2Id(id))
     },
 
     async sendMessage(message1){
-        return sendMes(config.channels.text, message1)
+        return await mesUtils.sendMes(config.channels.text, message1)
 
     },
 
-    isAuthor(id, userId){
+    async isAuthor(id, userId){
         const author = this.getAuthorId(id)
-        return author == userId
+        return author === userId
     },
 
-    sendFile(id, member){
-        const mes = getMes(config.channels.text, this.getMes2Id(id))
+    async sendFile(id, member){
+        const mes = await mesUtils.getMes(config.channels.safe, await this.getMes2Id(id))
         const file = mes.attachments.first()
-        member.send({content: id, attachments: [file]})
+        const authorId = await this.getAuthorId(id)
+        const author = await client.users.fetch(authorId)
+
+        const embed = mesUtils.newEmbed()
+            .setTitle("Voici le texte demandé !")
+            .setDescription(`Les bannissements et poursuites judiciaires sont éprouvants pour tout le monde... Alors ne diffuse pas cette oeuvre et prends en soin, ${author.username} compte sur toi :) \n\n || ${id} ||`)
+
+        await member.send( {embeds: [embed], files: [file]} )
         
-    }, 
+    },
 
-    sendPostButton(){
-        const mes = (config.channels.text, {content: '```o\no\no\no```', components: [ require('../buttons/textPost').get() ]})
+    async sendPostTutorial(){
+        const { ButtonBuilder, ActionRowBuilder } = require('discord.js')
 
-        if(tabExist(PIDS_TAB, 'textPostMessage')){
-            const id = sendMes(mes)
-            tabSetAtr(PIDS_TAB, 'textPostMessage', 'paramId', id)
+        const button = new ActionRowBuilder()
+            .setComponents(
+                new ButtonBuilder()
+                    .setLabel('Comment poster son texte ?')
+                    .setEmoji('🤔')
+                    .setStyle('Link')
+                    .setURL("https://discord.com/channels/1066783578140180520/1066783579079716895/1074400898744332418")
+            )
+
+        const buttonMes = { content: '|\n|\n|\n|', components: [button] }
+
+        const postMesId = await db.tabGetAtr(PIDS_TAB, 'textPostMessage', 'paramId')
+        await mesUtils.delMes(config.channels.text, postMesId)
+
+        const mes = await mesUtils.sendMes(config.channels.text, buttonMes)
+        await db.tabSetAtr(PIDS_TAB, 'textPostMessage', 'paramId', mes.id)
+
+    },
+
+    async getSimilarTextUUID(dt_title, id, uuid){
+        const serie = await T_TAB.findAll({
+            where: {'dt_title': dt_title, 'authorId': id, 'id': { [Op.not]: uuid }},
+            attributes: ['id', 'chap1', 'chap2'],
+            raw: true
+        })
+
+        let max = 0
+        if(serie.length !== 0){
+
+            let text = serie[0]
+            for(let t of serie){
+                if(t.chap1 > max){
+                    max = t.chap1
+                    text = t
+                }else if(t.chap2 > max) {
+                    max = t.chap2
+                    text = t
+                }
+
+            }
+            return text.id
 
         }else{
-            const postMesId = tabGetAtr(PIDS_TAB, 'textPostMessage', 'paramId')
-            delMes(config.channels.text, postMesId)
-
-            const id = sendMes(mes)
-            tabCreate(PIDS_TAB, {
-                id: 'textPostMessage',
-                paramId: id
-            })
+            return 0
 
         }
 
     }
+
 
 }

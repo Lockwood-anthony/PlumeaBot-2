@@ -1,4 +1,4 @@
-const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js')
+const { ActionRowBuilder, ButtonBuilder } = require('discord.js')
 
 module.exports = {
     name: 'sprintJoin',
@@ -14,7 +14,7 @@ module.exports = {
             new ButtonBuilder()
                 .setCustomId(this.name)
                 .setLabel('sprintJoin')
-                .setStyle(ButtonStyle.Primary)
+                .setStyle('Primary')
         )
 
         return button

@@ -5,7 +5,7 @@ const { isSprinting, isChannel, addSprinter, setMaxTime, SETUP, BEGIN } = requir
 
 module.exports = {
 	data(){
-        let data = new SlashCommandBuilder()
+        return new SlashCommandBuilder()
         .setName('sprint')
         .addIntegerOption(option => option
             .setName('time')
@@ -20,8 +20,6 @@ module.exports = {
             .setMaxValue(999999)
             .setRequired(true))
         .setDescription('Bah ca lance un Sprint... O.o')
-
-        return data
 
     },
 
@@ -39,21 +37,19 @@ module.exports = {
                 setMaxTime(0, time)
                 const sprintRole = config.roles.sprinter
 
-                mes.interSuccess(inter, '***Sprint ! :3***')
+                await mes.interSuccess(inter, '***Sprint ! :3***')
 
-                await nter.channel.send('<@&'+sprintRole+'>')  
+                await inter.channel.send('<@&'+sprintRole+'>')
                 
                 SETUP(0)
                 BEGIN(0)
 
             }else{
-                mes.interError('Mauvais salon uwu')
-                return
+                await mes.interError(inter,'Mauvais salon uwu')
             }
 
         }else{
-            mes.interError('Yen a déjà un en cours :3')
-            return
+            await mes.interError(inter, 'Yen a déjà un en cours :3')
         }
     
     }

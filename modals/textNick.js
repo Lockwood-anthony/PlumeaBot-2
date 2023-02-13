@@ -1,42 +1,49 @@
 const { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder } = require('discord.js')
 const mUtils = require("../utils/member")
 const mes = require("../utils/message")
+
 module.exports = {
     name: 'textNick',
+
     async execute(inter){
         const id = inter.member.user.id
         const nick = inter.fields.getTextInputValue('nick')
         const nickConfirm = inter.fields.getTextInputValue('nickConfirm')
+        const textUUID = inter.customId.split('/')[1]
 
         if(/^[a-zA-Z()]+$/.test(nick)){
 
-            if(nick == nickConfirm){
-                const mUtils = require('../utils/member')
+            if(nick === nickConfirm){
                 nick.toUpperCase()
-                mUtils.setNick(id, nick)
+                await mUtils.setNick(id, nick)
 
-                mes.interSuccess(inter,
-                    "Tu peux poster ton texte à présent ! \n __appuis sur le bouton__",
-                    false,
-                    [require("../buttons/textPost").get()]
+                if(textUUID === '0'){
+                    await mes.interSuccess(inter)
+
+                }else{
+                    await mes.interSuccess(inter,
+                        "Tu peux poster ton texte à présent ! \n __appuis sur le bouton__  ↓↓↓",
+                        false,
+                        [require("../buttons/textModalTitle").get(textUUID, 0, 1)]
                     )
+                }
 
 
             }else{
-                mes.interError(inter, "Tu as mal confirmé ton pseudo")
+                await mes.interError(inter, "Tu as mal confirmé ton pseudo")
 
             }
 
         }else{
-            mes.interError(inter, "Seuls les caractères alphabétiques sont autorisés")
+            await mes.interError(inter, "Seuls les caractères alphabétiques sont autorisés")
 
         }
 
     },
 
-    get(){
+    get(textUUID){
         const modal = new ModalBuilder()
-        .setCustomId(this.name)
+        .setCustomId(this.name + "/" + textUUID)
         .setTitle('CE SERA TON PSEUDO A JAMAIS')
 
         const nick =

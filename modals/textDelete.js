@@ -9,8 +9,8 @@ module.exports = {
         const dt = inter.fields.getTextInputValue('dt')
         const trueDt = tUtils.getDt(uuid)
 
-        if(dt == trueDt){
-            tUtils.remove(uuid)
+        if(dt === trueDt){
+            await tUtils.vanish(uuid)
             inter.reply({cotent: doesNotMatch, ephemeral: true})
 
         }else{

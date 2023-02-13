@@ -4,19 +4,17 @@ const { getBumpDate, setBumpDate } = require('../utils/somes')
 module.exports = {
 	name: 'messageCreate',
 
-	execute(message) {
-        const messageUtils = require('../utils/message')
-        const channelName = message.channel.name
+	async execute(message) {
         const channelId = message.channel.id
         const author = message.author
         const id = author.id
-        !author.bot
+
         if (!author.bot){
             const content = message.content
 
             //message.react(':champagne_glass:') //pour noel
             const r = Math.floor(Math.random() * (64 + 1))
-            if(r == 64) message.react(config.emotes.love)
+            if(r === 64) await message.react(config.emotes.love)
 
             const triggersJson = config.messageReplies
             const triggers = new Map(Object.entries(triggersJson))
@@ -30,7 +28,7 @@ module.exports = {
 
                 case config.channels.text:
                     message.delete()
-                    author.send('Utilise la commande /post pour partager ton texte owo')
+                    await author.send('Utilise la commande /post pour partager ton texte owo')
 
                 break
 
@@ -41,24 +39,24 @@ module.exports = {
                     if(today > recall){
                         message.reply('***Bumpy ! :3***')
                         today.setFullYear(today.getFullYear()+66)
-                        setBumpDate(today)
+                        await setBumpDate(today)
     
                     }
                 break
 
             }
-                        
+
             const power = message.member.roles.cache.map(r => `${r}`).length
-            if (power == 1){
-                if (message.attachments.size == 0 && !message.content.includes('http')) return
+            if (power === 1){
+                if (message.attachments.size === 0 && !message.content.includes('http')) return
                 message.delete()
-                author.send('__**Impossible d~envoyer ce message :**__```md\n#Tu ne peux poster ni lien, ni fichier, ni gif sans n~avoir jamais gagné de plumes :D```')
+                await author.send('__**Impossible d~envoyer ce message :**__```md\n#Tu ne peux poster ni lien, ni fichier, ni gif sans n~avoir jamais gagné de plumes :D```')
             }
 
         }else{
             
             //messages disboard
-            if(id == 302050872383242240){
+            if(id === 302050872383242240){
                 const embeds = message.embeds
 
                 embeds.forEach(embed =>{

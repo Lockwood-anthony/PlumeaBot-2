@@ -1,4 +1,4 @@
-const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js')
+const { ButtonBuilder } = require('discord.js')
 
 module.exports = {
     name: 'textGet',
@@ -10,16 +10,12 @@ module.exports = {
     },
 
     get(textId){
-        const button = new ActionRowBuilder()
-        .addComponents(
-            new ButtonBuilder()
-                .setCustomId(this.name+'/'+textId)
-                .setLabel('DEL')
-                .setStyle(ButtonStyle.Secondary)
-                .setEmoji(':zap:')
-        )
+        return new ButtonBuilder()
+            .setCustomId(this.name+'/'+textId)
+            .setLabel('DEL')
+            .setStyle('Secondary')
+            .setEmoji('⚡')
 
-        return button
     }
 
 }

@@ -13,9 +13,12 @@ const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('
 for (const file of commandFiles) {
 	const filePath = path.join(commandsPath, file)
 	const command = require(filePath)
+	const name = command.data().name
 
 	commands.push(command.data().toJSON())
-	client.commands.set(command.data().name, command)
+	client.commands.set(name, command)
+
+	console.log("cmd : " + name)
 
 }
 

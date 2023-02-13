@@ -18,7 +18,8 @@ module.exports = {
             'cya': '1066783579926966278',
             'delete':'1066783580191195326',
             'logs': '1066783580371554463',
-            'safe': '1066783580371554462'
+            'safe': '1066783580371554462',
+            "opinions": '1069894556356718592'
         },
 
         'plumesRoles': {
@@ -38,14 +39,67 @@ module.exports = {
         },
 
         'emotes': {
-            'plume': ':heart:',
-            'love': ':heart:'
+            'plume': '❤️',
+            'love': '❤️'
         },
 
         'roles': {
             'sprinter':'1066783578161156189',
             'tournament':'1066783578161156190'
-        }
+        },
+
+        'themes': [
+            {
+                'name': 'romance',
+                'desc': 'uwU !',
+                'id': '1071408016496267264'
+            },
+            {
+                'name': 'conte',
+                'desc': 'Pas réservé aux enfants !',
+                'id': '1071408065347321977'
+            },
+            {
+                'name': 'contemporain',
+                'desc': 'C~était po mieux avant.',
+                'id': '1071408130489077803'
+            },
+            {
+                'name': 'fantasy',
+                'desc': 'Pas d~elfes à la Légolas, pitié ;-;',
+                'id': '1071408184700444724'
+            },
+            {
+                'name': 'fantastique',
+                'desc': 'Bouhouhou..',
+                'id': '1071408228883251210'
+            },
+            {
+                'name': 'horreur',
+                'desc': 'Tronçonneuses !',
+                'id': '1071408274286583870'
+            },
+            {
+                'name': 'historique',
+                'desc': 'À la lanterne ! Bahaha..',
+                'id': '1071408393920712774'
+            },
+            {
+                'name': 'humour',
+                'desc': 'Aaaah, humur..',
+                'id': '1071408463302885489'
+            },
+            {
+                'name': 'jeunesse',
+                'desc': 'Pas niais pour autant.',
+                'id': '1071408523415650444'
+            },
+            {
+                'name': 'policier',
+                'desc': 'Pan pan, t~es mort !',
+                'id': '1071408566797348934'
+            }
+        ]
 
     }
 

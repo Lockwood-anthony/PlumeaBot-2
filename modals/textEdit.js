@@ -130,8 +130,8 @@ module.exports = {
                     }
     
                     const tUtils = require('../utils/text.js')
-                    tUtils.remove(uuid)
-                    tUtils.add(uuid, dt, title, desc, chap1, chap2, words, id1, id2, today, password, themes, questions)
+                    tUtils.vanish(uuid)
+                    tUtils.addText(uuid, dt, title, desc, chap1, chap2, words, id1, id2, today, password, themes, questions)
     
                     if(toMuchWords){
                         inter.reply({content: 'En tenant compte de la modification de mot, il s~avère que l~auteur a bypass la limite hebdomadaire !', ephemeral: true})
@@ -261,7 +261,7 @@ module.exports = {
         )
 
         let themesOptions = []
-        const themes = require('../modals/textModal').themes
+        const themes = require('./textModal2').themes
         for(e of themes){
             let option = { label: '', description: '', value: '', }
             option.label = e.name

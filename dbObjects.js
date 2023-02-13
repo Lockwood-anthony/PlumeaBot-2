@@ -18,6 +18,10 @@
                 type: DataTypes.ARRAY(DataTypes.UUID),
                 defaultValue: []
             },
+            medals: {
+                type: DataTypes.ARRAY(DataTypes.UUID),
+                defaultValue: []
+            },
             plumes: {
                 type: DataTypes.INTEGER,
                 defaultValue: 0
@@ -34,8 +38,11 @@
                 type: DataTypes.BIGINT,
                 defaultValue: 0
             },
-            fileInPostingDt: DataTypes.STRING
-
+            all: {
+                type: DataTypes.CHAR,
+                defaultValue: 'a'
+            },
+            textInPostingUUID: DataTypes.UUID
 
         }),
 
@@ -46,22 +53,66 @@
                 primaryKey: true,
                 unique: true,
             },
-            dt: DataTypes.STRING,
-            title: DataTypes.STRING,
-            desc: DataTypes.TEXT,
-            authorId: DataTypes.BIGINT,
-            chap1: DataTypes.INTEGER,
-            chap2: DataTypes.INTEGER,
-            words: DataTypes.INTEGER,
-            mes1: DataTypes.INTEGER,
-            mes2: DataTypes.INTEGER,
-            date: DataTypes.DATE,
+            dt_title: {
+                type: DataTypes.STRING,
+                defaultValue: ''
+            },
+            dt: {
+                type: DataTypes.STRING,
+                defaultValue: ''
+            },
+            title: {
+                type: DataTypes.STRING,
+                defaultValue: ''
+            },
+            desc: {
+                type: DataTypes.TEXT,
+                defaultValue: ''
+            },
+            authorId: {
+                type: DataTypes.BIGINT,
+                defaultValue: 0
+            },
+            chap1: {
+                type: DataTypes.INTEGER,
+                defaultValue: 0
+            },
+            chap2: {
+                type: DataTypes.INTEGER,
+                defaultValue: 0
+            },
+            words: {
+                type: DataTypes.INTEGER,
+                defaultValue: 0
+            },
+            mes1: {
+                type: DataTypes.BIGINT,
+                defaultValue: 0
+            },
+            mes2: {
+                type: DataTypes.BIGINT,
+                defaultValue: 0
+            },
+            postId: {
+                type: DataTypes.BIGINT,
+                defaultValue: 0
+            },
+            postMesId: {
+                type: DataTypes.BIGINT,
+                defaultValue: 0
+            },
             password: {
                 type: DataTypes.STRING,
                 defaultValue: ''
             },
-            themes: DataTypes.ARRAY(DataTypes.STRING),
-            questions: DataTypes.ARRAY(DataTypes.STRING)
+            themes: {
+                type: DataTypes.ARRAY(DataTypes.STRING),
+                defaultValue: []
+            },
+            questions: {
+                type: DataTypes.ARRAY(DataTypes.STRING),
+                defaultValue: []
+            }
 
         }),
 
@@ -103,7 +154,7 @@
         parametersIds:
         sequelize.define('parametersIds', {
             id: {
-                type: DataTypes.BIGINT,
+                type: DataTypes.STRING,
                 primaryKey: true,
                 unique: true,
             },
@@ -123,7 +174,7 @@
 
         async setUp(){
             await this.Sync()
-            await setTimeout(() => {
+            setTimeout(() => {
                 this.autoSet()
 
             }, 2000)
@@ -184,9 +235,10 @@
         tabExist(tab, id){
             return tab.count({ where: { id: id } })
                 .then(count => {
-                    return count != 0
+                    return count !== 0
 
                 })
+
         },
 
         async tabGet(tab, id){
@@ -233,18 +285,18 @@
         },
 
         async tabSetAtrToAll(tab, atr, val){
-            await tab.update({ [atr]: val} )
+            await tab.update({ [atr]: val}, { 'where': { all: 'a' } } )
         },
 
         async tabAddAtr(tab, id, atr, val){
-            const append = {[atr]: DataTypes.fn('array_append', DataTypes.col(atr), val)}
+            const append = {[atr]: sequelize.fn('array_append', sequelize.col(atr), val)}
 
             tab.update( append, { 'where': { id: id } })
         },
 
         async tabRemoveAtr(tab, id, atr, val){
             const append = {}
-            append[atr] = DataTypes.fn('array_remove', DataTypes.col(atr), val)
+            append[atr] = sequelize.fn('array_remove', sequelize.col(atr), val)
 
             await tab.update( append, { 'where': { id: id } })
         },

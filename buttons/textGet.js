@@ -1,26 +1,26 @@
-const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js')
+const { ButtonBuilder, ActionRowBuilder } = require('discord.js')
+const mes = require("../utils/message")
 
 module.exports = {
-    name: 'textGet',
+    name: 'textGetPassword',
     async execute(inter){
+        const tUtils = require('../utils/text')
+
         const textId = inter.customId.split('/')[1]
         const member = inter.member
 
-        const tUtils = require('../utils/text')
-        tUtils.sendFile(textId, member)
+        await tUtils.sendFile(textId, member)
+
+        await mes.interSuccess(inter)
 
     },
 
     get(textId){
-        const button = new ActionRowBuilder()
-        .addComponents(
-            new ButtonBuilder()
-                .setCustomId(this.name+'/'+textId)
-                .setLabel('Prend moi')
-                .setStyle(ButtonStyle.Success)
-        )
+        return new ButtonBuilder()
+            .setCustomId(this.name+'/'+textId)
+            .setLabel('Prend moi')
+            .setStyle('Success')
 
-        return button
     }
 
 }

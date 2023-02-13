@@ -1,73 +1,72 @@
-const db =  require('../dbObjects')
+const tab =  require('../dbObjects')
 const { sendMes } =  require('../utils/message')
 const config = require("../config").config
 
 module.exports = {
 
-    createWeeklyResetTime(){
+    async createWeeklyResetTime(){
         const date = new Date()
         date.setDate(date.getDate() + 7)
-        tab.dbCreate(PDATES_TAB, {
+        await tab.tabCreate(PDATES_TAB, {
             id: 'weeklyResetDate',
             date: date
         })
 
     },
 
-    isWeeklyResetTime(){
-        today = new Date()
-        resetDay = this.getWeeklyResetDate()
+    async isWeeklyResetTime(){
+        const today = new Date()
+        const resetDay = await this.getWeeklyResetDate()
 
-        if (today > resetDay) return true
+        return today > resetDay;
 
-        return false
     },
 
-    getWeeklyResetDate(){
-        return db.tabGetAtr(PDATES_TAB, 'weeklyResetDate', 'date')
+    async getWeeklyResetDate(){
+        return await tab.tabGetAtr(PDATES_TAB, 'weeklyResetDate', 'date')
     },
 
-    setWeeklyResetDate(){
+    async setWeeklyResetDate(){
         const date = new Date()
         date.setDate(date.getDate() + 7)
-        db.dbSetAtr(PDATES_TAB, 'weeklyResetDate', 'date', date)
+        await tab.tabSetAtr(PDATES_TAB, 'weeklyResetDate', 'date', date)
     }, 
 
     async isWeeklyResetDate(){
-        return db.tabExist(PDATES_TAB, 'weeklyResetDate')
+        return tab.tabExist(PDATES_TAB, 'weeklyResetDate')
     },
 
-    createBumpDate(){
+    async createBumpDate(){
         const date = new Date()
         date.setHours(date.getHours() + 2)
-        db.tabCreate(PDATES_TAB, {
+        await tab.tabCreate(PDATES_TAB, {
             id: 'bumpDate',
             date: date
         })
     },
 
-    getBumpDate(){
-        return db.tabGetAtr(PDATES_TAB, 'bumpDate', 'date')
+    async getBumpDate(){
+        return tab.tabGetAtr(PDATES_TAB, 'bumpDate', 'date')
     },
 
-    setBumpDate(){
-        date = new Date()
+    async setBumpDate(){
+        let date = new Date()
         date.setHours(date.getHours + 2)
 
-        db.tabSetAtr(PDATES_TAB, 'bumpDate', 'date', date)
+        await tab.tabSetAtr(PDATES_TAB, 'bumpDate', 'date', date)
     }, 
 
-    isBumpDate(){
-        return db.tabExist(PDATES_TAB, 'bumpDate')
+    async isBumpDate(){
+        return tab.tabExist(PDATES_TAB, 'bumpDate')
     },
 
     plumesRolesSet(member, plumes, inter) {
-        json = config.plumesRoles
+        const json = config.plumesRoles
         const roles = new Map(Object.entries(json))
         
-        found =  false
-        lower = 0
-        roleBefore = 0
+        let found =  false
+        let lower = 0
+        let roleBefore = 0
         roles.forEach(async (points, roleid)=>{
             const role = inter.guild.roles.cache.get(roleid)
             if(member.roles.cache.find(r => r.id === roleid)){roleBefore = role}

@@ -1,6 +1,10 @@
 const { SlashCommandBuilder } = require('discord.js')
 const mes =  require('../utils/message')
 const m = require('../utils/member')
+const somesUtils = require("../utils/somes")
+const mUtils = require("../utils/member")
+const tUtils = require("../utils/text")
+const uuidCreate = require("uuid");
 
 module.exports = {
 	data(){
@@ -19,6 +23,11 @@ module.exports = {
         const user = inter.member.user
         const id = user.id
 
+        if(! await m.exists(id)){
+            await mes.interError(inter, "Ton compte n'existe pas, va donc sonner les cloches d'un admin ;D", 1)
+            return
+        }
+
         if(!await m.getPlumes(id) <= 0){
 
             if(mes.checkExtension(file, "pdf")){
@@ -27,23 +36,53 @@ module.exports = {
 
                     try{
                         await m.deleteFileInPostingMessage(id)
+                        const uuid = await m.getTextInPostingUUID(id)
+                        await tUtils.remove(uuid)
                     }catch (e) {}
 
                 }
+
+                const uuid  = uuidCreate.v4()
+
+                inter.deferReply({ephemeral: true})
+
+                if(await somesUtils.isWeeklyResetTime()){
+                    await mUtils.resetAllWeeklyWords()
+                    await somesUtils.setWeeklyResetDate()
+                }
+
+
+                const words = await this.wordsChecker(inter, id, file)
+                if(! words){
+                    return
+                }
+
+
+                const today = new Date()
+                const t = {
+                    id: uuid,
+                    words: words,
+                    date: today,
+                    authorId: id
+                }
+
+
+                await tUtils.addText(t)
+                await mUtils.setTextInPostingUUID(id, uuid)
                 await m.addFileInPosting(user, file)
 
                 if(await m.hasNick(id)){
-                    const modal = require('../modals/textTitle').get()
-                    await mes.interSuccess(inter, '', modal)
+                    const button = await require('../buttons/textModalTitle').get(uuid, 0, 1)
+                    await mes.interSuccess(inter, "Entre le Dt_Titre de ton texte \n __appuis sur le bouton__  ↓↓↓", null, [button], true)
 
                 }else{
-                    const modal = require('../modals/textNick').get()
-                    await mes.interSuccess(inter, '', modal)
+                    const button = require('../buttons/textNick').get(uuid)
+                    await mes.interSuccess(inter, "Entre ton pseudo Plumeen \n __appuis sur le bouton__  ↓↓↓", null, [button], true)
 
                 }
 
             }else{
-                await mes.interError(inter, "Ce n'est pas un pdf que tu me donnes là... Pour convertir ton fichier en pdf tu peux aller sur ce site et regarder dans le menu **convertir en pdf** https://www.ilovepdf.com/fr")
+                await mes.interError(inter, "Ce n'est pas un pdf que tu me donnes là... Pour convertir ton fichier en pdf tu peux aller sur ce site et regarder dans le menu convertir en pdfhttps://www.ilovepdf.com/fr")
 
             }
 
@@ -52,6 +91,43 @@ module.exports = {
 
         }
 
+    },
+
+    async wordsChecker(inter, id, file){
+        const pdf = require("../utils/pdf")
+        let words = await pdf.countWords(file)
+
+        if(await mUtils.toMuchWeeklyWords(id, words)){
+            const weekly = await mUtils.getWeeklyWords(id)
+            await mes.interError(inter, "NO ! Pas plus de 20k par semaine bro\nMots: "+words+" | Mots de la semaine: "+weekly)
+            await mUtils.deleteFileInPostingMessage(id)
+            return null
+
+        }else if (words < 1000){
+
+            try{
+                await mes.interError(inter, '**NO !**  Soit un chad et envoie plus de 1000 mots.\nMots Comptés: '+words
+                    +'\nhttps://tenor.com/view/no-chad-giga-chad-giga-chet-gif-25063092'+
+                    '\nSi c~est largement éloigné du nombre de mots réel, converti ton fichier en pdf grâce à ce site :'
+                    +'\nhttps://www.ilovepdf.com/fr/word_en_pdf')
+
+            }catch(e){
+                await mes.interError(inter, 'Hhhh... appelle asra, le gars qui s~occupe du bot et dit lui de ma part que ton pdf est bizarre et que j~ai faillit crash... Hhhh... bisou')
+            }
+
+            await mUtils.deleteFileInPostingMessage(id)
+            return null
+
+        }
+
+        return words
+
+    },
+
+    uuidv4() {
+        return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+            (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+        )
     }
 
 }

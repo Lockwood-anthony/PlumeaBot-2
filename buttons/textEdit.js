@@ -1,4 +1,5 @@
-const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js')
+const { ButtonBuilder, ActionRowBuilder } = require('discord.js')
+const mes = require("../utils/message")
 
 module.exports = {
     name: 'textEdit',
@@ -8,31 +9,28 @@ module.exports = {
         const textAuthor = tUtils.getAuthorId(textId)
 
         const member = inter.member
-        if(member.user.id == textAuthor){
-            const {get} = require('../modals/textEdit')
-            inter.showModal(get(textId, false))
+        if(member.user.id === textAuthor || member.permissions.has('ADMINISTRATOR')){
+            const textDt = await require("../buttons/textModalTitle").get(textId, textId, 0, false)
+            const textModal1 = await require("../buttons/textModal1").get(textId, textId, 0, false)
+            const textModal2 = await require("../buttons/textModal2").get(textId, textId, 0, false)
 
-        }else if(member.hasPermission('ADMINISTRATOR', true)){
+            const row = new ActionRowBuilder().setComponents(textDt, textModal1, textModal2)
+
+            await mes.interSuccess(inter, "Change ton texte :", null, [row])
 
         }else{
-            inter.reply({content: 'bruh, t~es pas l~auteur, tu peux pas faire ca..', ephemeral: true})
-            
+            await mes.interError(inter, 'Bruh, t~es pas l~auteur, tu peux pas faire ca...')
+
         }
 
     },
 
     get(textId){
-        const button = new ActionRowBuilder()
-        .addComponents(
-            new ButtonBuilder()
-                .setCustomId(this.name+'/'+textId)
-                .setLabel('Etit')
-                .setStyle(ButtonStyle.Secondary)
-                .setEmoji(':gear:')
-
-        )
-
-        return button
+        return new ButtonBuilder()
+            .setCustomId(this.name+'/'+textId)
+            .setLabel('Edit')
+            .setStyle('Secondary')
+            .setEmoji('⚙️')
     }
 
 }

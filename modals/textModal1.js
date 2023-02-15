@@ -11,7 +11,6 @@ module.exports = {
         const textUUID = split[1]
         const textModelUUID = split[2]
         const PostProcess = split[3]
-        const id = inter.member.id
 
         const password = inter.fields.getTextInputValue('password')
 

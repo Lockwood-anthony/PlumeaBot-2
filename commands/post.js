@@ -5,6 +5,7 @@ const somesUtils = require("../utils/somes")
 const mUtils = require("../utils/member")
 const tUtils = require("../utils/text")
 const uuidCreate = require("uuid");
+const pdf = require("../utils/pdf")
 
 module.exports = {
 	data(){
@@ -30,12 +31,12 @@ module.exports = {
 
         if(!await m.getPlumes(id) <= 0){
 
-            if(mes.checkExtension(file, "pdf")){
+            if(pdf.checkExtension(file, "pdf")){
 
                 if(await m.isFileInPosting(id)){
 
                     try{
-                        await m.deleteFileInPostingMessage(id)
+                        await m.removeFileInPostingMes(id)
                         const uuid = await m.getTextInPostingUUID(id)
                         await tUtils.remove(uuid)
                     }catch (e) {}
@@ -100,7 +101,8 @@ module.exports = {
         if(await mUtils.toMuchWeeklyWords(id, words)){
             const weekly = await mUtils.getWeeklyWords(id)
             await mes.interError(inter, "NO ! Pas plus de 20k par semaine bro\nMots: "+words+" | Mots de la semaine: "+weekly)
-            await mUtils.deleteFileInPostingMessage(id)
+
+            await mUtils.removeFileInPostingMes(id)
             return null
 
         }else if (words < 1000){
@@ -115,19 +117,13 @@ module.exports = {
                 await mes.interError(inter, 'Hhhh... appelle asra, le gars qui s~occupe du bot et dit lui de ma part que ton pdf est bizarre et que j~ai faillit crash... Hhhh... bisou')
             }
 
-            await mUtils.deleteFileInPostingMessage(id)
+            await mUtils.removeFileInPostingMes(id)
             return null
 
         }
 
         return words
 
-    },
-
-    uuidv4() {
-        return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
-            (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-        )
     }
 
 }

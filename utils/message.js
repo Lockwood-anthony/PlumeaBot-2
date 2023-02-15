@@ -1,7 +1,13 @@
 const { config } = require('../config')
-const path = require("path")
 
 module.exports = {
+
+    color: {
+        blue: "00112B",
+        red: "D52B1E",
+        yellow: "FFB612",
+
+    },
 
     newEmbed(color = "00112B"){
         const { EmbedBuilder } = require('discord.js')
@@ -10,6 +16,14 @@ module.exports = {
             .setColor("0x"+color)
             .setTimestamp()
             .setFooter({ text: 'scriptubot', iconURL: 'https://i.imgur.com/TYeapMy.png' })
+    },
+
+    async private(member, mes){
+        await member.send(mes)
+            .catch( async ()=> {
+            return false
+        })
+        return true
     },
 
     async delMessagesBeforeOne(channel, mesId, n, safe){
@@ -147,7 +161,7 @@ module.exports = {
             options._hoistedOptions.forEach(o => {
                 title.content += " `"+o.value+"`"
 
-                if(o.type == 11){
+                if(o.type === 11){
                     title.files.push(o.attachment)
                 }
 
@@ -171,13 +185,6 @@ module.exports = {
         }catch (e) {
             return false
         }
-
-    },
-
-    checkExtension(file, extensionDesired){
-        const extension = path.extname(file.name)
-
-        return extension === '.' + extensionDesired
 
     },
 
@@ -236,11 +243,9 @@ module.exports = {
             await inter.deleteReply()
         }, 32000)
 
-        const red = "D52B1E"
-        const yellow = "FFB612"
 
-        let color = yellow
-        if (level === 1) color = red
+        let color = this.color.yellow
+        if (level === 1) color = this.color.red
 
         const title = this.chooseInterMessageTitle(inter)
         const embed2 = this.newEmbed(color)
@@ -248,7 +253,10 @@ module.exports = {
             .setDescription(`**Error** | ${inter.member.user} | <#${inter.channel.id}>
                             \`\`\`${error}\`\`\``)
 
-        await this.sendMes(config.channels.logs, { embeds: [embed2] })
+        let content = ''
+        if(level === 1){ content += `<&${config.roles.dev}>` }
+
+        await this.sendMes(config.channels.logs, { content: content, embeds: [embed2] })
 
     },
     

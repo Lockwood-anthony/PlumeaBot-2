@@ -1,4 +1,5 @@
 const pdf = require("pdf-parse")
+const path = require("path");
 
 module.exports = {
 
@@ -10,7 +11,22 @@ module.exports = {
         data = data.replace(/\n /,"\n")
         return data.split(" ").length
 
+    },
 
+    rename(file, name){
+        Object.defineProperty(file, 'name', {
+            writable: true,
+            value: name + this.getExtension(file)
+        })
+    },
+
+    checkExtension(file, extensionDesired){
+        const extension = this.getExtension(file)
+        return extension === '.' + extensionDesired
+    },
+
+    getExtension(file){
+        return path.extname(file.name)
     }
 
 }

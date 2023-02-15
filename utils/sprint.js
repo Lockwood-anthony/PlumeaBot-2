@@ -160,7 +160,8 @@ module.exports = {
         const mesId = this.getMessageId(id)
 
         const beginWords = this.getSprinterWords(id, userId)
-        let embed = await mes.getMes(channel, mesId).embeds[0]
+        const message = await mes.getMes(channel, mesId)
+        let embed = message.embeds[0]
         let desc = embed.description
         
         desc += '<@'+userId+'> a bien profité du sprint en imaginant ***' + (words-beginWords) + ' ***mots '

@@ -1,7 +1,8 @@
-const mesUtils = require('../utils/message')
+const mes = require('../utils/message')
 const { config } = require('../config')
 const db = require("../dbObjects")
-const {Op} = require("sequelize")
+const { Op } = require("sequelize")
+const m = require("./member");
 
 module.exports = {
 
@@ -17,9 +18,9 @@ module.exports = {
         return db.tabExist(T_TAB, id)
     },
 
-    async dtExist(dt, authorId){
+    async dtExist(dt, authorId, uuid){
 
-        return T_TAB.count({ where: { dt: dt, authorId: authorId } })
+        return T_TAB.count({ where: { dt: dt, authorId: authorId, id: { [Op.not]: uuid } } })
             .then(count => {
                 return count !== 0
 
@@ -31,13 +32,23 @@ module.exports = {
     },
 
     async vanish(id){
-        const m = require('../utils/member')
-        const authorId = db.tabGet(T_TAB, id, 'authorId')
-        await m.removeTextUUID(authorId, id)
-
         await this.removeMes1InChannel(id)
         await this.removeMes2InChannel(id)
-        
+
+        const postId = await this.getPostId(id)
+        const postMesId =  await this.getPostMesId(id)
+
+        await mes.editMes(postId, postMesId, {components: []})
+
+        let channel = await client.channels.fetch(postId)
+        setTimeout(() => {
+            channel.setArchived(true, "Text deleted")
+        }, 4000)
+
+        const m = require('../utils/member')
+        const authorId = await db.tabGetAtr(T_TAB, id, 'authorId')
+        await m.removeTextUUID(authorId, id)
+
         await db.tabDestroy(T_TAB, id)
     },
 
@@ -62,7 +73,7 @@ module.exports = {
     },
 
     async setTitle(id, title){
-        db.tabSetAtr(T_TAB, id, 'title', title)
+        await db.tabSetAtr(T_TAB, id, 'title', title)
     },
 
     async getDesc(id){
@@ -70,7 +81,7 @@ module.exports = {
     },
 
     async setDesc(id, desc){
-        db.tabSetAtr(T_TAB, id, 'desc', desc)
+        await db.tabSetAtr(T_TAB, id, 'desc', desc)
     },
 
     async getAuthorId(id){
@@ -78,7 +89,7 @@ module.exports = {
     },
 
     async setAuthorId(id, authorId){
-        db.tabGetAtr(T_TAB, id, 'authorId', authorId)
+        await db.tabGetAtr(T_TAB, id, 'authorId', authorId)
     },
 
     async getChap1(id){
@@ -86,7 +97,7 @@ module.exports = {
     },
 
     async setChap1(id, chap1){
-        db.tabSetAtr(T_TAB, id, 'chap1', chap1)
+        await db.tabSetAtr(T_TAB, id, 'chap1', chap1)
     },
 
     async getChap2(id){
@@ -102,7 +113,7 @@ module.exports = {
     },
 
     async setWords(id, words){
-        db.tabSetAtr(T_TAB, id, 'words', words)
+        await db.tabSetAtr(T_TAB, id, 'words', words)
     },
 
     async getMes1Id(id){
@@ -110,19 +121,23 @@ module.exports = {
     },
 
     async setMes1Id(id, mes1){
-        db.tabSetAtr(T_TAB, id, 'mes1', mes1)
+        await db.tabSetAtr(T_TAB, id, 'mes1', mes1)
     },
 
     async getMes2Id(id){
         return db.tabGetAtr(T_TAB, id, 'mes2')
     },
 
+    async getMes2(id){
+        return await mes.getMes(config.channels.safe, await this.getMes2Id(id))
+    },
+
     async setMes2Id(id, mes2){
-        db.tabSetAtr(T_TAB, id, 'mes2', mes2)
+        await db.tabSetAtr(T_TAB, id, 'mes2', mes2)
     },
 
     async setPostId(id, postId){
-        db.tabSetAtr(T_TAB, id, 'postId', postId)
+        await db.tabSetAtr(T_TAB, id, 'postId', postId)
     },
 
     async getPostId(id){
@@ -141,9 +156,9 @@ module.exports = {
     async delAllMessages(id){
         const cId = config.channels.text
         const mes1Id = await this.getMes1Id(id)
-        await mesUtils.delMes(cId, mes1Id)
+        await mes.delMes(cId, mes1Id)
         const mes2Id = await this.getMes1Id(id)
-        await mesUtils.delMes(cId, mes2Id)
+        await mes.delMes(cId, mes2Id)
 
     },
 
@@ -152,7 +167,7 @@ module.exports = {
     },
 
     async setDate(id, date){
-        db.tabSetAtr(T_TAB, id, 'date', date)
+        await db.tabSetAtr(T_TAB, id, 'date', date)
     },
 
     async getPassword(id){
@@ -160,7 +175,7 @@ module.exports = {
     },
 
     async setPassword(id, password){
-        db.tabSetAtr(T_TAB, id, 'password', password)
+        await db.tabSetAtr(T_TAB, id, 'password', password)
     },
 
     async getThemes(id){
@@ -168,7 +183,7 @@ module.exports = {
     },
 
     async setThemes(id, themes){
-        db.tabSetAtr(T_TAB, id, 'themes', themes)
+        await db.tabSetAtr(T_TAB, id, 'themes', themes)
     },
 
     async getQuestions(id){
@@ -176,19 +191,19 @@ module.exports = {
     },
 
     async setQuestions(id, questions){
-        db.tabSetAtr(T_TAB, id, 'questions', questions)
+        await db.tabSetAtr(T_TAB, id, 'questions', questions)
     },
 
     async removeMes1InChannel(id){
-        await mesUtils.delMes(config.channels.text, this.getMes1Id(id))
+        await mes.delMes(config.channels.text, await this.getMes1Id(id))
     },
 
     async removeMes2InChannel(id){
-        await mesUtils.delMes(config.channels.safe, this.getMes2Id(id))
+        await mes.delMes(config.channels.safe, await this.getMes2Id(id))
     },
 
     async sendMessage(message1){
-        return await mesUtils.sendMes(config.channels.text, message1)
+        return await mes.sendMes(config.channels.text, message1)
 
     },
 
@@ -198,12 +213,12 @@ module.exports = {
     },
 
     async sendFile(id, member){
-        const mes = await mesUtils.getMes(config.channels.safe, await this.getMes2Id(id))
-        const file = mes.attachments.first()
+        const message = await mes.getMes(config.channels.safe, await this.getMes2Id(id))
+        const file = message.attachments.first()
         const authorId = await this.getAuthorId(id)
         const author = await client.users.fetch(authorId)
 
-        const embed = mesUtils.newEmbed()
+        const embed = mes.newEmbed()
             .setTitle("Voici le texte demandé !")
             .setDescription(`Les bannissements et poursuites judiciaires sont éprouvants pour tout le monde... Alors ne diffuse pas cette oeuvre et prends en soin, ${author.username} compte sur toi :) \n\n || ${id} ||`)
 
@@ -226,10 +241,10 @@ module.exports = {
         const buttonMes = { content: '|\n|\n|\n|', components: [button] }
 
         const postMesId = await db.tabGetAtr(PIDS_TAB, 'textPostMessage', 'paramId')
-        await mesUtils.delMes(config.channels.text, postMesId)
+        await mes.delMes(config.channels.text, postMesId)
 
-        const mes = await mesUtils.sendMes(config.channels.text, buttonMes)
-        await db.tabSetAtr(PIDS_TAB, 'textPostMessage', 'paramId', mes.id)
+        const message = await mes.sendMes(config.channels.text, buttonMes)
+        await db.tabSetAtr(PIDS_TAB, 'textPostMessage', 'paramId', message.id)
 
     },
 
@@ -261,7 +276,18 @@ module.exports = {
 
         }
 
-    }
+    },
 
+    async getTextUUIDByPostId(postId){
+        const uuid = await T_TAB.findOne({
+            where: { postId: postId },
+            attributes: ['id'],
+            raw: true})
+
+        if(uuid !== null){
+            return uuid.id
+        }
+        return null
+    }
 
 }

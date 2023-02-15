@@ -1,26 +1,21 @@
-const { EmbedBuilder } = require('discord.js')
-const { sendMes } = require('../utils/message')
-const { removeMember } =  require('../utils/member')
+const mes = require('../utils/message')
+const m =  require('../utils/member')
 const { config } = require('../config')
 
 module.exports = {
 	name: 'guildMemberRemove',
 	once: false,
 
-	execute(member) {
-                const user = member.user
+	async execute(member) {
+                const cyaMessage = mes.newEmbed()
+                    .setDescription(`**${member}  | ${member.username} nous a quitté !!!**`)
+                    .setAuthor({ name: 'Niooon !', iconURL: 'https://i.imgur.com/TYeapMy.png', url: 'https://www.youtube.com/watch?v=xvFZjo5PgG0' })
+                    .setThumbnail(member.displayAvatarURL())
 
-                const cyaMessage = new EmbedBuilder()
-                .setColor(0x2C2F33)
-                .setDescription(`**${user} nous a quitté !!!**`)
-                .setAuthor({ name: 'Niooon !',iconURL: 'https://i.imgur.com/TYeapMy.png', url: 'https://www.youtube.com/watch?v=xvFZjo5PgG0' })
-                .setThumbnail(user.displayAvatarURL())
-                .setTimestamp()
-
-                removeMember(user.id)
+                await m.removeMember(member.id)
 
                 const cya = config.channels.cya
-                sendMes(cya, {embeds: [cyaMessage]})
+                await mes.sendMes(cya, {embeds: [cyaMessage]})
 		
 	},
 }

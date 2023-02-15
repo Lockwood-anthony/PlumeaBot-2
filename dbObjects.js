@@ -22,6 +22,10 @@
                 type: DataTypes.ARRAY(DataTypes.UUID),
                 defaultValue: []
             },
+            cards: {
+                type: DataTypes.ARRAY(DataTypes.UUID),
+                defaultValue: []
+            },
             plumes: {
                 type: DataTypes.INTEGER,
                 defaultValue: 0
@@ -116,61 +120,84 @@
 
         }),
 
-        opinions:
-        sequelize.define('opinions', {
-            n: DataTypes.INTEGER,
-            text: DataTypes.UUID,
-            sender: DataTypes.BIGINT,
-            date: DataTypes.DATE
-        }),
-
         sprints:
-        sequelize.define('sprints', {
-            id: {
-                type: DataTypes.INTEGER,
-                defaultValue: 0,
-                primaryKey: true,
-                unique: true
-            },
-            time: {
-                type: DataTypes.INTEGER,
-                defaultValue: 0,
-            },
-            maxTime: {
-                type: DataTypes.INTEGER,
-                defaultValue: 0,
-            },
-            sprinters: {
-                type: DataTypes.ARRAY(DataTypes.BIGINT, DataTypes.INTEGER),
-                defaultValue: []
-            },
-            messageId: {
-                type: DataTypes.INTEGER,
-                defaultValue: 0,
-            }
+            sequelize.define('sprints', {
+                id: {
+                    type: DataTypes.INTEGER,
+                    defaultValue: 0,
+                    primaryKey: true,
+                    unique: true
+                },
+                time: {
+                    type: DataTypes.INTEGER,
+                    defaultValue: 0,
+                },
+                maxTime: {
+                    type: DataTypes.INTEGER,
+                    defaultValue: 0,
+                },
+                sprinters: {
+                    type: DataTypes.ARRAY(DataTypes.BIGINT),
+                    defaultValue: []
+                },
+                words: {
+                    type: DataTypes.ARRAY(DataTypes.INTEGER),
+                    defaultValue: []
+                },
+                messageId: {
+                    type: DataTypes.INTEGER,
+                    defaultValue: 0,
+                }
 
-        }),
+            }),
+
+        opinions:
+            sequelize.define('opinions', {
+                id: {
+                    type: DataTypes.UUID,
+                    primaryKey: true,
+                    unique: true
+                },
+                textId: DataTypes.UUID,
+                words: {
+                    type: DataTypes.INTEGER,
+                    defaultValue: 0
+                },
+                messageId: {
+                    type: DataTypes.BIGINT,
+                    defaultValue: 0
+                },
+                senderId: {
+                    type: DataTypes.BIGINT,
+                    defaultValue: 0,
+                },
+                validate: {
+                    type: DataTypes.BIGINT,
+                    defaultValue: 0,
+                }
+
+            }),
 
         parametersIds:
-        sequelize.define('parametersIds', {
-            id: {
-                type: DataTypes.STRING,
-                primaryKey: true,
-                unique: true,
-            },
-            paramId: DataTypes.BIGINT
+            sequelize.define('parametersIds', {
+                id: {
+                    type: DataTypes.STRING,
+                    primaryKey: true,
+                    unique: true,
+                },
+                paramId: DataTypes.BIGINT
 
-        }),
+            }),
 
         parametersDates:
-        sequelize.define('parametersDates', {
-            id: {
-                type: DataTypes.STRING,
-                primaryKey: true,
-                unique: true,
-            },
-            date: DataTypes.DATE
-        }),
+            sequelize.define('parametersDates', {
+                id: {
+                    type: DataTypes.STRING,
+                    primaryKey: true,
+                    unique: true,
+                },
+                date: DataTypes.DATE
+            }),
 
         async setUp(){
             await this.Sync()
@@ -184,15 +211,15 @@
         Sync(){
             global.M_TAB = this.members
             global.T_TAB = this.texts
-            global.O_TAB = this.opinions
             global.S_TAB = this.sprints
+            global.O_TAB = this.opinions
             global.PIDS_TAB = this.parametersIds
             global.PDATES_TAB = this.parametersDates
 
             M_TAB.sync()
             T_TAB.sync()
-            O_TAB.sync()
             S_TAB.sync()
+            O_TAB.sync()
             PIDS_TAB.sync()
             PDATES_TAB.sync()
 
@@ -200,11 +227,11 @@
 
         async autoSet(){
             const sprint = require ('./utils/sprint')
-            if(!sprint.exists(0)){ sprint.addOne(0) }
+            if(!sprint.exists(0)){ await sprint.addOne(0) }
 
             const { isWeeklyResetDate, isBumpDate, createWeeklyResetTime, createBumpDate } =  require('./utils/somes')
-            if(! await isWeeklyResetDate()){ createWeeklyResetTime() }
-            if(! await isBumpDate()){ createBumpDate() }
+            if(! await isWeeklyResetDate()){ await createWeeklyResetTime() }
+            if(! await isBumpDate()){ await createBumpDate() }
 
         },
 
@@ -250,7 +277,7 @@
                 attributes: [atr],
                 raw: true
             }
-            if(id) args["where"] = { id: id }
+            if(id){ args["where"] = { id: id } }
             const a = await tab.findOne(args)
 
             return a[atr]
@@ -295,16 +322,13 @@
         },
 
         async tabRemoveAtr(tab, id, atr, val){
-            const append = {}
-            append[atr] = sequelize.fn('array_remove', sequelize.col(atr), val)
-
-            await tab.update( append, { 'where': { id: id } })
+            await tab.update({ [atr]: sequelize.fn('array_remove',sequelize.col(atr), val) }, { 'where': { id: id } })
         },
 
         async tabRemoveAtrIndex(tab, id, atr, index){
             const list = this.tabGetAtr(tab, id, atr)
             const o = list[index]
-            this.tabRemoveAtr(tab, id, atr, o)
+            await this.tabRemoveAtr(tab, id, atr, o)
         },
 
         async tabIncrementAtr(tab, id, atr, i){

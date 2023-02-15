@@ -68,8 +68,9 @@ module.exports = {
         let lower = 0
         let roleBefore = 0
         roles.forEach(async (points, roleid)=>{
-            const role = inter.guild.roles.cache.get(roleid)
-            if(member.roles.cache.find(r => r.id === roleid)){roleBefore = role}
+            const role = await inter.guild.roles.cache.get(roleid)
+
+            if(await member.roles.cache.find(r => r.id === roleid)){ roleBefore = role }
 
             await member.roles.remove(role)
 
@@ -78,14 +79,14 @@ module.exports = {
 
             }else{
 
-                if(!found && lower != 0){
+                if(!found && lower !== 0){
                     found = true
 
                     await member.roles.add(lower)
 
-                    if(roleBefore != lower){
+                    if(roleBefore !== lower){
                         const channel = config.channels.plumes
-                        sendMes(channel, `<@${member.user.id}> devient un  ${lower.name}`)
+                        await sendMes(channel, `<@${member.user.id}> devient un  ${lower.name}`)
 
                     }                
 

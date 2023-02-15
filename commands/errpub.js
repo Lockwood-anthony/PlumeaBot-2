@@ -4,32 +4,30 @@ const mes =  require('../utils/message')
 module.exports = {
 	ERROR: [
 		{id: 'ALL', desc: 'Les publications sur ce serveur sont soumises à des consignes. Elles peuvent être complexes à première vue, mais pas de panique ! Si vous avez besoin d~assistance, n~hésitez pas à solliciter le staff.'},
-		{id: 'MAUVAISE_SERIE', desc: 'Le dt_titre n~est pas similaire à la série dont il appartient.'},
 		{id: 'BIENSCEANCE', desc: 'Ton texte enfreint les règles de la communauté.'},
 		{id: 'COPYRIGHT', desc: 'Ton texte est une fanfiction. Il contient un matériel source étranger au serveur, copyrighté et non original, et donc par conséquent ne peut pas être commenté par tous. Désolé!'},
-		{id: 'MAUVAIS_AUTEUR', desc: 'Ton texte porte le dt_auteur d~un autre membre'},
 		{id: 'FANFICTION', desc: 'Ton texte est une fanfiction. Compte tenu que tout le monde n~a pas accès au matériaux de base sur lequel se base ton histoire. Ton texte a été retiré, désolé!'},
 		{id: 'NON_FONCTION', desc: 'Ton texte n~est pas de la fiction. Nous n~acceptons pas les essais ou biographies car ils sont par essences difficilement critiquables. Ton texte a été retiré, désolé!'},
 	],
 
 	data(){
 		let data = new SlashCommandBuilder()
-		.setName('errpub')
-		.setDescription('Ensemble des Commandes relatives aux erreurs de Publication')
-		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
-		.addUserOption(option => option
-			.setName('target')
-			.setDescription('Target')
-			.setRequired(true))
+			.setName('errpub')
+			.setDescription('Ensemble des Commandes relatives aux erreurs de Publication')
+			.setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+			.addUserOption(option => option
+				.setName('target')
+				.setDescription('Target')
+				.setRequired(true))
 	
 		let choices = []
-		for(e of this.ERROR){
+		for(const e of this.ERROR){
 			choices.push( { name: e.id, value: e.id } )
 		}
 	
 		
 		for(let i = 0 ; i < this.ERROR.length-1 ; i++){
-			required = i==0
+			const required = i === 0
 			data.addStringOption(option => {
 				option.setName('id'+i)
 				.setDescription('errpub id')
@@ -48,10 +46,10 @@ module.exports = {
 			
 	},
 
-	execute(inter) {
-		var target = inter.options.getUser('target')
-		var id0 = inter.options.getString('id0')
-		var ids = [id0]
+	async execute(inter) {
+		let target = inter.options.getUser('target')
+		let id0 = inter.options.getString('id0')
+		let ids = [id0]
 
 		for(let i = 1 ; i < this.ERROR.length-1 ;){
 
@@ -65,7 +63,7 @@ module.exports = {
 
 		let message = '__**Erreur de publication ! Ton texte a été supprimé pour la raison suivante :**__```md\n'
 
-		for(e of ERROR){
+		for(const e of this.ERROR){
 			if(ids.includes(e.id)){
 				message += `#${e.desc}`
 			}
@@ -73,12 +71,13 @@ module.exports = {
 
 		message += '```Toutes nos consignes sont disponibles dans les messages épinglés du salon réservé aux posts :D'
 
-		target.send(message).catch(error => {
-			mes.interError(inter, 'Cet utilisateur ne souhaite hélas pas recevoir mes messages ;-;')
-			return
-		})
+		if(await mes.private(target, message)){
+			await mes.interError(inter, 'Cet utilisateur ne souhaite hélas pas recevoir mes messages ;-;')
 
-		mes.interSuccess(inter)
+		}else{
+			await mes.interSuccess(inter)
+
+		}
 
 	}
 

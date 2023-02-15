@@ -1,11 +1,12 @@
 const { ModalBuilder, TextInputBuilder, ActionRowBuilder,
-    GuildForumThreadManager, EmbedBuilder
+    GuildForumThreadManager, EmbedBuilder, ButtonBuilder
 } = require('discord.js')
 const mUtils = require("../utils/member")
 const tUtils = require("../utils/text")
 const config = require("../config").config
 const mes = require("../utils/message")
 const mesUtils = require("../utils/message")
+const pdf = require("../utils/pdf")
 
 module.exports = {
     name: 'textModal2',
@@ -24,6 +25,10 @@ module.exports = {
         let chap1 = inter.fields.getTextInputValue('chap1')
         let chap2 = inter.fields.getTextInputValue('chap2')
         if(chap2 === ''){ chap2 = -1}
+
+        const oldDt = await tUtils.getDt(textUUID)
+        const oldDesc = await tUtils.getDesc(textUUID)
+        const oldTitle = await tUtils.getTitle(textUUID)
 
         await tUtils.setTitle(textUUID, title)
         await tUtils.setDesc(textUUID, desc)
@@ -74,24 +79,28 @@ module.exports = {
             chap2 = 0
             await tUtils.setChap2(textUUID, 0)
         }
-        dt_chap += ('000' + chap2).slice(-3)
+        dt_chap += '-' + ('000' + chap2).slice(-3)
 
         const dt_title = await tUtils.getDtTitle(textUUID)
         const dt_nick = await mUtils.getNick(id)
         const dt = (dt_title + dt_chap + dt_nick).toUpperCase()
 
-        if(await tUtils.dtExist(dt, id)){
-            errorMes += "le dt_titre, et les deux chapitres sont identiques à une de tes oeuvre déjà postée ! Si tu le souahites tu peux l'éditer au lieu de la reposter :D"
+        const dtExist = await tUtils.dtExist(dt, id, textUUID)
+        if(dtExist){
+            errorMes += "le dt_titre, et les deux chapitres sont identiques à une de tes oeuvre déjà postée ! Si tu le souhaites tu peux l'éditer au lieu de la reposter :D"
+        }else{
+            await tUtils.setDt(textUUID, dt)
         }
 
         if(errorMes !== ''){
             errorMes += "\n__appuis sur le bouton__  ↓↓↓"
             const button = require("../buttons/textModal2").get(textUUID, textModelUUID, PostProcess)
             await mes.interError(inter, errorMes, 0, [button])
-            return
         }
 
         if(PostProcess === '1'){
+            if(errorMes !== ''){ return }
+
             const fileId = await mUtils.getFileInPostingMesId(id)
             const fileMes = await mes.getMes(config.channels.safe, fileId)
             const file  = fileMes.attachments.first()
@@ -102,10 +111,7 @@ module.exports = {
 
             await inter.deferReply({ephemeral: true})
 
-            Object.defineProperty(file, 'name', {
-                writable: true,
-                value: dt + '.pdf'
-            })
+            pdf.rename(file, dt)
 
             const spaceEmbed = new EmbedBuilder()
                 .setColor(0x2C2F33)
@@ -113,8 +119,11 @@ module.exports = {
 
             const textEmbed = mesUtils.newEmbed()
                 .setTitle(title)
-                .setAuthor({ name: dt + ' | '+ words + ' mots', iconURL: member.displayAvatarURL(), url: "https://www.youtube.com/watch?v=zRs58D34OLY" })
-                .setDescription(`${desc} \n\n ||${textUUID}||`)
+                .setAuthor({
+                    name: dt + ' | '+ words + ' mots',
+                    iconURL: member.displayAvatarURL(),
+                    url: "https://www.youtube.com/watch?v=zRs58D34OLY" })
+                .setDescription(`${desc} \n\n ||[${textUUID}](${fileMes.url})||`)
 
             const safeEmbed = mes.newEmbed()
                 .setTitle(textUUID)
@@ -132,20 +141,30 @@ module.exports = {
                 getButton = require('../buttons/textPassword').get(textUUID)
             }
 
-            const postButtons = new ActionRowBuilder().setComponents(getButton, editButton, delButton)
-            const postIds = await this.forumPost(dt, member, {embeds: [textEmbed], components: [postButtons]}, themes)
+            const postIds = await this.forumPost(dt, member, {embeds: [textEmbed]}, themes)
 
-            const postLinkButton = require('../buttons/textPostLink').get(postIds[2])
+            const postLinkButton = new ButtonBuilder()
+                .setLabel('Avis')
+                .setURL(postIds[2])
+                .setStyle('Link')
 
             const buttons = new ActionRowBuilder().setComponents(getButton, postLinkButton, editButton, delButton)
-            let mes1 = 0
-            await inter.channel.send({ embeds: [spaceEmbed, textEmbed], components: [buttons]}).then(m => mes1 = m.id)
+            let mes1 = await mes.sendMes(config.channels.text, { embeds: [spaceEmbed, textEmbed], components: [buttons]})
 
-            await tUtils.setMes1Id(textUUID, mes1)
+            const textLinkButton = new ButtonBuilder()
+                .setLabel('Lien')
+                .setURL(mes1.url)
+                .setStyle('Link')
+            const postButtons = new ActionRowBuilder().setComponents(getButton, textLinkButton, editButton, delButton)
+            await mes.editMes(postIds[0], postIds[1], {components: [postButtons]})
+
+            const safeButtons = new ActionRowBuilder().setComponents(textLinkButton, postLinkButton, editButton, delButton)
+            await mes.editMes(config.channels.safe, fileId, {components: [safeButtons]})
+
+            await tUtils.setMes1Id(textUUID, mes1.id)
             await tUtils.setPostId(textUUID, postIds[0])
             await tUtils.setPostMesId(textUUID, postIds[1])
             await tUtils.setMes2Id(textUUID, fileId)
-            await tUtils.setDt(textUUID, dt)
 
             await tUtils.sendPostTutorial()
 
@@ -157,11 +176,48 @@ module.exports = {
             await mes.interSuccess(inter, null, null, null, true)
 
         }else{
-            const oldDt = await tUtils.getDt(textUUID)
-            if(oldDt !== dt){
+            if(oldDt !== dt || oldDesc !== desc || title !== oldTitle){
+                const mesId1 = await tUtils.getMes1Id(textUUID)
+                const postChannel = await tUtils.getPostMesId(textUUID)
+                const postMes = await tUtils.getPostId(textUUID)
+                let mes1 = await mes.getMes(config.channels.text, mesId1)
+                let embed = mes1.embeds[1]
+
+                if(oldDt !== dt && !dtExist){
+                    const author = embed.author.name
+                    const words = author.split('|')[1]
+                    embed.data.author.name = dt + " |" + words
+
+                    const safeMesId = await tUtils.getMes2Id(textUUID)
+                    const safeMes = await mes.getMes(config.channels.safe, safeMesId)
+
+                    const file = safeMes.attachments.first()
+                    pdf.rename(file, dt)
+
+                    const safeEmbed = safeMes.embeds[0]
+                    const safeEmbedDesc = safeEmbed.description
+                    safeEmbed.data.description = safeEmbedDesc.split("\n")[0] + "\n" + dt
+
+                    await mes.editMes(config.channels.safe, safeMesId, {files:[file], embeds: [ safeEmbed]})
+
+                }
+
+                if(oldDesc !== desc){
+                    const embedDesc = embed.description
+                    embed.data.description =  desc + "\n" + embedDesc.split("\n")[1]
+                }
+
+                if(oldTitle !== title){
+                    embed.data.title = title
+                }
+
+                await mes.editMes(config.channels.text, mesId1, { embeds: [mes1.embeds[0], embed] })
+                await mes.editMes(postChannel, postMes, { embeds: [embed] })
 
             }
-            await mes.interSuccess(inter)
+
+            if(errorMes === ''){ await mes.interSuccess(inter) }
+
         }
 
     },

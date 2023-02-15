@@ -1,4 +1,4 @@
-const { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder } = require('discord.js')
+const { ModalBuilder, TextInputBuilder, ActionRowBuilder } = require('discord.js')
 const mUtils = require("../utils/member")
 const mes = require("../utils/message")
 
@@ -30,12 +30,20 @@ module.exports = {
 
 
             }else{
-                await mes.interError(inter, "Tu as mal confirmé ton pseudo")
+                await mes.interError(
+                    inter,
+                    "Tu as mal confirmé ton pseudo \n __appuis sur le bouton__  ↓↓↓",
+                    0,
+                    [require("../buttons/textNick").get(textUUID)])
 
             }
 
         }else{
-            await mes.interError(inter, "Seuls les caractères alphabétiques sont autorisés")
+            await mes.interError(
+                inter,
+                "Seuls les caractères alphabétiques sont autorisés \n __appuis sur le bouton__  ↓↓↓",
+                0,
+                [require("../buttons/textNick").get(textUUID)])
 
         }
 
@@ -43,8 +51,8 @@ module.exports = {
 
     get(textUUID){
         const modal = new ModalBuilder()
-        .setCustomId(this.name + "/" + textUUID)
-        .setTitle('CE SERA TON PSEUDO A JAMAIS')
+            .setCustomId(this.name + "/" + textUUID)
+            .setTitle('CE SERA TON PSEUDO A JAMAIS')
 
         const nick =
             new ActionRowBuilder()
@@ -53,16 +61,14 @@ module.exports = {
                     .setLabel('Entre ton pseudo :')
                     .setMinLength(4)
                     .setMaxLength(4)
-                    .setStyle(TextInputStyle.Short)
-                    .setRequired(true))
+                    .setStyle("Short"))
 
         const nickConfirm =
             new ActionRowBuilder()
                 .addComponents( new TextInputBuilder()
                     .setCustomId('nickConfirm')
                     .setLabel('Confirme le :')
-                    .setStyle(TextInputStyle.Short)
-                    .setRequired(true))
+                    .setStyle("Short"))
 
         modal.addComponents( [nick, nickConfirm] )
 

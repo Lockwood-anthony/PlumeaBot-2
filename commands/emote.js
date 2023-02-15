@@ -4,11 +4,10 @@ const mes = require("../utils/message")
 
 module.exports = {
 	data(){
-	let data = new SlashCommandBuilder()
-		.setName('emote')
-		.setDescription('plume')
+		return new SlashCommandBuilder()
+			.setName('emote')
+			.setDescription('plume')
 
-	return data
 	},
 
 	async execute(inter) {

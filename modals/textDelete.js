@@ -1,20 +1,20 @@
-const { doesNotMatch } = require('assert')
-const { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder } = require('discord.js')
+const { ModalBuilder, TextInputBuilder, ActionRowBuilder } = require('discord.js')
+const mes = require("../utils/message")
 
 module.exports = {
     name: 'textDelete',
     async execute(inter){
         const tUtils = require('../utils/text')
-        const uuid = inter.customID.split('/')[1]
+        const uuid = inter.customId.split('/')[1]
         const dt = inter.fields.getTextInputValue('dt')
-        const trueDt = tUtils.getDt(uuid)
+        const trueDt = await tUtils.getDt(uuid)
 
         if(dt === trueDt){
             await tUtils.vanish(uuid)
-            inter.reply({cotent: doesNotMatch, ephemeral: true})
+            await mes.interSuccess(inter)
 
         }else{
-            inter.reply({content: 'Mauvais dt !', ephemeral: true})
+            await mes.interError(inter, 'Mauvais dt !')
 
         }
 
@@ -31,8 +31,7 @@ module.exports = {
         .setPlaceholder('Le texte disparaitra à jamais !')
         .setMinLength(13)
         .setMaxLength(17)
-        .setStyle(TextInputStyle.Short)
-        .setRequired(true)
+        .setStyle("Short")
 
         const firstActionRow = new ActionRowBuilder().addComponents(nick)
         modal.addComponents(firstActionRow)

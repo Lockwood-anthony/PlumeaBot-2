@@ -17,9 +17,10 @@ module.exports = {
         let winnersId = []
 
         members.forEach(m => {
-            plumes = m[1]
-            higher = true
+            const plumes = m[1]
+            let higher = true
             const l = winnersPlumes.length
+
             for (let i = 0 ; i < l ; i++) {
 
                 if(plumes < winnersPlumes[i]){
@@ -47,15 +48,15 @@ module.exports = {
 
         let message = '\n'
         const l = winnersId.length
-        for(i = l-1 ; (i >= l-10 && i >= 0) ; i--){
-            id = winnersId[i]
+        for(let i = l-1 ; (i >= l-10 && i >= 0) ; i--){
+            const id = winnersId[i]
 
-            m = ''
-            if(i == l-1){
+            let m = ''
+            if(i === l-1){
                 m += ':first_place: '
-            }else if(i == l-2){
+            }else if(i === l-2){
                 m += ':second_place: '
-            }else if(i == l-3){
+            }else if(i === l-3){
                 m += ':third_place: '
             }
 
@@ -63,11 +64,10 @@ module.exports = {
 
         }
 
-        const Leaderboard = mes.newEmbed()
-        .setTitle('LEADERBOARD :')
-        .setDescription(message)
+        return mes.newEmbed()
+            .setTitle('LEADERBOARD :')
+            .setDescription(message)
 
-        return Leaderboard
     }
 
 }

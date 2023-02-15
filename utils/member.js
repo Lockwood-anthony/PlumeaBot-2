@@ -6,20 +6,20 @@ const tUtils = require('../utils/text')
 module.exports = {
 
     async getMember(id){
-        db.tabGet(M_TAB, id)
+        await db.tabGet(M_TAB, id)
     },
 
     async addMember(id){
         const date = new Date()
 
-        db.tabCreate(M_TAB, {
+        await db.tabCreate(M_TAB, {
             id: id,
             joinDate: date
         })
     },
 
     async removeMember(id){
-        db.tabDestroy(M_TAB, id)
+        await db.tabDestroy(M_TAB, id)
     },
 
     async exists(id){
@@ -27,7 +27,7 @@ module.exports = {
     },
 
     async getAllNoPlumes(){
-        return Member.findAll({
+        return M_TAB.findAll({
             where: {
                 plumes: 0
             },
@@ -45,7 +45,7 @@ module.exports = {
 
     async hasNick(id){
         const nick = await this.getNick(id)
-        return await nick.length == 4
+        return nick.length === 4
     },
 
     async getPlumes(id){
@@ -53,11 +53,11 @@ module.exports = {
     },
 
     async addPlumes(id, plumes){
-        db.tabIncrementAtr(M_TAB, id, 'plumes', plumes)
+        await db.tabIncrementAtr(M_TAB, id, 'plumes', plumes)
     },
 
     async removePlumes(id, plumes){
-        db.tabIncrementAtr(M_TAB, id, 'plumes', -plumes)
+        await db.tabIncrementAtr(M_TAB, id, 'plumes', -plumes)
     },
 
     async getCoins(id){
@@ -65,11 +65,11 @@ module.exports = {
     },
 
     async addCoins(id, coins){
-        db.tabIncrementAtr(M_TAB, id, 'coins', coins)
+        await db.tabIncrementAtr(M_TAB, id, 'coins', coins)
     },
 
     async removeCoins(id, coins){
-        db.tabIncrementAtr(M_TAB, id, 'coins', -coins)
+        await db.tabIncrementAtr(M_TAB, id, 'coins', -coins)
     },
 
     async getWeeklyWords(id){
@@ -77,26 +77,21 @@ module.exports = {
     },
 
     async addWeeklyWords(id, weeklyWords){
-        db.tabIncrementAtr(M_TAB, id, 'weeklyWords', weeklyWords)
+        await db.tabIncrementAtr(M_TAB, id, 'weeklyWords', weeklyWords)
     },
 
     async removeWeeklyWords(id, weeklyWords){
-        db.tabIncrementAtr(M_TAB, id, 'weeklyWords', -weeklyWords)
+        await db.tabIncrementAtr(M_TAB, id, 'weeklyWords', -weeklyWords)
     },
 
     async toMuchWeeklyWords(id, words){
         const weekly = this.getWeeklyWords(id)
-
-        if (weekly + words > 20000){
-            return true
-        }else{
-            return false
-        }
+        return weekly + words > 20000;
 
     },
 
     async resetAllWeeklyWords(){
-        db.tabSetAtrToAll(M_TAB, 'weeklyWords', 0)
+        await db.tabSetAtrToAll(M_TAB, 'weeklyWords', 0)
     },
 
     async isFileInPosting(id){
@@ -104,11 +99,15 @@ module.exports = {
     },
 
     async setFileInPostingMesId(id, fileInPostingMesId){
-        db.tabSetAtr(M_TAB, id, 'fileInPostingMesId', fileInPostingMesId)
+        await db.tabSetAtr(M_TAB, id, 'fileInPostingMesId', fileInPostingMesId)
     },
 
     async getFileInPostingMesId(id){
         return db.tabGetAtr(M_TAB, id, 'fileInPostingMesId')
+    },
+
+    async removeFileInPostingMes(id){
+        await mes.delMes(config.channels.safe, await this.getFileInPostingMesId(id))
     },
 
     async addFileInPosting(user, file){
@@ -117,12 +116,12 @@ module.exports = {
             .setDescription(`par ${user}`)
 
         const fileInPostingMes = await mes.sendMes(config.channels.safe, {embeds: [embed], files: [file]})
-        this.setFileInPostingMesId(user.id, fileInPostingMes.id)
+        await this.setFileInPostingMesId(user.id, fileInPostingMes.id)
 
     },
 
     async setTextInPostingUUID(id, textInPostingUUID){
-        db.tabSetAtr(M_TAB, id, 'textInPostingUUID', textInPostingUUID)
+        await db.tabSetAtr(M_TAB, id, 'textInPostingUUID', textInPostingUUID)
     },
 
     async getTextInPostingUUID(id){
@@ -143,8 +142,7 @@ module.exports = {
     },
 
     async removeTextUUID(id, UUID){
-        const dt = require('../utils/text').getDt(UUID)
-        db.tabRemoveAtr(M_TAB, id, 'textsUUIDs', [UUID, dt])
+        await db.tabRemoveAtr(M_TAB, id, 'textsUUIDs', UUID)
     },
 
     async removeAllTextsUUIDs(id){

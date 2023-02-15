@@ -1,15 +1,16 @@
 const { ActionRowBuilder, ButtonBuilder } = require('discord.js')
+const mes = require("../utils/message")
 
 module.exports = {
     name: 'sprintFinal',
     async execute(inter){
-        const modal = require('../modals/sprintFinalWords')
-		await inter.showModal(modal.get()) 
+        const modal = require('../modals/sprintFinalWords').get()
+        await mes.interSuccess(inter, null, modal)
 
     },
 
 	get(){
-        const button = new ActionRowBuilder()
+        return new ActionRowBuilder()
         .addComponents(
             new ButtonBuilder()
                 .setCustomId(this.name)
@@ -17,7 +18,6 @@ module.exports = {
                 .setStyle('Primary')
         )
 
-        return button
     }
 
 }

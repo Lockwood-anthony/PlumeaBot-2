@@ -32,8 +32,8 @@ module.exports = {
     },
 
     async vanish(id){
-        await this.removeMes1InChannel(id)
-        await this.removeMes2InChannel(id)
+        await this.removeTextMes(id)
+        await this.removeFileMes(id)
 
         const postId = await this.getPostId(id)
         const postMesId =  await this.getPostMesId(id)
@@ -42,7 +42,7 @@ module.exports = {
 
         let channel = await client.channels.fetch(postId)
         setTimeout(() => {
-            channel.setArchived(true, "Text deleted")
+            channel.setLocked(true, "Text deleted")
         }, 4000)
 
         const m = require('../utils/member')
@@ -116,24 +116,24 @@ module.exports = {
         await db.tabSetAtr(T_TAB, id, 'words', words)
     },
 
-    async getMes1Id(id){
-        return db.tabGetAtr(T_TAB, id, 'mes1')
+    async getTextMesId(id){
+        return db.tabGetAtr(T_TAB, id, 'textMesId')
     },
 
-    async setMes1Id(id, mes1){
-        await db.tabSetAtr(T_TAB, id, 'mes1', mes1)
+    async setTextMesId(id, textMesId){
+        await db.tabSetAtr(T_TAB, id, 'textMesId', textMesId)
     },
 
-    async getMes2Id(id){
-        return db.tabGetAtr(T_TAB, id, 'mes2')
+    async getFileMesId(id){
+        return db.tabGetAtr(T_TAB, id, 'fileMesId')
     },
 
-    async getMes2(id){
-        return await mes.getMes(config.channels.safe, await this.getMes2Id(id))
+    async getFileMes(id){
+        return await mes.getMes(config.channels.safe, await this.getFileMesId(id))
     },
 
-    async setMes2Id(id, mes2){
-        await db.tabSetAtr(T_TAB, id, 'mes2', mes2)
+    async setFileMesId(id, fileMes){
+        await db.tabSetAtr(T_TAB, id, 'fileMesId', fileMes)
     },
 
     async setPostId(id, postId){
@@ -150,16 +150,6 @@ module.exports = {
 
     async getPostMesId(id){
         return db.tabGetAtr(T_TAB, id, 'postMesId')
-    },
-
-
-    async delAllMessages(id){
-        const cId = config.channels.text
-        const mes1Id = await this.getMes1Id(id)
-        await mes.delMes(cId, mes1Id)
-        const mes2Id = await this.getMes1Id(id)
-        await mes.delMes(cId, mes2Id)
-
     },
 
     async getDate(id){
@@ -194,26 +184,16 @@ module.exports = {
         await db.tabSetAtr(T_TAB, id, 'questions', questions)
     },
 
-    async removeMes1InChannel(id){
-        await mes.delMes(config.channels.text, await this.getMes1Id(id))
+    async removeTextMes(id){
+        await mes.delMes(config.channels.text, await this.getTextMesId(id))
     },
 
-    async removeMes2InChannel(id){
-        await mes.delMes(config.channels.safe, await this.getMes2Id(id))
-    },
-
-    async sendMessage(message1){
-        return await mes.sendMes(config.channels.text, message1)
-
-    },
-
-    async isAuthor(id, userId){
-        const author = this.getAuthorId(id)
-        return author === userId
+    async removeFileMes(id){
+        await mes.delMes(config.channels.safe, await this.getFileMesId(id))
     },
 
     async sendFile(id, member){
-        const message = await mes.getMes(config.channels.safe, await this.getMes2Id(id))
+        const message = await mes.getMes(config.channels.safe, await this.getFileMesId(id))
         const file = message.attachments.first()
         const authorId = await this.getAuthorId(id)
         const author = await client.users.fetch(authorId)
@@ -222,26 +202,31 @@ module.exports = {
             .setTitle("Voici le texte demandé !")
             .setDescription(`Les bannissements et poursuites judiciaires sont éprouvants pour tout le monde... Alors ne diffuse pas cette oeuvre et prends en soin, ${author.username} compte sur toi :) \n\n || ${id} ||`)
 
-        await member.send( {embeds: [embed], files: [file]} )
-        
+        return await mes.private(member, { embeds: [embed], files: [file] })
+
     },
 
     async sendPostTutorial(){
         const { ButtonBuilder, ActionRowBuilder } = require('discord.js')
 
-        const button = new ActionRowBuilder()
-            .setComponents(
-                new ButtonBuilder()
-                    .setLabel('Comment poster son texte ?')
-                    .setEmoji('🤔')
-                    .setStyle('Link')
-                    .setURL("https://discord.com/channels/1066783578140180520/1066783579079716895/1074400898744332418")
-            )
+        const postButton = mes.getLinkButton(
+            config.messages.tutoPost,
+            'Comment poster son texte ?',
+            '🧭',
+            true
+        )
+
+        const commentButton = mes.getLinkButton(
+            config.messages.tutoComment,
+            'Comment commenter un texte ?',
+            '🧭',
+            true
+        )
 
         const buttonMes = { content: '|\n|\n|\n|', components: [button] }
 
         const postMesId = await db.tabGetAtr(PIDS_TAB, 'textPostMessage', 'paramId')
-        await mes.delMes(config.channels.text, postMesId)
+        await mes.delMes(config.channels.text, [postButton, commentButton])
 
         const message = await mes.sendMes(config.channels.text, buttonMes)
         await db.tabSetAtr(PIDS_TAB, 'textPostMessage', 'paramId', message.id)
@@ -288,6 +273,19 @@ module.exports = {
             return uuid.id
         }
         return null
+    },
+
+    getThemesIdsByNames(themes){
+        let themesIds = []
+
+        for(const t of config.themes){
+            if(themes.includes(t.name)){
+                themesIds.push(t.id)
+            }
+        }
+
+        return themesIds
+
     }
 
 }

@@ -14,36 +14,13 @@ module.exports = {
 				command.execute(inter)
 
 			}else if(inter.isButton()){
-				const buttonId = inter.customId.split('/')[0]
-
-				const buttonsPath = path.join(DIRNAME, 'buttons')
-				const buttons = fs.readdirSync(buttonsPath).filter(file => file.endsWith('.js'))
-
-				for(let b of buttons){
-					b = require(path.join(buttonsPath, b))
-
-					if(b.name === buttonId){
-						b.execute(inter)
-						return
-					}
-
-				}
+				this.interactionsManager(inter, "buttons")
 
 			}else if(inter.isModalSubmit()){
-				const modalId = inter.customId.split('/')[0]
+				this.interactionsManager(inter, "modals")
 
-				const modalsPath = path.join(DIRNAME, 'modals')
-				const modals = fs.readdirSync(modalsPath).filter(file => file.endsWith('.js'))
-
-				for(let m of modals){
-					m = require(path.join(modalsPath, m))
-
-					if(m.name === modalId){
-						m.execute(inter)
-						return
-					}
-
-				}
+			}else if(inter.isStringSelectMenu() || inter.isChannelSelectMenu() || inter.isMentionableSelectMenu() || inter.isRoleSelectMenu() || inter.isUserSelectMenu()){
+				this.interactionsManager(inter, "selectMenus")
 
 			}
 
@@ -54,6 +31,24 @@ module.exports = {
 
 		}
 		
+	},
+
+	interactionsManager(inter, type){
+		const id = inter.customId.split('/')[0]
+
+		const itemsPath = path.join(DIRNAME, type)
+		const items = fs.readdirSync(itemsPath).filter(file => file.endsWith('.js'))
+
+		for(let i of items){
+			i = require(path.join(itemsPath, i))
+
+			if(i.name === id){
+				i.execute(inter)
+				return
+			}
+
+		}
+
 	}
 
 }

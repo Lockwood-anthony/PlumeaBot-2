@@ -32,7 +32,7 @@ module.exports = {
         let words = await tUtils.getWords(textUUID)
         words = Math.floor(words/1000)
 
-        let fileUrl = await tUtils.getMes2(textUUID)
+        let fileUrl = await tUtils.getFileMes(textUUID)
         fileUrl = fileUrl.url
 
         const uuid  = uuidCreate.v4()
@@ -55,8 +55,6 @@ module.exports = {
         await oUtils.createOne(uuid, words, textUUID, member.id, message.id)
 
         await mes.interSuccess(inter)
-
-
 
     }
 

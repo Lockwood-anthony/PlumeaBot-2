@@ -15,7 +15,7 @@ module.exports = {
         count -= inter.guild.members.cache.filter(m => m.user.bot).size
 
         require('../utils/message').
-        interSuccess(inter, '**Aujourdhui Scriptura compte ||   ' + count  + '   || âmes ! :D**')
+        interSuccess(inter, '**Aujourdhui Plumea compte ||   ' + count  + '   || âmes ! :D**')
 
     }
     

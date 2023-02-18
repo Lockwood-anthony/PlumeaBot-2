@@ -12,9 +12,11 @@ module.exports = {
         if(member.user.id === textAuthor || member.permissions.has('ADMINISTRATOR')){
             const textDt = await require("../buttons/textModalTitle").get(textId, textId, 0, false)
             const textModal1 = await require("../buttons/textModal1").get(textId, textId, 0, false)
+            const textThemes = await require("../buttons/textThemes").get(textId, textId, 0, false)
             const textModal2 = await require("../buttons/textModal2").get(textId, textId, 0, false)
+            const textFile = await require("../buttons/textRepost").get(textId, false)
 
-            const row = new ActionRowBuilder().setComponents(textDt, textModal1, textModal2)
+            const row = new ActionRowBuilder().setComponents(textDt, textModal1, textThemes, textModal2, textFile)
 
             await mes.interSuccess(inter, "Change ton texte :", null, [row])
 

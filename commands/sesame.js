@@ -10,7 +10,7 @@ module.exports = {
             .setDescription("Permet d'accéder au serveur")
             .addStringOption(option => option
                 .setName('pass')
-                .setDescription("Mot de passe dans la description du salon en haut")
+                .setDescription("Accédez à Pluméa en entrant le bon mot de passe.")
                 .setRequired(true))
 
     },

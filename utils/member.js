@@ -2,6 +2,7 @@ const db = require('../dbObjects.js')
 const mes = require('../utils/message')
 const { config } = require('../config')
 const tUtils = require('../utils/text')
+const { Op } = require("sequelize")
 
 module.exports = {
 
@@ -26,17 +27,23 @@ module.exports = {
         return db.tabExist(M_TAB, id)
     },
 
-    async getAllNoPlumes(){
+    async getInactivesIds(){
+        const today = new Date()
+        const limit = today.setDate(today.getDate() - 32)
+
         return M_TAB.findAll({
             where: {
-                plumes: 0
+                plumes: 0,
+                joinDate: {
+                    [Op.lt]: limit
+                }
             },
-            attributes: ['id', 'joinDate']
+            attributes: ['id']
         })
     },
 
     async getNick(id){
-        return db.tabGetAtr(M_TAB, id, 'nick')
+        return await db.tabGetAtr(M_TAB, id, 'nick')
     },
 
     async setNick(id, nick){
@@ -78,6 +85,11 @@ module.exports = {
 
     async addWeeklyWords(id, weeklyWords){
         await db.tabIncrementAtr(M_TAB, id, 'weeklyWords', weeklyWords)
+    },
+
+    async getJoinDate(id){
+        return db.tabGetAtr(M_TAB, id, 'joinDate')
+
     },
 
     async removeWeeklyWords(id, weeklyWords){

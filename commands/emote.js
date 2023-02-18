@@ -11,7 +11,7 @@ module.exports = {
 	},
 
 	async execute(inter) {
-		await mes.interSuccess(inter, {content: config.emotes.plume} )
+		await mes.interSuccess(inter, { content: config.emotes.plume, ephemeral: false } )
 
 	}
 

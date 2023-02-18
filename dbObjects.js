@@ -11,7 +11,7 @@
             },
             nick: {
                 type: DataTypes.STRING,
-                defaultValue: ''
+                defaultValue: 'o'
             },
             joinDate: DataTypes.DATE,
             textsUUIDs: {
@@ -89,11 +89,11 @@
                 type: DataTypes.INTEGER,
                 defaultValue: 0
             },
-            mes1: {
+            textMesId: {
                 type: DataTypes.BIGINT,
                 defaultValue: 0
             },
-            mes2: {
+            fileMesId: {
                 type: DataTypes.BIGINT,
                 defaultValue: 0
             },

@@ -94,7 +94,7 @@ module.exports = {
 
         if(errorMes !== ''){
             errorMes += "\n__appuis sur le bouton__  ↓↓↓"
-            const button = require("../buttons/textModal2").get(textUUID, textModelUUID, PostProcess)
+            const button = require("../buttons/textModal2").get(textUUID, textUUID, PostProcess)
             await mes.interError(inter, errorMes, 0, [button])
         }
 
@@ -149,11 +149,11 @@ module.exports = {
                 .setStyle('Link')
 
             const buttons = new ActionRowBuilder().setComponents(getButton, postLinkButton, editButton, delButton)
-            let mes1 = await mes.sendMes(config.channels.text, { embeds: [spaceEmbed, textEmbed], components: [buttons]})
+            let textMes = await mes.sendMes(config.channels.text, { embeds: [spaceEmbed, textEmbed], components: [buttons]})
 
             const textLinkButton = new ButtonBuilder()
                 .setLabel('Lien')
-                .setURL(mes1.url)
+                .setURL(textMes.url)
                 .setStyle('Link')
             const postButtons = new ActionRowBuilder().setComponents(getButton, textLinkButton, editButton, delButton)
             await mes.editMes(postIds[0], postIds[1], {components: [postButtons]})
@@ -161,10 +161,10 @@ module.exports = {
             const safeButtons = new ActionRowBuilder().setComponents(textLinkButton, postLinkButton, editButton, delButton)
             await mes.editMes(config.channels.safe, fileId, {components: [safeButtons]})
 
-            await tUtils.setMes1Id(textUUID, mes1.id)
+            await tUtils.setTextMesId(textUUID, textMes.id)
             await tUtils.setPostId(textUUID, postIds[0])
             await tUtils.setPostMesId(textUUID, postIds[1])
-            await tUtils.setMes2Id(textUUID, fileId)
+            await tUtils.setFileMesId(textUUID, fileId)
 
             await tUtils.sendPostTutorial()
 
@@ -177,18 +177,21 @@ module.exports = {
 
         }else{
             if(oldDt !== dt || oldDesc !== desc || title !== oldTitle){
-                const mesId1 = await tUtils.getMes1Id(textUUID)
-                const postChannel = await tUtils.getPostMesId(textUUID)
+                const mesId1 = await tUtils.getTextMesId(textUUID)
+                const postChannelId = await tUtils.getPostMesId(textUUID)
                 const postMes = await tUtils.getPostId(textUUID)
-                let mes1 = await mes.getMes(config.channels.text, mesId1)
-                let embed = mes1.embeds[1]
+                let textMes = await mes.getMes(config.channels.text, mesId1)
+                let embed = textMes.embeds[1]
 
                 if(oldDt !== dt && !dtExist){
+                    const postChannel = await client.channels.fetch(postChannelId)
+                    postChannel.setName(dt + " | <@" + id + ">")
+
                     const author = embed.author.name
                     const words = author.split('|')[1]
-                    embed.data.author.name = dt + " |" + words
+                    embed.data.author.name = dt + " | " + words
 
-                    const safeMesId = await tUtils.getMes2Id(textUUID)
+                    const safeMesId = await tUtils.getFileMesId(textUUID)
                     const safeMes = await mes.getMes(config.channels.safe, safeMesId)
 
                     const file = safeMes.attachments.first()
@@ -211,8 +214,8 @@ module.exports = {
                     embed.data.title = title
                 }
 
-                await mes.editMes(config.channels.text, mesId1, { embeds: [mes1.embeds[0], embed] })
-                await mes.editMes(postChannel, postMes, { embeds: [embed] })
+                await mes.editMes(config.channels.text, mesId1, { embeds: [textMes.embeds[0], embed] })
+                await mes.editMes(postChannelId, postMes, { embeds: [embed] })
 
             }
 
@@ -294,21 +297,8 @@ module.exports = {
 
     },
 
-    getThemesIds(themes){
-        let themesIds = []
-
-        for(const t of config.themes){
-            if(themes.includes(t.name)){
-                themesIds.push(t.id)
-            }
-        }
-
-        return themesIds
-
-    },
-
     async forumPost(dt, user, message, themes){
-        themes = this.getThemesIds(themes)
+        themes = tUtils.getThemesIdsByNames(themes)
 
         const forum = await client.channels.fetch(config.channels.opinions)
 

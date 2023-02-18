@@ -27,10 +27,12 @@ module.exports = {
         const user = inter.options.getMember('user')
         let p = inter.options.getInteger('plumes')
 
+        await inter.deferReply({ ephemeral: true })
+
         if(await m.exists(user.id)){
             await oUtils.confirm(user, p, "Plumes ajoutées à la main", inter.member, inter)
 
-            await mes.interSuccess(inter)
+            await mes.interSuccess(inter, null, true)
 
         }else{
             await mes.interError(inter, "Cet utilisateur n'est pas enregistré dans la db !", 1)

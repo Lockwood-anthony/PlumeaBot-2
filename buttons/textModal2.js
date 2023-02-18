@@ -1,4 +1,5 @@
 const { ActionRowBuilder, ButtonBuilder } = require('discord.js')
+const mes = require("../utils/message")
 
 module.exports = {
     name: 'textModal2',
@@ -8,16 +9,17 @@ module.exports = {
         const textModelUUID = split[2]
         const PostProcess = split[3]
 
-        inter.showModal(
-            await require("../modals/textModal2").get(textUUID, textModelUUID, PostProcess))
-
+        await mes.interSuccess(
+            inter,
+            await require("../modals/textModal2")
+                .get(textUUID, textModelUUID, PostProcess))
 
     },
 
     get(textUUID, textModelUUID, PostProcess, row = true){
         const button = new ButtonBuilder()
             .setCustomId(this.name + '/' + textUUID + "/" + textModelUUID + "/" + PostProcess)
-            .setLabel('Formulaire 2/2')
+            .setLabel('Formulaire 3/3 - Obligatoires')
             .setStyle('Success')
 
 

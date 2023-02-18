@@ -1,6 +1,5 @@
 const { ModalBuilder, TextInputBuilder, ActionRowBuilder } = require('discord.js')
 const tUtils = require("../utils/text")
-const mUtils = require('../utils/member')
 const mes = require("../utils/message")
 
 module.exports = {
@@ -25,7 +24,7 @@ module.exports = {
 
 
         if(PostProcess === '1'){
-            const button = require("../buttons/textModal2").get(textUUID, textModelUUID, PostProcess)
+            const button = require("../buttons/textThemes").get(textUUID, textModelUUID, PostProcess)
             await mes.interSuccess(inter, "Seconde Etape \n __appuis sur le bouton__  ↓↓↓", null, [button])
 
         }else{

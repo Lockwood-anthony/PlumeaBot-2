@@ -5,7 +5,7 @@ module.exports = {
     name: 'sprintFinal',
     async execute(inter){
         const modal = require('../modals/sprintFinalWords').get()
-        await mes.interSuccess(inter, null, modal)
+        await mes.interSuccess(inter, { modal: modal })
 
     },
 

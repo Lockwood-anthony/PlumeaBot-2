@@ -1,4 +1,5 @@
 const { config } = require('../config')
+const {ActionRowBuilder, ButtonBuilder} = require("discord.js");
 
 module.exports = {
 
@@ -24,6 +25,24 @@ module.exports = {
             return false
         })
         return true
+    },
+
+    getLinkButton(link, label, emote = config.emotes.plume, row = false){
+
+        const button = new ButtonBuilder()
+            .setLabel(label)
+            .setEmoji(emote)
+            .setStyle('Link')
+            .setURL(link)
+
+        if(row){
+            return new ActionRowBuilder()
+                .setComponents(
+                    button
+                )
+        }
+        return button
+
     },
 
     async delMessagesBeforeOne(channel, mesId, n, safe){
@@ -152,26 +171,44 @@ module.exports = {
     },
 
     chooseInterMessageTitle(inter){
-        let title = { content: "", files: [] }
+        let title = { }
+        let options = []
 
         if(inter.isChatInputCommand()){
-            title.content = '/'+inter.commandName
+            title.content = '/ ' + inter.commandName
+            const cmdOptions = inter._hoistedOptions
 
-            const options = inter.options
-            options._hoistedOptions.forEach(o => {
-                title.content += " `"+o.value+"`"
+            if(cmdOptions){
+                cmdOptions.forEach(o => {
+                    options.push(o.value)
 
-                if(o.type === 11){
-                    title.files.push(o.attachment)
-                }
+                    if(o.type === 11){
+                        title.files.push(o.attachment)
+                    }
 
-            })
+                })
+
+            }
 
         }else if(inter.isButton()){
-            title.content = '$'+inter.customId.split('/')[0]
+            const split = inter.customId.split('/')
+            title.content = 'o ' + split[0]
+            options = split.slice(1, split.length)
 
         }else if(inter.isModalSubmit()){
-            title.content = '%'+inter.customId.split('/')[0]
+            const split = inter.customId.split('/')
+            title.content = '% ' + split[0]
+            options = split.slice(1, -1)
+
+        }else if(inter.isStringSelectMenu() || inter.isChannelSelectMenu() || inter.isMentionableSelectMenu() || inter.isRoleSelectMenu() || inter.isUserSelectMenu()){
+            const split = inter.customId.split('/')
+            title.content = '^ ' + split[0]
+            options = split.slice(1, -1)
+
+        }
+
+        for(let o in options){
+            title.content += "\n`" + options[o] + "`"
 
         }
 
@@ -179,47 +216,50 @@ module.exports = {
 
     },
 
-    isContent(reply){
-        try {
-            if(reply["content"]) return true
-        }catch (e) {
-            return false
-        }
+    async interSuccess(inter, reply = null, defer = false){
 
-    },
+        if(reply){
 
-    async interSuccess(inter, reply = null, modal = null, components= [], defer = false){
+            if(reply.title){
 
-        if(!modal){
+                if(typeof reply === "string"){
+                    const embed = this.newEmbed()
+                        .setDescription(`**${reply}**`)
 
-            if(this.isContent(reply)){
+                    reply = { embeds: [embed], ephemeral: true }
 
-                if(defer){
+                }else{
+
+                    if(reply.ephemeral == null){
+                        reply.ephemeral = true
+                    }
+
+                }
+
+                if(defer) {
                     await inter.editReply(reply)
+
                 }else{
                     await inter.reply(reply)
                 }
 
             }else{
-                let desc = "Action accomplie avec succès ! :D"
-                if(reply) desc = reply.toUpperCase()
-
-                const embed = this.newEmbed()
-                    .setDescription(`**${desc}**`)
-                    .setImage("https://media.tenor.com/jHvyFefhKmcAAAAd/mujikcboro-seriymujik.gif")
-
-                if(defer) {
-                    await inter.editReply({embeds: [embed], components: components, ephemeral: true})
-                }else{
-                    await inter.reply({embeds: [embed], components: components, ephemeral: true})
-                }
+                await inter.showModal(reply.modal)
 
             }
 
         }else{
-            await inter.showModal(modal)
+            const embed = this.newEmbed()
+                .setDescription(`**Action accomplie avec succès ! :D**`)
+
+            if(defer) {
+                await inter.editReply({ embeds: [embed], ephemeral: true } )
+            }else{
+                await inter.reply( { embeds: [embed], ephemeral: true } )
+            }
 
         }
+
 
         const title = this.chooseInterMessageTitle(inter)
         const embed = this.newEmbed("82BE00")
@@ -230,19 +270,25 @@ module.exports = {
 
     },
 
-    async interError(inter, error, level = 0, components= []){
-        if(!error) error = 'Une erreur est survenue, veuillez appeler mon popa AstrantV#1053'
+    async interError(inter, error, level = 0, defer = false){
+        let errorMes = ''
+        if(!error) errorMes = 'Une erreur est survenue, veuillez appeler mon popa AstrantV#1053'
+        if(error.content){ errorMes = error.content }
 
         const embed = this.newEmbed()
             .setTitle("Error ;-;")
-            .setDescription(`**${error}**`)
+            .setDescription(`**${errorMes}**`)
 
-        await inter.reply({ embeds: [embed], components: components, ephemeral: true })
+        let reply = { embeds: [embed], ephemeral: true }
+        if(error.components){ reply.components = error.components }
 
-        setTimeout(async () => {
-            await inter.deleteReply()
-        }, 32000)
+        if(defer) {
+            await inter.editReply(reply)
+        }else{
+            await inter.reply(reply)
+        }
 
+        await inter.reply(reply)
 
         let color = this.color.yellow
         if (level === 1) color = this.color.red

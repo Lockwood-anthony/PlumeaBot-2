@@ -1,5 +1,5 @@
 const tab =  require('../dbObjects')
-const { sendMes } =  require('../utils/message')
+const mes =  require('../utils/message')
 const config = require("../config").config
 
 module.exports = {
@@ -60,6 +60,19 @@ module.exports = {
         return tab.tabExist(PDATES_TAB, 'bumpDate')
     },
 
+    async memberCheckRoles(m, roles){
+        const mRoles = await m.roles.cache
+        const rolesIds = mRoles.map(r => { return r.id })
+
+        let yes = true
+        roles.forEach(r => {
+            yes &= rolesIds.includes(r)
+        })
+
+        return yes
+
+    },
+
     plumesRolesSet(member, plumes, inter) {
         const json = config.plumesRoles
         const roles = new Map(Object.entries(json))
@@ -67,10 +80,11 @@ module.exports = {
         let found =  false
         let lower = 0
         let roleBefore = 0
-        roles.forEach(async (points, roleid)=>{
-            const role = await inter.guild.roles.cache.get(roleid)
+        roles.forEach(async (args, rId)=>{
+            const points = args.p
+            const role = await inter.guild.roles.cache.get(rId)
 
-            if(await member.roles.cache.find(r => r.id === roleid)){ roleBefore = role }
+            if(await member.roles.cache.find(r => r.id === rId)){ roleBefore = role }
 
             await member.roles.remove(role)
 
@@ -85,8 +99,22 @@ module.exports = {
                     await member.roles.add(lower)
 
                     if(roleBefore !== lower){
+                        const color = config.plumesRoles[lower.id].color
+
+                        const privEmbed = mes.newEmbed(color)
+                            .setTitle("Félicitations ! Vous voici `" + lower.name + "`.")
+                            .setDescription(config.plumesRoles[lower.id].mes)
+                        const sent = await mes.private(member, { embeds: [privEmbed] })
+
                         const channel = config.channels.plumes
-                        await sendMes(channel, `<@${member.user.id}> devient un  ${lower.name}`)
+                        const embed = mes.newEmbed(color)
+                            .setDescription(`Félicitations ! ${member} accède au rang de  ${lower}`)
+                        await mes.sendMes(channel, { embeds: [embed] })
+
+                        if(! sent){
+                            await mes.sendMes(channel, { content: `<@${member.id}> Si tu souhaites recevoir ce message en privé, ouvre tes messages privés :`, embeds: [privEmbed] })
+
+                        }
 
                     }                
 

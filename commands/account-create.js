@@ -20,11 +20,11 @@ module.exports = {
         const user = inter.options.getUser('user')
 
         if(! await m.exists(user.id)){
-            m.addMember(user.id)
-            mes.interSuccess(inter)
+            await m.addMember(user.id)
+            await mes.interSuccess(inter)
 
         }else{
-            mes.interError(inter, "Cet utilisateur existe déjà !")
+            await mes.interError(inter, "Cet utilisateur existe déjà !")
         }
 
 	}

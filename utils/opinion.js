@@ -26,12 +26,25 @@ module.exports = {
         let embed = mes.newEmbed()
             .setDescription(`**${member} Possède maintenant *${plumes}*  ${config.emotes.plume}**\n\n ${p} plumes par ${who}\n\n ||${textUUID}||`)
 
-        await require('../utils/somes').plumesRolesSet(member, plumes, inter)
+        require('../utils/somes').plumesRolesSet(member, plumes, inter)
 
-        await require('../utils/leaderboard.js').edit()
+        require('../utils/leaderboard.js').edit()
 
-        return await mes.sendMes(config.channels.plumes, { embeds: [embed] })
+        const counter = await client.channels.fetch(config.channels.counter)
+        await this.addPlumesTotal(p)
 
+        counter.setName("MOTS LUS : " + await this.getPlumesTotal() + "k")
+
+        await mes.sendMes(config.channels.plumes, { embeds: [embed] })
+
+    },
+
+    async addPlumesTotal(plumesTotal){
+        await db.tabIncrementAtr(PIDS_TAB, 'plumesTotal', 'paramId', plumesTotal)
+    },
+
+    async getPlumesTotal(){
+        return db.tabGetAtr(PIDS_TAB, 'plumesTotal', 'paramId')
     },
 
     memberOpinionExist(textUUID, id){

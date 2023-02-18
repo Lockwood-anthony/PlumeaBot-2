@@ -125,7 +125,7 @@ module.exports = {
     
                     let id2
                     if(dt != getDt(uuid)){
-                        deleteOne('safe', tUtils.getMes2Id(uuid))
+                        deleteOne('safe', tUtils.getFileMesId(uuid))
                         id2 = sendOne('safe', { content: dt+'\n'+uuid, files: [file] })
                     }
     

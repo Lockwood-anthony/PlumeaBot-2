@@ -1,51 +1,48 @@
 const { SlashCommandBuilder } = require('discord.js')
 const mes =  require('../utils/message')
-const t = require("../utils/text")
 const { config } =  require("../config")
+const pdf = require("../utils/pdf")
 
 module.exports = {
     data(){
         return new SlashCommandBuilder()
             .setName('repost')
             .setDescription("Permet de reposter le fichier d'un de vos texte")
+            .addStringOption(option => option
+                .setName("dt")
+                .setDescription("Le dt du texte, ex : LGUIDE002-000ASRA")
+                .setMinLength(17)
+                .setMaxLength(17)
+                .setRequired(true))
             .addAttachmentOption(option => option
                 .setName("fichier")
                 .setDescription("Votre texte sous format PDF")
-                .setRequired(true))
-            .addStringOption(option => option
-                .setName("uuid")
-                .setDescription("L'UUID de votre texte, ex : uuid4gr4s444a4daz4scsss4ds4")
                 .setRequired(true))
 
     },
 
     async execute(inter) {
-        const uuid = inter.options.getString("uuid")
+        const dt = inter.options.getString("dt")
+        const file = inter.options.getAttachment("fichier")
+        const id = inter.member.id
 
-        if(t.exist(uuid)){
-            const mId = inter.member.id
+        const fileId = await T_TAB.findOne({ where: { authorId: id, dt: dt }, attributes: ['fileMesId'], raw: true })
 
-            if(await t.getAuthorId(uuid) === mId){
-                let file = inter.options.getAttachment("fichier")
+        if(fileId){
 
-                if(mes.checkExtension(file, "pdf")){
-                    const mes1Id = t.getMes1Id(uuid)
-                    await mes.editMes(config.channels.text, mes1Id, {files: [file]})
+            if(pdf.checkExtension(file, "pdf")){
+                pdf.rename(file, dt)
+                await mes.editMes(config.channels.safe, fileId.fileMesId, { files: [file] })
 
-                    await mes.interSuccess(inter)
-
-                }else{
-                    await mes.interError(inter, "Ce fichier n'est pas un .pdf")
-
-                }
+                await mes.interSuccess(inter)
 
             }else{
-                await mes.interError(inter, "Ce n'est pas ton texte !")
+                await mes.interError(inter, "Ce fichier n'est pas un .pdf")
 
             }
 
         }else{
-            await mes.interError(inter, "Cette UUID n'existe pas !")
+            await mes.interError(inter, "Ce dt n'existe pas !")
 
         }
 

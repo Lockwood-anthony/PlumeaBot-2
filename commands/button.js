@@ -15,7 +15,7 @@ module.exports = {
 
         //CE NEST PAS UN ARRAY, c'est une suite d'élément json, et je ne sais pas comment une telle suite, dou la suite un peu laborieuse
         let choices = []
-        for(b of buttonsFiles){
+        for(let b of buttonsFiles){
             const bPath = path.join(buttonsPath, b)
             b = require(bPath)
 
@@ -39,31 +39,31 @@ module.exports = {
         return data
     }, 
 
-     execute(inter) {
-        const value = inter.options.getString('name')
+     async execute(inter) {
+         const value = inter.options.getString('name')
 
-        const buttonsPath = path.join(DIRNAME, 'buttons')
-        const buttons = fs.readdirSync(buttonsPath).filter(file => file.endsWith('.js'))
+         const buttonsPath = path.join(DIRNAME, 'buttons')
+         const buttons = fs.readdirSync(buttonsPath).filter(file => file.endsWith('.js'))
 
-        let button
-        for(b of buttons){
-            b = require(path.join(buttonsPath, b))
+         let button
+         for(let b of buttons){
+             b = require(path.join(buttonsPath, b))
 
-            if(b.name == value){
-                button = b
-                break
-            }
+             if(b.name === value){
+                 button = b
+                 break
+             }
 
-        }
-        try{
-            inter.channel.send({components: [button.get()]})
-            mes.interSuccess(inter)
+         }
+         try{
+             inter.channel.send({components: [button.get()]})
+             await mes.interSuccess(inter)
 
-        }catch(Error){
-            mes.interError(inter, 'Impossible de générer ce bouton manuellement')
-            console.log(Error)
+         }catch(Error){
+             await mes.interError(inter, 'Impossible de générer ce bouton manuellement')
+             console.log(Error)
 
-        }
+         }
 
 	}
 

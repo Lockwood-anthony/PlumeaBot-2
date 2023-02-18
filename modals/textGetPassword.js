@@ -13,8 +13,15 @@ module.exports = {
         const truePassword = await tUtils.getPassword(uuid)
 
         if(password === truePassword){
-            await tUtils.sendFile(uuid, member)
-            await mes.interSuccess(inter)
+            const sent = await tUtils.sendFile(uuid, member)
+
+            if(sent){
+                await mes.interSuccess(inter)
+
+            }else{
+                await mes.interError(inter, "Ouvre tes mp -_- Tu crois que je vais t'envoyer le fichier comment sinon ...")
+
+            }
 
         }else{
             await mes.interError(inter, "Mauvais mot de passe !")

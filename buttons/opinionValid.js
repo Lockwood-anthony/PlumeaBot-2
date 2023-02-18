@@ -1,6 +1,7 @@
 const { ButtonBuilder, ActionRowBuilder} = require('discord.js')
 const oUtils = require("../utils/opinion")
 const mes = require("../utils/message")
+const tUtils = require("../utils/text")
 
 module.exports = {
     name: 'opinionValid',
@@ -20,7 +21,9 @@ module.exports = {
 
         const p = await oUtils.getWords(uuid)
         const textUUID = await oUtils.getTextUUID(uuid)
-        const message = await oUtils.confirm(member, p, textUUID, member, inter)
+        const fileMes = await tUtils.getFileMes(textUUID)
+
+        const message = await oUtils.confirm(member, p, `[${textUUID}](${fileMes.url})`, member, inter)
 
         const button = new ActionRowBuilder()
             .setComponents(

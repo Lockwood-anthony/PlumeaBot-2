@@ -9,10 +9,10 @@ module.exports = {
     }, 
 
     async addOne(id){
-        const sprint = {
+        const sprin = {
             id: id
         }
-        await db.tabCreate(S_TAB, sprint)
+        await db.tabCreate(S_TAB, sprin)
     },
 
     async getEnd(id){

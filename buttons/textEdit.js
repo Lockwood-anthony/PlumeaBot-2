@@ -3,6 +3,7 @@ const mes = require("../utils/message")
 
 module.exports = {
     name: 'textEdit',
+
     async execute(inter){
         const textId = inter.customId.split('/')[1]
         const tUtils = require('../utils/text')
@@ -18,7 +19,7 @@ module.exports = {
 
             const row = new ActionRowBuilder().setComponents(textDt, textModal1, textThemes, textModal2, textFile)
 
-            await mes.interSuccess(inter, "Change ton texte :", null, [row])
+            await mes.interSuccess(inter, { content: "Change ton texte :", components: [row] })
 
         }else{
             await mes.interError(inter, 'Bruh, t~es pas l~auteur, tu peux pas faire ca...')
@@ -30,7 +31,7 @@ module.exports = {
     get(textId){
         return new ButtonBuilder()
             .setCustomId(this.name+'/'+textId)
-            .setLabel('Edit')
+            .setLabel('Editer')
             .setStyle('Secondary')
             .setEmoji('⚙️')
     }

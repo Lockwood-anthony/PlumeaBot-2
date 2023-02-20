@@ -97,8 +97,8 @@ module.exports = {
     },
 
     async toMuchWeeklyWords(id, words){
-        const weekly = this.getWeeklyWords(id)
-        return weekly + words > 20000;
+        const weekly = await this.getWeeklyWords(id)
+        return weekly + words > 16000;
 
     },
 
@@ -163,6 +163,16 @@ module.exports = {
 
     async getAllIdsPlumes(){
         return db.tabGetMultipleAtr(M_TAB, null, ['id', 'plumes'])
-    }
+    },
+
+    async hasTutoId(id, tutoId){
+        const tutoIds = await db.tabGetAtr(M_TAB, id, 'tutoIds')
+        return tutoIds.includes(tutoId)
+
+    },
+
+    async addTutoId(id, tutoId){
+        await db.tabAddAtr(M_TAB, id, 'tutoIds', tutoId)
+    },
 
 }

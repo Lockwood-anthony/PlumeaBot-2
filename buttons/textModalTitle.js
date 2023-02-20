@@ -1,4 +1,5 @@
 const { ActionRowBuilder, ButtonBuilder } = require('discord.js')
+const mes = require("../utils/message")
 
 module.exports = {
     name: 'textModalTitle',
@@ -8,8 +9,7 @@ module.exports = {
         const textModelUUID = split[2]
         const PostProcess = split[3]
 
-        inter.showModal(
-            await require("../modals/textDtTitle").get(textUUID, textModelUUID, PostProcess))
+        await mes.interSuccess(inter, await require("../modals/textDtTitle").get(textUUID, textModelUUID, PostProcess))
         
     },
 

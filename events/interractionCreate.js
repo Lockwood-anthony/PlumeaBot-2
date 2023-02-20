@@ -1,5 +1,6 @@
 const fs = require('node:fs')
 const path = require('node:path')
+const mes = require("../utils/message")
 
 module.exports = {
 	name: 'interactionCreate',
@@ -15,6 +16,8 @@ module.exports = {
 
 			}else if(inter.isButton()){
 				this.interactionsManager(inter, "buttons")
+				//is ephemeral
+				if(inter.message.flags.bitfield === 64){}
 
 			}else if(inter.isModalSubmit()){
 				this.interactionsManager(inter, "modals")

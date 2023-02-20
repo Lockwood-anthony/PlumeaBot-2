@@ -21,29 +21,37 @@ module.exports = {
                     await mes.interSuccess(inter)
 
                 }else{
-                    await mes.interSuccess(inter,
-                        "Tu peux poster ton texte à présent ! \n __appuis sur le bouton__  ↓↓↓",
-                        false,
-                        [require("../buttons/textModalTitle").get(textUUID, 0, 1)]
+                    await mes.interSuccess(
+                        inter,
+                        {
+                            content: "Tu peux poster ton texte à présent ! \n __appuis sur le bouton__  ↓↓↓",
+                            components: [require("../buttons/textModalTitle").get(textUUID, 0, 1)]
+                        }
+
                     )
+
                 }
 
 
             }else{
                 await mes.interError(
                     inter,
-                    "Tu as mal confirmé ton pseudo \n __appuis sur le bouton__  ↓↓↓",
-                    0,
-                    [require("../buttons/textNick").get(textUUID)])
+                    {
+                        content: "Tu as mal confirmé ton pseudo \n __appuis sur le bouton__  ↓↓↓",
+                        components: [require("../buttons/textNick").get(textUUID)]
+                    }
+                )
 
             }
 
         }else{
             await mes.interError(
                 inter,
-                "Seuls les caractères alphabétiques sont autorisés \n __appuis sur le bouton__  ↓↓↓",
-                0,
-                [require("../buttons/textNick").get(textUUID)])
+                {
+                    content: "Seuls les caractères alphabétiques sont autorisés \n __appuis sur le bouton__  ↓↓↓",
+                    components: [require("../buttons/textNick").get(textUUID)]
+                }
+            )
 
         }
 
@@ -52,13 +60,14 @@ module.exports = {
     get(textUUID){
         const modal = new ModalBuilder()
             .setCustomId(this.name + "/" + textUUID)
-            .setTitle('CE SERA TON PSEUDO A JAMAIS')
+            .setTitle('Pseudo affiché sur tes textes :)')
 
         const nick =
             new ActionRowBuilder()
                 .addComponents(new TextInputBuilder()
                     .setCustomId('nick')
-                    .setLabel('Entre ton pseudo :')
+                    .setLabel('Entre le :')
+                    .setPlaceholder("4 premières lettres du pseudo discord")
                     .setMinLength(4)
                     .setMaxLength(4)
                     .setStyle("Short"))
@@ -68,6 +77,7 @@ module.exports = {
                 .addComponents( new TextInputBuilder()
                     .setCustomId('nickConfirm')
                     .setLabel('Confirme le :')
+                    .setPlaceholder("4 premières lettres du pseudo discord")
                     .setStyle("Short"))
 
         modal.addComponents( [nick, nickConfirm] )

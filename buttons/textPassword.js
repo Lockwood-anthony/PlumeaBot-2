@@ -1,11 +1,11 @@
 const { ButtonBuilder } = require('discord.js')
+const mes = require("../utils/message")
 
 module.exports = {
     name: 'textPassword',
     async execute(inter){
         const uuid = inter.customId.split('/')[1]
-        const passModal = require('../modals/textGetPassword')
-        inter.showModal(passModal.get(uuid))
+        await mes.interSuccess(inter, require('../modals/textGetPassword').get(uuid))
 
     },
 

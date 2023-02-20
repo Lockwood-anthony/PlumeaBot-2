@@ -2,6 +2,8 @@ const { ButtonBuilder, ActionRowBuilder} = require('discord.js')
 const oUtils = require("../utils/opinion")
 const mes = require("../utils/message")
 const tUtils = require("../utils/text")
+const somes = require("../utils/somes");
+const {config} = require("../config");
 
 module.exports = {
     name: 'opinionValid',
@@ -11,6 +13,11 @@ module.exports = {
         const uuid = inter.customId.split('/')[1]
         const id = inter.member.id
         const senderId = await oUtils.getSenderId(uuid)
+
+        if(! await somes.memberCheckRoles(member, [config.roles.guard, config.roles.staff])){
+            await mes.interError(inter, "Tu fais quoi là -_-")
+            return
+        }
 
         await oUtils.setValidate(uuid, id)
 

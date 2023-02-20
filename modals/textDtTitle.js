@@ -20,7 +20,9 @@ module.exports = {
             if(PostProcess === '1'){
                 const textModelUUID = await tUtils.getSimilarTextUUID(dt_title, id, textUUID)
                 const button = await require("../buttons/textModal1").get(textUUID, textModelUUID, PostProcess)
-                await mes.interSuccess(inter, "Tu peux poster ton texte :D \n __appuis sur le bouton__  ↓↓↓", null, [button])
+                await mes.interSuccess(
+                    inter,
+                    { content: "Tu peux poster ton texte :D \n __appuis sur le bouton__  ↓↓↓", components: [button] })
 
             }else{
                 await mes.interSuccess(inter)
@@ -31,9 +33,8 @@ module.exports = {
             const button = require("../buttons/textModalTitle").get(textUUID, textModelUUID, PostProcess)
             await mes.interError(
                 inter,
-                "Seuls les caractères alphabétiques sont autorisés\n __appuis sur le bouton__  ↓↓↓",
-                0,
-                [button]
+                { content: "Seuls les caractères alphabétiques sont autorisés\n __appuis sur le bouton__  ↓↓↓", components: [button] }
+
             )
 
         }

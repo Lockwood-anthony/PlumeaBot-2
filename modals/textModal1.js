@@ -11,6 +11,8 @@ module.exports = {
         const textModelUUID = split[2]
         const PostProcess = split[3]
 
+        const oldQuestions = await tUtils.getQuestions(textUUID)
+
         const password = inter.fields.getTextInputValue('password')
 
         let questions = []
@@ -22,13 +24,26 @@ module.exports = {
         await tUtils.setPassword(textUUID, password)
         await tUtils.setQuestions(textUUID, questions)
 
-
         if(PostProcess === '1'){
             const button = require("../buttons/textThemes").get(textUUID, textModelUUID, PostProcess)
-            await mes.interSuccess(inter, "Seconde Etape \n __appuis sur le bouton__  ↓↓↓", null, [button])
+            await mes.interSuccess(inter, { content: "Seconde Etape \n __appuis sur le bouton__  ↓↓↓", components: [button] })
 
         }else{
-            await mes.interSuccess(inter)
+
+            if(oldQuestions !== questions){
+                const postId = await tUtils.getPostId(textUUID)
+                const postMesId = await tUtils.getPostMesId(textUUID)
+                const message = mes.getMes(postId, postMesId)
+
+                await mes.editMes(
+                    postId,
+                    postMesId,
+                    { embeds: [message.embeds[0], tUtils.getQuestionsEmbed(questions)] }
+                )
+                await mes.interSuccess(inter)
+            }
+
+
         }
 
     },

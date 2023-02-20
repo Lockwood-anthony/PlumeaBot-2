@@ -1,12 +1,12 @@
 const { ButtonBuilder, ActionRowBuilder } = require('discord.js')
+const mes = require("../utils/message")
 
 module.exports = {
     name: 'textNick',
     async execute(inter){
         const textUUID = inter.customId.split('/')[1]
 
-        const nickModal = require('../modals/textNick')
-        inter.showModal(nickModal.get(textUUID))
+        await mes.interSuccess(inter, require('../modals/textNick').get(textUUID))
 
     },
 

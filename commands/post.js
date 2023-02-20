@@ -54,6 +54,7 @@ module.exports = {
 
 
                 const words = await this.wordsChecker(inter, id, file)
+                console.log(words)
                 if(! words){
                     return
                 }
@@ -74,11 +75,17 @@ module.exports = {
 
                 if(await m.hasNick(id)){
                     const button = await require('../buttons/textModalTitle').get(uuid, 0, 1)
-                    await mes.interSuccess(inter, "Entre le Dt_Titre de ton texte \n __appuis sur le bouton__  ↓↓↓", null, [button], true)
+                    await mes.interSuccess(
+                        inter,
+                        {content: "Entre le Dt_Titre de ton texte \n __appuis sur le bouton__  ↓↓↓", components: [button] },
+                        true)
 
                 }else{
                     const button = require('../buttons/textNick').get(uuid)
-                    await mes.interSuccess(inter, "Entre ton pseudo Plumeen \n __appuis sur le bouton__  ↓↓↓", null, [button], true)
+                    await mes.interSuccess(
+                        inter,
+                        {content: "Entre ton pseudo Plumeen \n __appuis sur le bouton__  ↓↓↓", components: [button] },
+                        true)
 
                 }
 
@@ -100,7 +107,7 @@ module.exports = {
 
         if(await mUtils.toMuchWeeklyWords(id, words)){
             const weekly = await mUtils.getWeeklyWords(id)
-            await mes.interError(inter, "NO ! Pas plus de 20k par semaine bro\nMots: "+words+" | Mots de la semaine: "+weekly)
+            await mes.interError(inter, "NO ! Pas plus de 16k par semaine\nMots: "+words+" | Mots de la semaine: "+weekly, 0, true)
 
             await mUtils.removeFileInPostingMes(id)
             return null
@@ -108,13 +115,18 @@ module.exports = {
         }else if (words < 1000){
 
             try{
-                await mes.interError(inter, '**NO !**  Soit un chad et envoie plus de 1000 mots.\nMots Comptés: '+words
+                await mes.interError(
+                    inter,
+                    '**NO !**  Soit un chad et envoie plus de 1000 mots.\nMots Comptés: '+words
                     +'\nhttps://tenor.com/view/no-chad-giga-chad-giga-chet-gif-25063092'+
                     '\nSi c~est largement éloigné du nombre de mots réel, converti ton fichier en pdf grâce à ce site :'
-                    +'\nhttps://www.ilovepdf.com/fr/word_en_pdf')
+                    +'\nhttps://www.ilovepdf.com/fr/word_en_pdf',
+                    0,
+                    true
+                )
 
             }catch(e){
-                await mes.interError(inter, 'Hhhh... appelle asra, le gars qui s~occupe du bot et dit lui de ma part que ton pdf est bizarre et que j~ai faillit crash... Hhhh... bisou')
+                await mes.interError(inter, 'Hhhh... appelle asra, le gars qui s~occupe du bot et dit lui de ma part que ton pdf est bizarre et que j~ai faillit crash... Hhhh... bisou', 0, true)
             }
 
             await mUtils.removeFileInPostingMes(id)

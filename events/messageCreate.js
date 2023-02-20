@@ -1,5 +1,7 @@
 const { config } = require('../config')
 const { getBumpDate, setBumpDate } = require('../utils/somes')
+const mUtils = require("../utils/member")
+const mes = require("../utils/message")
 
 module.exports = {
 	name: 'messageCreate',
@@ -28,9 +30,9 @@ module.exports = {
 
                 case config.channels.text:
                     message.delete()
-                    await author.send('Utilise la commande /post pour partager ton texte owo')
-
-                break
+                    await mes.private('Utilise la commande /post pour partager ton texte owo')
+                    return
+                    break
 
                 case config.channels.general:
                     const today = new Date()
@@ -42,15 +44,34 @@ module.exports = {
                         await setBumpDate(today)
     
                     }
-                break
+                    break
 
             }
 
-            const power = message.member.roles.cache.map(r => `${r}`).length
-            if (power === 1){
-                if (message.attachments.size === 0 && !message.content.includes('http')) return
-                message.delete()
-                await author.send('__**Impossible d~envoyer ce message :**__```md\n#Tu ne peux poster ni lien, ni fichier, ni gif sans n~avoir jamais gagné de plumes :D```')
+            if (message.member.roles.cache.size === 1){
+
+                if (message.attachments.size >= 0 || message.content.includes('http')){
+                    message.delete()
+                    await author.send('__**Impossible d~envoyer ce message :**__```md\n#Tu ne peux poster ni lien, ni fichier, ni gif sans n~avoir jamais gagné de plumes :D```')
+                }
+
+            }
+
+            if(message.channel.parentId === config.channels.textForum){
+
+                if(await mUtils.exists(id)){
+
+                    if(! await mUtils.hasTutoId(id, 1)){
+                        const reply = "Fait la commande /avis dans salon associé au texte pour que la staff valide ton avis :)"
+                        await mes.private(author, reply)
+                        await message.reply(reply)
+
+                        await mUtils.addTutoId(id, config.tutoIds.avis)
+
+                    }
+
+                }
+
             }
 
         }else{

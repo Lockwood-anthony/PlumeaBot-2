@@ -22,16 +22,16 @@ module.exports = {
 
     get(uuid){
         const modal = new ModalBuilder()
-        .setCustomId(this.name+'/'+uuid)
-        .setTitle('DESTRUCTION D~UN TEXTE EN COURS')
+            .setCustomId(this.name+'/'+uuid)
+            .setTitle('DESTRUCTION D~UN TEXTE EN COURS')
 
         const nick = new TextInputBuilder()
-        .setCustomId('dt')
-        .setLabel('Entre son dt pour confirmation :')
-        .setPlaceholder('Le texte disparaitra à jamais !')
-        .setMinLength(13)
-        .setMaxLength(17)
-        .setStyle("Short")
+            .setCustomId('dt')
+            .setLabel('Entre son dt pour confirmation :')
+            .setPlaceholder('Le texte disparaitra à jamais !')
+            .setMinLength(13)
+            .setMaxLength(17)
+            .setStyle("Short")
 
         const firstActionRow = new ActionRowBuilder().addComponents(nick)
         modal.addComponents(firstActionRow)

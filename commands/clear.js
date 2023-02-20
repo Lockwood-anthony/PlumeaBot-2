@@ -3,7 +3,7 @@ const mes = require("../utils/message")
 
 module.exports = {
 	data(){
-        let data = new SlashCommandBuilder()
+        return new SlashCommandBuilder()
             .setName('clear')
             .setDescription('Atomise tout les messages du salon')
             .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
@@ -18,7 +18,6 @@ module.exports = {
                 .setName('safe')
                 .setDescription('Permet de log les messages effacer'))
 
-        return data
     },
 
 	async execute(inter) {
@@ -37,9 +36,9 @@ module.exports = {
         const deleteMes = await mes.delMessagesBeforeOne(inter.channel, mesId, n, safe)
 
         if(deleteMes){
-            mes.interSuccess(inter)
+            await mes.interSuccess(inter)
         }else{
-            mes.interError(inter,"pas de messages dans ce channel !")
+            await mes.interError(inter,"pas de messages dans ce channel !")
         }
 
     }

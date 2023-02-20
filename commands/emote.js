@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, TextInputBuilder, ActionRowBuilder, StringSelectMenuBuilder} = require('discord.js')
+const { SlashCommandBuilder } = require('discord.js')
 const { config } = require('../config')
 const mes = require("../utils/message")
 

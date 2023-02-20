@@ -2,6 +2,7 @@ const { ButtonBuilder, ActionRowBuilder} = require('discord.js')
 const mes = require("../utils/message")
 const oUtils = require("../utils/opinion")
 const  { config } = require("../config")
+const somes = require("../utils/somes")
 
 module.exports = {
     name: 'opinionReject',
@@ -9,6 +10,11 @@ module.exports = {
     async execute(inter){
         const uuid = inter.customId.split('/')[1]
         const senderId = await oUtils.getSenderId(uuid)
+
+        if(! await somes.memberCheckRoles(member, [config.roles.guard, config.roles.staff])){
+            await mes.interError(inter, "Tu fais quoi là -_-")
+            return
+        }
 
         await oUtils.delOne(uuid)
 

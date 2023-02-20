@@ -45,9 +45,11 @@ module.exports = {
         const themes = config.themes
         themes.forEach(t => {
             let option = { label: t.name, description: t.desc, value: t.name }
+            /*
             if(defaultThemes.includes(t.name)){
                 option.default = true
             }
+             */
             menu.addOptions(option)
 
         })

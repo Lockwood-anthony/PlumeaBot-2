@@ -4,18 +4,19 @@ const mes = require("../utils/message")
 module.exports = {
     name: 'sprintFinal',
     async execute(inter){
-        const modal = require('../modals/sprintFinalWords').get()
-        await mes.interSuccess(inter, { modal: modal })
+        const id = inter.customId.split("/")[1]
+
+        await mes.interSuccess(inter, require('../modals/sprintFinalWords').get(id))
 
     },
 
-	get(){
+	get(id){
         return new ActionRowBuilder()
-        .addComponents(
-            new ButtonBuilder()
-                .setCustomId(this.name)
-                .setLabel('mooots')
-                .setStyle('Primary')
+            .addComponents(
+                new ButtonBuilder()
+                    .setCustomId(this.name + "/" + id)
+                    .setLabel('mooots')
+                    .setStyle('Primary')
         )
 
     }

@@ -1,5 +1,5 @@
 const { ModalBuilder, TextInputBuilder, ActionRowBuilder,
-    GuildForumThreadManager, EmbedBuilder, ButtonBuilder
+    GuildForumThreadManager, EmbedBuilder
 } = require('discord.js')
 const mUtils = require("../utils/member")
 const tUtils = require("../utils/text")
@@ -7,6 +7,7 @@ const config = require("../config").config
 const mes = require("../utils/message")
 const mesUtils = require("../utils/message")
 const pdf = require("../utils/pdf")
+const link = require("../buttons/link")
 
 module.exports = {
     name: 'textModal2',
@@ -22,6 +23,7 @@ module.exports = {
 
         const title = inter.fields.getTextInputValue('title')
         const desc = inter.fields.getTextInputValue('desc')
+        const chap = inter.fields.getTextInputValue('chap')
         let chap1 = inter.fields.getTextInputValue('chap1')
         let chap2 = inter.fields.getTextInputValue('chap2')
         if(chap2 === ''){ chap2 = -1}
@@ -95,7 +97,7 @@ module.exports = {
         if(errorMes !== ''){
             errorMes += "\n__appuis sur le bouton__  ↓↓↓"
             const button = require("../buttons/textModal2").get(textUUID, textUUID, PostProcess)
-            await mes.interError(inter, errorMes, 0, [button])
+            await mes.interError(inter, { content: errorMes, components: [button] })
         }
 
         if(PostProcess === '1'){
@@ -141,20 +143,28 @@ module.exports = {
                 getButton = require('../buttons/textPassword').get(textUUID)
             }
 
-            const postIds = await this.forumPost(dt, member, {embeds: [textEmbed]}, themes)
+            const questionsEmbed = tUtils.getQuestionsEmbed(
+                await tUtils.getQuestions(textUUID)
+            )
+            const postIds = await this.forumPost(
+                dt,
+                member,
+                {
+                    content: `__**${title}**__`,
+                    embeds: [textEmbed, questionsEmbed]
+                },
+                themes
+            )
 
-            const postLinkButton = new ButtonBuilder()
-                .setLabel('Avis')
-                .setURL(postIds[2])
-                .setStyle('Link')
+            const postLinkButton = link.get(postIds[2], "Avis")
 
-            const buttons = new ActionRowBuilder().setComponents(getButton, postLinkButton, editButton, delButton)
+            const getLinkButton = link.get(postIds[2], "Lire")
+
+            const buttons = new ActionRowBuilder().setComponents(getLinkButton, postLinkButton, editButton, delButton)
             let textMes = await mes.sendMes(config.channels.text, { embeds: [spaceEmbed, textEmbed], components: [buttons]})
 
-            const textLinkButton = new ButtonBuilder()
-                .setLabel('Lien')
-                .setURL(textMes.url)
-                .setStyle('Link')
+            const textLinkButton = link.get(textMes.url, "Lien")
+
             const postButtons = new ActionRowBuilder().setComponents(getButton, textLinkButton, editButton, delButton)
             await mes.editMes(postIds[0], postIds[1], {components: [postButtons]})
 
@@ -173,18 +183,20 @@ module.exports = {
             await mUtils.setFileInPostingMesId(id, null)
             await mUtils.setTextInPostingUUID(id, null)
 
-            await mes.interSuccess(inter, null, null, null, true)
+            await mes.interSuccess(inter, null, true)
 
         }else{
             if(oldDt !== dt || oldDesc !== desc || title !== oldTitle){
                 const mesId1 = await tUtils.getTextMesId(textUUID)
-                const postChannelId = await tUtils.getPostMesId(textUUID)
-                const postMes = await tUtils.getPostId(textUUID)
+                const postId = await tUtils.getPostId(textUUID)
+                const postMesId = await tUtils.getPostMesId(textUUID)
                 let textMes = await mes.getMes(config.channels.text, mesId1)
+                let postMes = await mes.getMes(postId, postMesId)
+
                 let embed = textMes.embeds[1]
 
                 if(oldDt !== dt && !dtExist){
-                    const postChannel = await client.channels.fetch(postChannelId)
+                    const postChannel = await client.channels.fetch(postId)
                     postChannel.setName(dt + " | <@" + id + ">")
 
                     const author = embed.author.name
@@ -215,7 +227,7 @@ module.exports = {
                 }
 
                 await mes.editMes(config.channels.text, mesId1, { embeds: [textMes.embeds[0], embed] })
-                await mes.editMes(postChannelId, postMes, { embeds: [embed] })
+                await mes.editMes(postId, postMesId, { content: `__**${title}**__`, embeds: [embed, postMes.embeds[1]] })
 
             }
 
@@ -240,22 +252,14 @@ module.exports = {
                 .setStyle('Short')
                 .setRequired(true)
 
-        const chap1 =
+        const chap =
             new TextInputBuilder()
-                .setCustomId('chap1')
-                .setLabel('Premier chapitre d~où commence l~extrait :')
+                .setCustomId('id_chapitres')
+                .setLabel('0 pour une nouvellex')
+                .setPlaceholder()
                 .setMaxLength(3)
                 .setStyle('Short')
                 .setRequired(true)
-
-
-        const chap2 =
-            new TextInputBuilder()
-                .setCustomId('chap2')
-                .setLabel('Dernier chapitre (facultatif) :')
-                .setMaxLength(3)
-                .setStyle('Short')
-                .setRequired(false)
 
         const desc =
             new TextInputBuilder()
@@ -282,7 +286,7 @@ module.exports = {
 
         }
 
-        comp = [title, chap1, chap2, desc]
+        comp = [title, chap, desc]
         comp.forEach(c => {
 
             modal.addComponents(
@@ -311,7 +315,7 @@ module.exports = {
 
         const postId = post.id
         post = await client.channels.fetch(postId)
-        const mes = await post.messages.fetch({ limit: 1 })
+        const mes = await post.messages.fetch()
         const mesId = mes.last().id
         const mesUrl = mes.last().url
 

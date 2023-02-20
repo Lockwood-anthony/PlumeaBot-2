@@ -1,47 +1,54 @@
-const { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder } = require('discord.js')
+const { ModalBuilder, TextInputBuilder, ActionRowBuilder } = require('discord.js')
+const mes = require("../utils/message")
+const sprint = require("../utils/sprint");
+const somes = require("../utils/somes")
+const db =  require('../dbObjects')
 
 module.exports = {
     name: 'sprintFinalWords',
     async execute(inter){
-        const member = inter.member
-        const sprint = require('../utils/sprint.js')
+        const userId = inter.member.id
+        const id = inter.customId.split("/")[1]
 
-        let words = inter.fields.getTextInputValue('words')     
-        try {
-            if(sprint.isSprinter(member.user.id)){
-                words = parseInt(words)
-                sprint.updateFinishMessage(member.user.id, words)
-                inter.reply({content:'**Te voilà inscrit dans le marbre mon cher ; )**', ephemeral:true})
+        let words = inter.fields.getTextInputValue('words')
+        words = parseInt(words)
 
-            }else{
-                inter.reply({content:'**Tu faisais pas partie du sprint toi...**', ephemeral:true})
-
+        if(await sprint.isSprinter(userId)){
+            let errorMes = somes.checkIntegerModalInput(words, "Mots")
+            if(errorMes !== ''){
+                await mes.interError(inter, errorMes)
+                return
             }
 
-        }catch (error) {
-            console.log(error)
-            inter.reply({content:'**C~est pas nombre ca ! :D**', ephemeral:true})
+            const beginWords = await sprint.getSprinterWords(id, userId)
+
+            await sprint.endMessageUpdate(id, userId, words, beginWords)
+            await db.tabRemoveAtr(S_TAB, id, "sprinters", userId+"/"+beginWords)
+            await mes.interSuccess(inter, 'Te voilà inscrit dans le marbre mon cher ; )')
+
+        }else{
+            await mes.interError(inter, "Tu faisais pas partie du sprint toi... \n Ou bien ton nom est déjà inscrit sur cette stèle")
 
         }
 
     },
 
-    get(){
+    get(id){
         const modal = new ModalBuilder()
-        .setCustomId(this.name)
-        .setTitle('Nombre de Mots à la fin :D')
+            .setCustomId(this.name + "/" + id)
+            .setTitle('Nombre de Mots à la fin :D')
 
         const words = new TextInputBuilder()
-        .setCustomId('words')
-        .setLabel('mots :')
-        .setRequired(true)
-        .setMaxLength(6)
-        .setStyle(TextInputStyle.Short)
+            .setCustomId('words')
+            .setLabel('mots :')
+            .setRequired(true)
+            .setMaxLength(6)
+            .setStyle("Short")
 
-        const firstActionRow = new ActionRowBuilder().addComponents(words)
-        modal.addComponents(firstActionRow)
+        return modal.addComponents(
+            new ActionRowBuilder()
+                .addComponents(words))
 
-        return modal
     }
 
 }

@@ -27,22 +27,6 @@ module.exports = {
 		const coins = await m.getCoins(id)
 		const weeklyWords = await m.getWeeklyWords(id)
 
-		let message = `**Profil de: <@${member.id}>**\n\n`
-		message += `Nick: *${nick}*\n`
-		message += `Arrivée: <t:${joinDate}> <t:${joinDate}:R>\n`
-		message += `Plumes: *${plumes}*\n`
-		message += `Coins: *${coins}*\n`
-		message += `MotsHebdo: *${weeklyWords}*\n`
-
-		const textsUUIDs = m.getTextsUUIDs(id)
-		if(textsUUIDs){
-			message += 'Textes: \n'
-			for(const t in textsUUIDs){
-				message += `- ${t} \n`
-			}
-
-		}
-
 		const json = config.plumesRoles
 		const roles = new Map(Object.entries(json))
 

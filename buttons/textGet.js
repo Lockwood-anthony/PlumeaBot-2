@@ -24,7 +24,7 @@ module.exports = {
     get(textId){
         return new ButtonBuilder()
             .setCustomId(this.name+'/'+textId)
-            .setLabel('Prend moi')
+            .setLabel('Lire')
             .setStyle('Success')
 
     }

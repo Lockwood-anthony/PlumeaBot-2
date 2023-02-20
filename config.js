@@ -1,33 +1,33 @@
 module.exports = {
     config: 
     {
-        'messages': {
-            'leaderboard': '1069290621552033863',
-            'tutoPost': 'https://discord.com/channels/1066783578140180520/1066783579079716895/1075837538595520655',
-            'tutoComment': 'https://discord.com/channels/1066783578140180520/1066783579079716895/1075837538595520655'
+        messages: {
+            leaderboard: '1069290621552033863',
+            tutoPost: 'https://discord.com/channels/1066783578140180520/1066783579079716895/1075837538595520655',
+            tutoComment: 'https://discord.com/channels/1066783578140180520/1066783579079716895/1075837538595520655'
 
         },
 
-        'channels': {
-            'plumes': '1066783578698027180',
-            'leaderboard': '1066783578698027181',
-            'counter': '1076064653349769233',
-            'welcome': '1066783578698027185',
-            'presentation': '1066783578698027186',
-            'ticket': '1066783578698027188',
-            'text': '1066783579079716895',
-            'textForum': '1066783579079716895',
-            'monthlyNovel': '1066783579079716899',
-            'general': '1066783579696271360',
-            'sprint': '1066783579079716901',
-            'cya': '1066783579926966278',
-            'delete':'1066783580191195326',
-            'logs': '1066783580371554463',
-            'safe': '1066783580371554462',
-            "opinions": '1069894556356718592'
+        channels: {
+            plumes: '1066783578698027180',
+            leaderboard: '1066783578698027181',
+            counter: '1076064653349769233',
+            welcome: '1066783578698027185',
+            presentation: '1066783578698027186',
+            ticket: '1066783578698027188',
+            textForum: '1069894556356718592',
+            text: '1066783579079716895',
+            monthlyNovel: '1066783579079716899',
+            general: '1066783579696271360',
+            sprint: '1066783579079716901',
+            cya: '1066783579926966278',
+            delete:'1066783580191195326',
+            logs: '1066783580371554463',
+            safe: '1066783580371554462',
+            opinions: '1069894556356718592'
         },
 
-        'plumesRoles': {
+        plumesRoles: {
             '1066783578194718728': {
                 p: 1,
                 color: 'a9ffd1',
@@ -68,38 +68,42 @@ module.exports = {
             }
         },
 
-        'messageReplies': {
-            'CHAD': 'https://tenor.com/view/mujikcboro-seriymujik-gif-24361533',
+        messageReplies: {
+            CHAD: 'https://tenor.com/view/mujikcboro-seriymujik-gif-24361533',
             ' rick': 'https://tenor.com/view/rickroll-rick-roll-gif-gif-25399889',
-            'nuck': 'https://i.imgur.com/N3oxDNW.gifv',
-            'RANK': 'https://i.imgur.com/hK9qUWc.gifv'
+            nuck: 'https://i.imgur.com/N3oxDNW.gifv',
+            RANK: 'https://i.imgur.com/hK9qUWc.gifv'
         },
 
-        'emotes': {
-            'plume': '❤️',
-            'love': '❤️'
+        emotes: {
+            plume: '❤️',
+            love: '❤️'
         },
 
-        'roles': {
-            'sprinter': '1066783578161156189',
-            'tournament': '1066783578161156190',
-            'staff': '1066783578211483723',
-            'guard': '1066783578211483722',
-            'plumeen': '1076559326430384250',
-            'dev': '1066783578194718723'
+        roles: {
+            tournament: '1066783578161156190',
+            staff: '1066783578211483723',
+            guard: '1066783578211483722',
+            plumeen: '1076559326430384250',
+            dev: '1066783578194718723'
         },
 
-        'string': {
-            'serverName': 'Plumea',
-            'inhab': 'Plumeen'
+        string: {
+            serverName: 'Plumea',
+            inhab: 'Plumeen'
 
         },
 
-        'themes': [
+        tutoIds: {
+            avis: 1
+
+        },
+
+        themes: [
             {
-                'name': 'romance',
-                'desc': 'romance !',
-                'id': '1071408016496267264'
+                name: 'romance',
+                desc: 'romance !',
+                id: '1071408016496267264'
             },
             {
                 'name': 'conte',
@@ -146,6 +150,7 @@ module.exports = {
                 'desc': 'Pan pan, t~es mort !',
                 'id': '1071408566797348934'
             }
+
         ]
 
     }

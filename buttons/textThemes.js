@@ -9,9 +9,7 @@ module.exports = {
         const textModelUUID = split[2]
         const PostProcess = split[3]
 
-        const menu = await require("../selectMenus/textThemes").get(textUUID, textModelUUID, PostProcess)
-        await mes.interSuccess(inter, null, null, [menu])
-
+        await mes.interSuccess(inter, { content: "Choisis au moins un thème pour ton oeuvre :", components: [await require("../selectMenus/textThemes").get(textUUID, textModelUUID, PostProcess)] })
 
     },
 

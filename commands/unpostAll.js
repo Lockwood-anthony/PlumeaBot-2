@@ -31,11 +31,13 @@ module.exports = {
 
         if(textsUUIDs.length !== 0){
 
-            await textsUUIDs.forEach(uuid => {
-                t.delAllMessages(uuid)
+            await textsUUIDs.forEach(async uuid => {
+                await t.vanish(uuid)
             })
 
             await m.removeAllTextsUUIDs(userId)
+
+            await mes.interSuccess(inter)
 
         }else{
             await mes.interError(inter, "Cet utilisateur n'a pas de texte !")

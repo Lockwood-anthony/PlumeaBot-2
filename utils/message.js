@@ -132,10 +132,15 @@ module.exports = {
     },
 
     async sendMes(cId, mes){
-        const channel = await client.channels.fetch(cId)
 
-        const m = await channel.send(mes)
-        return await m
+        try{
+            const channel = await client.channels.fetch(cId)
+            const m = await channel.send(mes)
+            return m
+        }catch(e){
+            console.log(e)
+            return null
+        }
 
     },
 
@@ -166,7 +171,10 @@ module.exports = {
 
     async  editMes(cId, mesId, mes){
         const fetchMes = await this.getMes(cId, mesId)
-        fetchMes.edit(mes)
+        if(fetchMes){
+            fetchMes.edit(mes)
+
+        }
 
     },
 
@@ -220,7 +228,7 @@ module.exports = {
 
         if(reply){
 
-            if(reply.title){
+            if(! reply.data){
 
                 if(typeof reply === "string"){
                     const embed = this.newEmbed()
@@ -229,6 +237,13 @@ module.exports = {
                     reply = { embeds: [embed], ephemeral: true }
 
                 }else{
+
+                    const embed = this.newEmbed()
+                        .setDescription(`**${reply.content}**`)
+
+                    reply.embeds = [embed]
+                    reply.ephemeral = true
+                    reply.content = null
 
                     if(reply.ephemeral == null){
                         reply.ephemeral = true
@@ -244,7 +259,7 @@ module.exports = {
                 }
 
             }else{
-                await inter.showModal(reply.modal)
+                await inter.showModal(reply)
 
             }
 
@@ -271,9 +286,18 @@ module.exports = {
     },
 
     async interError(inter, error, level = 0, defer = false){
-        let errorMes = ''
-        if(!error) errorMes = 'Une erreur est survenue, veuillez appeler mon popa AstrantV#1053'
-        if(error.content){ errorMes = error.content }
+        let errorMes = 'Une erreur est survenue, veuillez appeler mon popa AstrantV#1053'
+
+        if(error){
+
+            if(error.content){
+                errorMes = errorMes = error.content
+            }else{
+                errorMes = error
+
+            }
+
+        }
 
         const embed = this.newEmbed()
             .setTitle("Error ;-;")
@@ -288,8 +312,6 @@ module.exports = {
             await inter.reply(reply)
         }
 
-        await inter.reply(reply)
-
         let color = this.color.yellow
         if (level === 1) color = this.color.red
 
@@ -300,7 +322,7 @@ module.exports = {
                             \`\`\`${error}\`\`\``)
 
         let content = ''
-        if(level === 1){ content += `<&${config.roles.dev}>` }
+        if(level === 1){ content += `<@&${config.roles.dev}>` }
 
         await this.sendMes(config.channels.logs, { content: content, embeds: [embed2] })
 

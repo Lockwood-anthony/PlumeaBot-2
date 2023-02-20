@@ -14,6 +14,34 @@ module.exports = {
 
     },
 
+    checkIntegerModalInput(input, inputName, max = 666666666, min = 0){
+        let errorMes = ''
+
+        if(isNaN(input)) {
+            errorMes += inputName + " : Ce n~est pas un nombre que tu as donné là !\n"
+
+        }else{
+
+            if(input < min){
+                errorMes += inputName + " : C'est un nombre en dessous de " + min + " ca !\n"
+
+            }
+
+            if(input > max){
+                errorMes += inputName + " : C'est un nombre en dessus de " + max + " ca !\n"
+
+            }
+
+            if((input - Math.floor(input)) !== 0){
+                errorMes +=  inputName + " : Pas de nombre à virgule stp -_-\n"
+            }
+
+        }
+
+        return errorMes
+
+    },
+
     async isWeeklyResetTime(){
         const today = new Date()
         const resetDay = await this.getWeeklyResetDate()

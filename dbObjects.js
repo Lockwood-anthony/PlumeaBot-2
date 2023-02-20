@@ -42,11 +42,11 @@
                 type: DataTypes.BIGINT,
                 defaultValue: 0
             },
-            all: {
-                type: DataTypes.CHAR,
-                defaultValue: 'a'
-            },
-            textInPostingUUID: DataTypes.UUID
+            textInPostingUUID: DataTypes.UUID,
+            tutoIds: {
+                type: DataTypes.ARRAY(DataTypes.INTEGER),
+                defaultValue: []
+            }
 
         }),
 
@@ -128,26 +128,17 @@
                     primaryKey: true,
                     unique: true
                 },
-                time: {
-                    type: DataTypes.INTEGER,
-                    defaultValue: 0,
-                },
-                maxTime: {
-                    type: DataTypes.INTEGER,
-                    defaultValue: 0,
-                },
+                end: DataTypes.DATE,
+                waitEnd: DataTypes.DATE,
                 sprinters: {
-                    type: DataTypes.ARRAY(DataTypes.BIGINT),
-                    defaultValue: []
-                },
-                words: {
-                    type: DataTypes.ARRAY(DataTypes.INTEGER),
+                    type: DataTypes.ARRAY(DataTypes.STRING),
                     defaultValue: []
                 },
                 messageId: {
-                    type: DataTypes.INTEGER,
+                    type: DataTypes.BIGINT,
                     defaultValue: 0,
-                }
+                },
+                time: DataTypes.INTEGER
 
             }),
 
@@ -226,9 +217,6 @@
         },
 
         async autoSet(){
-            const sprint = require ('./utils/sprint')
-            if(!sprint.exists(0)){ await sprint.addOne(0) }
-
             const { isWeeklyResetDate, isBumpDate, createWeeklyResetTime, createBumpDate } =  require('./utils/somes')
             if(! await isWeeklyResetDate()){ await createWeeklyResetTime() }
             if(! await isBumpDate()){ await createBumpDate() }
@@ -317,12 +305,11 @@
 
         async tabAddAtr(tab, id, atr, val){
             const append = {[atr]: sequelize.fn('array_append', sequelize.col(atr), val)}
-
-            tab.update( append, { 'where': { id: id } })
+            await tab.update( append, { 'where': { id: id } })
         },
 
         async tabRemoveAtr(tab, id, atr, val){
-            await tab.update({ [atr]: sequelize.fn('array_remove',sequelize.col(atr), val) }, { 'where': { id: id } })
+            await tab.update({ [atr]: sequelize.fn('array_remove', sequelize.col(atr), val) }, { 'where': { id: id } })
         },
 
         async tabRemoveAtrIndex(tab, id, atr, index){

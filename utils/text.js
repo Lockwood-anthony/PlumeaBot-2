@@ -223,14 +223,25 @@ module.exports = {
             true
         )
 
-        const buttonMes = { content: '|\n|\n|\n|', components: [button] }
+        const buttonMes = { content: '|\n|\n|\n|', components: [postButton, commentButton] }
 
         const postMesId = await db.tabGetAtr(PIDS_TAB, 'textPostMessage', 'paramId')
-        await mes.delMes(config.channels.text, [postButton, commentButton])
+        await mes.delMes(config.channels.text, postMesId)
 
         const message = await mes.sendMes(config.channels.text, buttonMes)
         await db.tabSetAtr(PIDS_TAB, 'textPostMessage', 'paramId', message.id)
 
+    },
+
+    getQuestionsEmbed(questions){
+        let desc = ''
+        questions.forEach(q => {
+            desc += q + '\n'
+        })
+
+        return mes.newEmbed()
+            .setTitle("Répondez aux questions de l'auteur :")
+            .setDescription(desc)
     },
 
     async getSimilarTextUUID(dt_title, id, uuid){

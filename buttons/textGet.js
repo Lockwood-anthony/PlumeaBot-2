@@ -35,7 +35,7 @@ module.exports = {
         async function send(){
 
             if(! await m.exists(userId)){
-                const sent = await tUtils.sendFile(textId, member)
+                const sent = await tUtils.sendFile(textId, userId)
 
                 if(sent){
                     await mes.interSuccess(inter)

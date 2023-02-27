@@ -49,7 +49,7 @@ module.exports = {
 				{ name: "Arrivée: ", value: `<t:${joinDate}> <t:${joinDate}:R>`},
 			)
 
-		await mes.interSuccess(inter, { embeds : [embed], ephemeral: false })
+		await mes.interSuccess(inter, { embeds : [embed], formatted: true, ephemeral: false })
 
 	}
 

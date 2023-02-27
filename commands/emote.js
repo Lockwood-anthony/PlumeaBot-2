@@ -20,11 +20,11 @@ module.exports = {
 
 		await inter.deferReply({ ephemeral: true })
 
-		for(let i = 199 ; i < 344 ; i++){
+		for(let i = 0 ; i < 344 ; i++){
 			const m = members[i]
 			const id = this.ABCtoInt(m)
 
-			/*
+
 					await mes.interSuccess(inter, { content: config.emotes.plume, formatted: true, ephemeral: false })
 
 			const plumes = await data.get("members." + m + ".plumes")
@@ -57,8 +57,6 @@ module.exports = {
 
 			}
 
-			 */
-
 		}
 
 	},
@@ -74,8 +72,7 @@ module.exports = {
 		string = string.replace(/è/g, "7")
 		string = string.replace(/à/g, "8")
 		string = string.replace(/ç/g, "9")
-		console.log(string)
-		console.log(BigInt(string))
+		return BigInt(string)
 
 	}
 

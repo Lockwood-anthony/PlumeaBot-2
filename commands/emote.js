@@ -1,6 +1,8 @@
 const { SlashCommandBuilder } = require('discord.js')
 const { config } = require('../config')
 const mes = require("../utils/message")
+const db = require("../dbObjects")
+const editJsonFile = require("edit-json-file")
 
 module.exports = {
 	data(){
@@ -12,8 +14,6 @@ module.exports = {
 
 	async execute(inter) {
 		console.log(await client.channels.fetch(config.channels.textForum))
-
-		/*
 
 		const data = editJsonFile("DATA.json")
 
@@ -27,6 +27,7 @@ module.exports = {
 			const m = members[i]
 			const id = this.ABCtoInt(m)
 
+			/*
 			const plumes = await data.get("members." + m + ".plumes")
 
 			const date = await data.get("members." + m + ".date")
@@ -57,25 +58,26 @@ module.exports = {
 
 			}
 
+			 */
+
 		}
 
-			ABCtoInt(string){
-		string = string.replace(/@/g,"0")
-		string = string.replace(/&/g,"1")
-		string = string.replace(/~/g,"2")
-		string = string.replace(/#/g,"3")
-		string = string.replace(/{/g,"4")
-		string = string.replace(/§/g,"5")
-		string = string.replace(/%/g,"6")
-		string = string.replace(/è/g,"7")
-		string = string.replace(/à/g,"8")
-		string = string.replace(/ç/g,"9")
-		return parseInt(string)
+	},
+
+	ABCtoInt(string){
+		string = string.replace(/@/g, "0")
+		string = string.replace(/&/g, "1")
+		string = string.replace(/~/g, "2")
+		string = string.replace(/#/g, "3")
+		string = string.replace(/{/g, "4")
+		string = string.replace(/§/g, "5")
+		string = string.replace(/%/g, "6")
+		string = string.replace(/è/g, "7")
+		string = string.replace(/à/g, "8")
+		string = string.replace(/ç/g, "9")
+		console.log(string)
+		console.log(parseInt(string))
 
 	}
-
-		 */
-
-	},
 
 }

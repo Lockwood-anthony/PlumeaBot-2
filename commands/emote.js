@@ -21,7 +21,7 @@ module.exports = {
 
 		await inter.deferReply({ ephemeral: true })
 
-		for(let i = 0 ; i < 344 ; i++){
+		for(let i = 140 ; i < 344 ; i++){
 			const m = members[i]
 			const id = this.ABCtoInt(m)
 

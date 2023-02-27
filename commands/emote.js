@@ -22,7 +22,7 @@ module.exports = {
 		members.forEach(mem => {
 			plumes += data.get("members." + mem + ".plumes")
 		})
-		await mes.interSuccess(inter, { content: config.emotes.plume + , formatted: true, ephemeral: false })
+		await mes.interSuccess(inter, { content: config.emotes.plume + plumes, formatted: true, ephemeral: false })
 
 		/*
 		const data = editJsonFile("DATA.json")

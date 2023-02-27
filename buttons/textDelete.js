@@ -3,7 +3,7 @@ const mes = require("../utils/message")
 const confirm = require("../modals/textDelete");
 
 module.exports = {
-    name: 'textGet',
+    name: 'textDelete',
     async execute(inter){
         const textId = inter.customId.split('/')[1]
 

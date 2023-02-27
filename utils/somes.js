@@ -92,9 +92,9 @@ module.exports = {
         const mRoles = await m.roles.cache
         const rolesIds = mRoles.map(r => { return r.id })
 
-        let yes = true
+        let yes = false
         roles.forEach(r => {
-            yes &= rolesIds.includes(r)
+            yes |= rolesIds.includes(r)
         })
 
         return yes

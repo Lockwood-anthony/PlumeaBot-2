@@ -16,6 +16,7 @@ module.exports = {
             presentation: '1066783578698027186',
             ticket: '1066783578698027188',
             textForum: '1069894556356718592',
+            textRequest: '1077414783256645682',
             text: '1066783579079716895',
             monthlyNovel: '1066783579079716899',
             general: '1066783579696271360',
@@ -84,71 +85,76 @@ module.exports = {
             tournament: '1066783578161156190',
             staff: '1066783578211483723',
             guard: '1066783578211483722',
-            plumeen: '1076559326430384250',
+            pluméen: '1076559326430384250',
             dev: '1066783578194718723'
         },
 
         string: {
-            serverName: 'Plumea',
-            inhab: 'Plumeen'
+            serverName: 'pluméa',
+            inhab: 'pluméen'
 
         },
 
         tutoIds: {
-            avis: 1
+            commentaire: 1
 
         },
 
         themes: [
             {
-                name: 'romance',
-                desc: 'romance !',
+                name: 'SF',
+                desc: 'a',
                 id: '1071408016496267264'
             },
             {
-                'name': 'conte',
-                'desc': 'Pas réservé aux enfants !',
-                'id': '1071408065347321977'
+                name: 'Fantasy ',
+                desc: 'a',
+                id: '1071408065347321977'
             },
             {
-                'name': 'contemporain',
-                'desc': 'C~était po mieux avant.',
-                'id': '1071408130489077803'
+                name: 'Fantastique',
+                desc: 'a',
+                id: '1071408130489077803'
             },
             {
-                'name': 'fantasy',
-                'desc': 'Pas d~elfes à la Légolas, pitié ;-;',
-                'id': '1071408184700444724'
+                name: 'Horreur',
+                desc: 'Une seule règle, ne jamais lire dans le noir (ça abîme la rétine)',
+                id: '1071408184700444724'
             },
             {
-                'name': 'fantastique',
-                'desc': 'Bouhouhou..',
-                'id': '1071408228883251210'
+                name: 'Historique',
+                desc: 'Toujours rêvé de vivre une époque révolue de notre histoire? C~est le moment.',
+                id: '1071408228883251210'
             },
             {
-                'name': 'horreur',
-                'desc': 'Tronçonneuses !',
-                'id': '1071408274286583870'
+                name: 'Jeunesse',
+                desc: 'a',
+                id: '1071408274286583870'
             },
             {
-                'name': 'historique',
-                'desc': 'À la lanterne ! Bahaha..',
-                'id': '1071408393920712774'
+                name: 'Roman Noir',
+                desc: 'a',
+                id: '1071408393920712774'
             },
             {
-                'name': 'humour',
-                'desc': 'Aaaah, humur..',
-                'id': '1071408463302885489'
+                name: 'Romance',
+                desc: 'Un peu de douceur et d~émotions',
+                id: '1071408463302885489'
             },
             {
-                'name': 'jeunesse',
-                'desc': 'Pas niais pour autant.',
-                'id': '1071408523415650444'
+                name: 'Action',
+                desc: 'Un peu d~adrénaline et d~aventure !',
+                id: '1071408523415650444'
             },
             {
-                'name': 'policier',
-                'desc': 'Pan pan, t~es mort !',
-                'id': '1071408566797348934'
+                name: 'Drame',
+                desc: 'a',
+                id: '1071408566797348934'
+            },
+            {
+                name: 'Comédie',
+                desc: 'Besoin d~une lecture sans prise de tête et joviale ?',
+                id: '1071408566797348934'
             }
 
         ]

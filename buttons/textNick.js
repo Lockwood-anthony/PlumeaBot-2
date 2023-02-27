@@ -15,7 +15,7 @@ module.exports = {
             .setComponents(
                 new ButtonBuilder()
                     .setCustomId(this.name + "/" + textUUID)
-                    .setLabel('Plumea Pseudo')
+                    .setLabel('pluméa Pseudo')
                     .setStyle('Success')
             )
 

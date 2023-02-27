@@ -54,7 +54,6 @@ module.exports = {
 
 
                 const words = await this.wordsChecker(inter, id, file)
-                console.log(words)
                 if(! words){
                     return
                 }
@@ -77,14 +76,14 @@ module.exports = {
                     const button = await require('../buttons/textModalTitle').get(uuid, 0, 1)
                     await mes.interSuccess(
                         inter,
-                        {content: "Entre le Dt_Titre de ton texte \n __appuis sur le bouton__  ↓↓↓", components: [button] },
+                        {content: "Entre le Dt_Titre de ton texte \n __Appuis sur le bouton__  ↓↓↓", components: [button] },
                         true)
 
                 }else{
                     const button = require('../buttons/textNick').get(uuid)
                     await mes.interSuccess(
                         inter,
-                        {content: "Entre ton pseudo Plumeen \n __appuis sur le bouton__  ↓↓↓", components: [button] },
+                        {content: "Entre ton pseudo pluméen \n __Appuis sur le bouton__  ↓↓↓", components: [button] },
                         true)
 
                 }
@@ -95,7 +94,7 @@ module.exports = {
             }
 
         }else{
-            await mes.interError(inter, 'Avant de poster un texte, donne au moins un avis et attend de recevoir une plume ;)')
+            await mes.interError(inter, 'Avant de poster un texte, donne au moins un commentaire et attend de recevoir une plume ;)')
 
         }
 
@@ -117,9 +116,8 @@ module.exports = {
             try{
                 await mes.interError(
                     inter,
-                    '**NO !**  Soit un chad et envoie plus de 1000 mots.\nMots Comptés: '+words
-                    +'\nhttps://tenor.com/view/no-chad-giga-chad-giga-chet-gif-25063092'+
-                    '\nSi c~est largement éloigné du nombre de mots réel, converti ton fichier en pdf grâce à ce site :'
+                    '**NO !**  Soit un chad et envoie plus de 1000 mots.\nMots Comptés: ' + words
+                    + '\nSi c~est largement éloigné du nombre de mots réel, converti ton fichier en pdf grâce à ce site :'
                     +'\nhttps://www.ilovepdf.com/fr/word_en_pdf',
                     0,
                     true

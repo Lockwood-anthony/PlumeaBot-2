@@ -17,7 +17,7 @@ module.exports = {
 
         if(PostProcess === '1'){
             const button = require("../buttons/textModal2").get(textUUID, textModelUUID, PostProcess)
-            await mes.interSuccess(inter, { content: "Seconde Etape \n __appuis sur le bouton__  ↓↓↓", components: [button] })
+            await mes.interSuccess(inter, { content: "Titre en entier, ID_chapitres, et description \n __Appuis sur le bouton__  ↓↓↓", components: [button] })
 
         }else{
             const postChannelId = await tUtils.getPostId(textUUID)

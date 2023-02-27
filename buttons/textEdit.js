@@ -17,9 +17,10 @@ module.exports = {
             const textModal2 = await require("../buttons/textModal2").get(textId, textId, 0, false)
             const textFile = await require("../buttons/textRepost").get(textId, false)
 
-            const row = new ActionRowBuilder().setComponents(textDt, textModal1, textThemes, textModal2, textFile)
+            const row1 = new ActionRowBuilder().setComponents(textDt, textModal1, textThemes)
+            const row2 = new ActionRowBuilder().setComponents(textModal2, textFile)
 
-            await mes.interSuccess(inter, { content: "Change ton texte :", components: [row] })
+            await mes.interSuccess(inter, { content: "Change ton texte :", components: [row1, row2] })
 
         }else{
             await mes.interError(inter, 'Bruh, t~es pas l~auteur, tu peux pas faire ca...')

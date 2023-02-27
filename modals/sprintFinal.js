@@ -5,7 +5,8 @@ const somes = require("../utils/somes")
 const db =  require('../dbObjects')
 
 module.exports = {
-    name: 'sprintFinalWords',
+    name: 'sprintFinal',
+
     async execute(inter){
         const userId = inter.member.id
         const id = inter.customId.split("/")[1]
@@ -13,21 +14,28 @@ module.exports = {
         let words = inter.fields.getTextInputValue('words')
         words = parseInt(words)
 
-        if(await sprint.isSprinter(userId)){
-            let errorMes = somes.checkIntegerModalInput(words, "Mots")
-            if(errorMes !== ''){
-                await mes.interError(inter, errorMes)
-                return
+        if(sprint.exists(id)){
+
+            if(await sprint.isSprinter(userId)){
+                let errorMes = somes.checkIntegerModalInput(words, "Mots")
+                if(errorMes !== ''){
+                    await mes.interError(inter, errorMes)
+                    return
+                }
+
+                const beginWords = await sprint.getSprinterWords(id, userId)
+
+                await sprint.endMessageUpdate(id, userId, words, beginWords)
+                await db.tabRemoveAtr(S_TAB, id, "sprinters", userId+"/"+beginWords)
+                await mes.interSuccess(inter, 'Te voilà inscrit dans le marbre mon cher ; )')
+
+            }else{
+                await mes.interError(inter, "Tu faisais pas partie du sprint toi... \n Ou bien ton nom est déjà inscrit sur cette stèle")
+
             }
 
-            const beginWords = await sprint.getSprinterWords(id, userId)
-
-            await sprint.endMessageUpdate(id, userId, words, beginWords)
-            await db.tabRemoveAtr(S_TAB, id, "sprinters", userId+"/"+beginWords)
-            await mes.interSuccess(inter, 'Te voilà inscrit dans le marbre mon cher ; )')
-
         }else{
-            await mes.interError(inter, "Tu faisais pas partie du sprint toi... \n Ou bien ton nom est déjà inscrit sur cette stèle")
+            await mes.interError(inter, "Ce sprint est effacé ! Trop tard..")
 
         }
 

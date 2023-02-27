@@ -7,10 +7,10 @@ module.exports = {
 	data(){
 		return new SlashCommandBuilder()
 			.setName('profil')
-			.setDescription('Profil d~un plumeen')
+			.setDescription('Profil d~un pluméen')
 			.addUserOption(option => option
 				.setName('user')
-				.setDescription('plumeen')
+				.setDescription('pluméen')
 				.setRequired(true))
 
 	},

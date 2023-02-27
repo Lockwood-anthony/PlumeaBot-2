@@ -1,6 +1,7 @@
 const db =  require('../dbObjects')
 const mes =  require('../utils/message')
 const { config } = require('../config')
+const {ActionRowBuilder} = require("discord.js");
 
 module.exports = {
 
@@ -95,7 +96,6 @@ module.exports = {
         await db.tabSetAtr(S_TAB, id, "time", time)
     },
 
-
     async getRunningMessageDesc(id){
         const sprinters = await this.getSprinters(id)
         let desc = '\n__**Participants :**__\n\n'
@@ -104,8 +104,17 @@ module.exports = {
             const split = s.split("/")
             desc += `<@${split[0]}> : \`${split[1]} mots\`\n`
         })
-
         return desc
+    },
+
+    async updateRunningMessageDesc(id){
+        const mesId = await this.getMessageId(id)
+        const message = await mes.getMes(config.channels.sprint, mesId)
+        let embed = message.embeds[0]
+
+        embed.data.description = await this.getRunningMessageDesc(id)
+
+        await mes.editMes(config.channels.sprint, mesId, { embeds: [embed] })
     },
 
     async beginMessageGet(id, date, inter){
@@ -116,8 +125,9 @@ module.exports = {
             .setDescription(await this.getRunningMessageDesc(id))
 
         const jButton = require('../buttons/sprintJoin').get(id)
+        const lButton = require("../buttons/sprintLeave").get(id)
 
-        return { content: '', embeds: [embed], components: [ jButton ] }
+        return { content: '', embeds: [embed], components: [ new ActionRowBuilder().setComponents(jButton, lButton) ] }
 
     },
     

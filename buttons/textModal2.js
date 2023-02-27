@@ -19,7 +19,7 @@ module.exports = {
     get(textUUID, textModelUUID, PostProcess, row = true){
         const button = new ButtonBuilder()
             .setCustomId(this.name + '/' + textUUID + "/" + textModelUUID + "/" + PostProcess)
-            .setLabel('Formulaire 3/3 - Obligatoires')
+            .setLabel('Formulaire 3/3 - Renseignements')
             .setStyle('Success')
 
 

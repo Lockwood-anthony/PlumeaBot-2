@@ -18,7 +18,7 @@ module.exports = {
                 setTimeout(async () => {
                     await mUtils.removeMember(id)
                     const m = await inter.guild.members.fetch(id)
-                    await m.roles.remove(config.roles.plumeen)
+                    await m.roles.remove(config.roles.pluméen)
 
                 }, i * 1000)
 
@@ -36,7 +36,6 @@ module.exports = {
         let menu = new StringSelectMenuBuilder()
             .setCustomId(this.name)
             .setPlaceholder('Choisis les gens')
-            .addOptions()
 
         let nothing = true
         await inactivesIds.forEach(async id => {

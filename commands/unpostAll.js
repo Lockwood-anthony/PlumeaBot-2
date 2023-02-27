@@ -7,7 +7,7 @@ module.exports = {
     data(){
         return new SlashCommandBuilder()
             .setName('unpost-all')
-            .setDescription("Enlève TOUS LES POSTS d'un utilisateur, pas les avis")
+            .setDescription("Enlève TOUS LES POSTS d'un utilisateur, pas les commentaire")
             .addUserOption(option => option
                 .setName("user")
                 .setDescription("L'utilisateur qui va perdre tout ses textes postés"))

@@ -1,10 +1,9 @@
-//Faut créer un fichier .env dans le root du prijet et mettre les variables TOKEN, CLIENT_ID, GUILD_ID
+//Faut créer un fichier .env dans le root du projet et mettre les variables TOKEN, CLIENT_ID, GUILD_ID...
 require('dotenv').config({path: __dirname + '/.env'})
 
 const { Client, GatewayIntentBits } = require('discord.js')
 const path = require('path')
 const fs = require('fs')
-global.DATA = 'DATA.json'
 global.DIRNAME = __dirname
 
 global.client = new Client({

@@ -24,7 +24,7 @@ module.exports = {
                     await mes.interSuccess(
                         inter,
                         {
-                            content: "Tu peux poster ton texte à présent ! \n __appuis sur le bouton__  ↓↓↓",
+                            content: "Tu peux poster ton texte à présent ! \n __Appuis sur le bouton__  ↓↓↓",
                             components: [require("../buttons/textModalTitle").get(textUUID, 0, 1)]
                         }
 
@@ -37,7 +37,7 @@ module.exports = {
                 await mes.interError(
                     inter,
                     {
-                        content: "Tu as mal confirmé ton pseudo \n __appuis sur le bouton__  ↓↓↓",
+                        content: "Tu as mal confirmé ton pseudo \n __Appuis sur le bouton__  ↓↓↓",
                         components: [require("../buttons/textNick").get(textUUID)]
                     }
                 )
@@ -48,7 +48,7 @@ module.exports = {
             await mes.interError(
                 inter,
                 {
-                    content: "Seuls les caractères alphabétiques sont autorisés \n __appuis sur le bouton__  ↓↓↓",
+                    content: "Seuls les caractères alphabétiques sont autorisés \n __Appuis sur le bouton__  ↓↓↓",
                     components: [require("../buttons/textNick").get(textUUID)]
                 }
             )

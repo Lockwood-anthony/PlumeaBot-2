@@ -20,7 +20,7 @@ module.exports = {
     get(textUUID, textModelUUID, PostProcess, row = true){
         const button = new ButtonBuilder()
             .setCustomId(this.name + "/" + textUUID + "/" + textModelUUID + "/" + PostProcess)
-            .setLabel('Formulaire 1/3 - Facultatif')
+            .setLabel('Formulaire 1/3 - Questions')
             .setStyle('Success')
 
         if(row){

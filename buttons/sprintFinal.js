@@ -6,7 +6,7 @@ module.exports = {
     async execute(inter){
         const id = inter.customId.split("/")[1]
 
-        await mes.interSuccess(inter, require('../modals/sprintFinalWords').get(id))
+        await mes.interSuccess(inter, require('../modals/sprintFinal').get(id))
 
     },
 
@@ -16,7 +16,7 @@ module.exports = {
                 new ButtonBuilder()
                     .setCustomId(this.name + "/" + id)
                     .setLabel('mooots')
-                    .setStyle('Primary')
+                    .setStyle('Success')
         )
 
     }

@@ -5,7 +5,7 @@ const somes = require("../utils/somes")
 const { config } = require("../config")
 
 module.exports = {
-    name: 'sprintWords',
+    name: 'sprintJoin',
 
     async execute(inter){
         const member = inter.member
@@ -23,12 +23,7 @@ module.exports = {
 
             await sprint.addSprinter(id, member.user.id, words)
 
-            const mesId = await sprint.getMessageId(id)
-            const message = await mes.getMes(config.channels.sprint, mesId)
-            let embed = message.embeds[0]
-            embed.data.description = await sprint.getRunningMessageDesc(id)
-
-            await mes.editMes(config.channels.sprint, mesId, { embeds: [embed] })
+            await sprint.updateRunningMessageDesc(id)
 
             await mes.interSuccess(inter)
 

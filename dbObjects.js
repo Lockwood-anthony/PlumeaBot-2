@@ -1,4 +1,4 @@
-    const { DataTypes } = require('sequelize')
+    const { DataTypes, Op } = require('sequelize')
 
     module.exports = {
 
@@ -105,9 +105,9 @@
                 type: DataTypes.BIGINT,
                 defaultValue: 0
             },
-            password: {
-                type: DataTypes.STRING,
-                defaultValue: ''
+            protected: {
+                type: DataTypes.BOOLEAN,
+                defaultValue: true
             },
             themes: {
                 type: DataTypes.ARRAY(DataTypes.STRING),
@@ -123,8 +123,7 @@
         sprints:
             sequelize.define('sprints', {
                 id: {
-                    type: DataTypes.INTEGER,
-                    defaultValue: 0,
+                    type: DataTypes.UUID,
                     primaryKey: true,
                     unique: true
                 },
@@ -138,7 +137,34 @@
                     type: DataTypes.BIGINT,
                     defaultValue: 0,
                 },
-                time: DataTypes.INTEGER
+                time: DataTypes.INTEGER,
+                state: DataTypes.STRING
+
+            }),
+
+        sprinters:
+            sequelize.define('sprinters', {
+                userId: DataTypes.BIGINT,
+                sprint: DataTypes.UUID,
+                join: DataTypes.DATE
+
+            }),
+
+        textRequest:
+            sequelize.define('textRequest', {
+                mesId: {
+                    type: DataTypes.BIGINT,
+                    defaultValue: 0,
+                    primaryKey: true,
+                    unique: true
+                },
+                textId: DataTypes.UUID,
+                senderId: DataTypes.BIGINT,
+                date: DataTypes.DATE,
+                state: {
+                    type: DataTypes.STRING,
+                    defaultValue: "WAIT"
+                }
 
             }),
 
@@ -206,6 +232,8 @@
             global.O_TAB = this.opinions
             global.PIDS_TAB = this.parametersIds
             global.PDATES_TAB = this.parametersDates
+            global.SP_TAB = this.sprinters
+            global.TR_TAB = this.textRequest
 
             M_TAB.sync()
             T_TAB.sync()
@@ -213,7 +241,8 @@
             O_TAB.sync()
             PIDS_TAB.sync()
             PDATES_TAB.sync()
-
+            SP_TAB.sync()
+            TR_TAB.sync()
         },
 
         async autoSet(){
@@ -300,7 +329,7 @@
         },
 
         async tabSetAtrToAll(tab, atr, val){
-            await tab.update({ [atr]: val}, { 'where': { all: 'a' } } )
+            await tab.update({ [atr]: val}, { 'where': { } } )
         },
 
         async tabAddAtr(tab, id, atr, val){

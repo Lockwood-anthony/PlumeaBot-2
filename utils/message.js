@@ -16,15 +16,17 @@ module.exports = {
         return new EmbedBuilder()
             .setColor("0x"+color)
             .setTimestamp()
-            .setFooter({ text: 'scriptubot', iconURL: 'https://i.imgur.com/TYeapMy.png' })
+            .setFooter({ text: 'PluméaBot', iconURL: 'https://i.imgur.com/TYeapMy.png' })
     },
 
     async private(member, mes){
+        let sent = true
         await member.send(mes)
             .catch( async ()=> {
-            return false
+                sent = false
         })
-        return true
+
+        return sent
     },
 
     getLinkButton(link, label, emote = config.emotes.plume, row = false){
@@ -238,14 +240,13 @@ module.exports = {
 
                 }else{
 
-                    const embed = this.newEmbed()
-                        .setDescription(`**${reply.content}**`)
+                    if(! reply.formatted){
+                        reply.embeds = [this.newEmbed().setDescription(reply.content)]
+                        reply.content = null
 
-                    reply.embeds = [embed]
-                    reply.ephemeral = true
-                    reply.content = null
+                    }
 
-                    if(reply.ephemeral == null){
+                    if(reply.ephemeral === undefined){
                         reply.ephemeral = true
                     }
 
@@ -285,13 +286,22 @@ module.exports = {
 
     },
 
-    async interError(inter, error, level = 0, defer = false){
-        let errorMes = 'Une erreur est survenue, veuillez appeler mon popa AstrantV#1053'
+    async updateMesComp(cId, mesId, comp, index){
+        const mes = await this.getMes(cId, mesId)
+
+        mes.components[0].components[index] = comp
+
+        await mes.edit({ components: mes.components })
+
+    },
+
+    async interError(inter, error, level = 0, defer = false, link = null){
+        let errorMes = 'Une erreur est survenue, vous pouvez contacter <@548551538487066629> pour vous aider'
 
         if(error){
 
             if(error.content){
-                errorMes = errorMes = error.content
+                errorMes = error.content
             }else{
                 errorMes = error
 
@@ -299,9 +309,19 @@ module.exports = {
 
         }
 
+        let color = this.color.yellow
+        if (level === 1){
+            color = this.color.red
+            errorMes += "Contacte <@548551538487066629>"
+        }
+
         const embed = this.newEmbed()
             .setTitle("Error ;-;")
-            .setDescription(`**${errorMes}**`)
+            .setDescription(`${errorMes}`)
+
+        if(link){
+            embed.setImage(link)
+        }
 
         let reply = { embeds: [embed], ephemeral: true }
         if(error.components){ reply.components = error.components }
@@ -311,9 +331,6 @@ module.exports = {
         }else{
             await inter.reply(reply)
         }
-
-        let color = this.color.yellow
-        if (level === 1) color = this.color.red
 
         const title = this.chooseInterMessageTitle(inter)
         const embed2 = this.newEmbed(color)

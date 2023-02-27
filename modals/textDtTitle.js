@@ -22,7 +22,9 @@ module.exports = {
                 const button = await require("../buttons/textModal1").get(textUUID, textModelUUID, PostProcess)
                 await mes.interSuccess(
                     inter,
-                    { content: "Tu peux poster ton texte :D \n __appuis sur le bouton__  ↓↓↓", components: [button] })
+                    { content: "Une requête particulière ? Un point à travailler ? Dites tout à vos lecteurs.\n" +
+                            "Ces questions sont facultatives" +
+                            " \n __Appuis sur le bouton__  ↓↓↓", components: [button] })
 
             }else{
                 await mes.interSuccess(inter)
@@ -33,7 +35,7 @@ module.exports = {
             const button = require("../buttons/textModalTitle").get(textUUID, textModelUUID, PostProcess)
             await mes.interError(
                 inter,
-                { content: "Seuls les caractères alphabétiques sont autorisés\n __appuis sur le bouton__  ↓↓↓", components: [button] }
+                { content: "Seuls les caractères alphabétiques sont autorisés\n __Appuis sur le bouton__  ↓↓↓", components: [button] }
 
             )
 
@@ -44,12 +46,12 @@ module.exports = {
     async get(textUUID, textModelUUID, postProcess){
         const modal = new ModalBuilder()
             .setCustomId(this.name + "/" + textUUID + "/" +textModelUUID + "/" + postProcess)
-            .setTitle('Dt Titre')
+            .setTitle('ID_titre')
 
         const dt_title = new TextInputBuilder()
             .setCustomId('dt_title')
-            .setLabel('ex : LGUIDE pour Le Guide de Para :')
-            .setPlaceholder('Vas-y ! Entre les ! Hmmmm, j~en frémis déjà~')
+            .setLabel('6 lettres représentant le titre')
+            .setPlaceholder('ex : LGUIDE pour Le Guide de Para')
             .setMinLength(6)
             .setMaxLength(6)
             .setStyle("Short")

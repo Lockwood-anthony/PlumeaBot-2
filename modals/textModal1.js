@@ -13,27 +13,31 @@ module.exports = {
 
         const oldQuestions = await tUtils.getQuestions(textUUID)
 
-        const password = inter.fields.getTextInputValue('password')
-
         let questions = []
         for(let i = 0 ; i < 4 ; i++){
             const question = inter.fields.getTextInputValue('question'+i)
             questions.push(question)
         }
 
-        await tUtils.setPassword(textUUID, password)
         await tUtils.setQuestions(textUUID, questions)
 
         if(PostProcess === '1'){
             const button = require("../buttons/textThemes").get(textUUID, textModelUUID, PostProcess)
-            await mes.interSuccess(inter, { content: "Seconde Etape \n __appuis sur le bouton__  ↓↓↓", components: [button] })
+            await mes.interSuccess(
+                inter,
+                {
+                    content:
+                        "Choisissez 1 à 3 thèmes qui définissent votre oeuvre." +
+                        " \n __Appuis sur le bouton__  ↓↓↓",
+                    components: [button]
+                })
 
         }else{
 
             if(oldQuestions !== questions){
                 const postId = await tUtils.getPostId(textUUID)
                 const postMesId = await tUtils.getPostMesId(textUUID)
-                const message = mes.getMes(postId, postMesId)
+                const message = await mes.getMes(postId, postMesId)
 
                 await mes.editMes(
                     postId,
@@ -51,24 +55,14 @@ module.exports = {
     async get(textUUID, textModelUUID, postProcess){
         const modal = new ModalBuilder()
             .setCustomId(this.name + "/" + textUUID + "/" + textModelUUID + "/" + postProcess)
-            .setTitle('Formulaire FACULTATIF de post du texte :')
-
-        const password =
-            new TextInputBuilder()
-                .setCustomId('password')
-                .setLabel('Mot de passe d~accès au texte : (facultatif)')
-                .setStyle('Short')
-                .setMinLength(8)
-                .setMaxLength(16)
-                .setRequired(false)
-
-        let comp = [password]
+            .setTitle('Formulaire 1/3 - Questions :')
 
         let questions = []
         if(textModelUUID !== '0'){
             questions = await tUtils.getQuestions(textModelUUID)
         }
 
+        let comp = []
         for(let i = 0 ; i < 4 ; i++){
             const question = new TextInputBuilder()
                 .setCustomId('question'+i)

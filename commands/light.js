@@ -24,7 +24,6 @@ module.exports = {
             let COUNT =  setInterval(function() {    
                 client.channels.fetch(channel)
                 .then(c => {
-                    console.log(c.name)
                     let n = c.name
                     c.setName(n+'⭐')
                     o++
@@ -34,7 +33,6 @@ module.exports = {
                     client.channels.fetch(channel)
                     .then(c => {
                         c.setName(name)
-                        console.log('reset')
                         i++
                         clearInterval(COUNT) 
                     })

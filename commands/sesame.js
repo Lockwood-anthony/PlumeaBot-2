@@ -18,7 +18,7 @@ module.exports = {
     async execute(inter) {
         const pass = inter.options.getString('pass')
         const member = inter.member
-        const plumeRole = config.roles.plumeen
+        const plumeRole = config.roles.pluméen
 
         if(member.roles.cache.has(plumeRole)){
             inter.reply({ content: 'Tu fais quoi là -_-', ephemeral: true })
@@ -36,7 +36,7 @@ module.exports = {
                 }
 
                 const welcomeMessage = mes.newEmbed()
-                    .setDescription(`**${re}Bienvenue sur Plumea ${member} | ${member.username}.**`)
+                    .setDescription(`**${re}Bienvenue sur pluméa ${member} | ${member.username}.**`)
                     .setAuthor({ name: 'Youpiii !',iconURL: 'https://i.imgur.com/TYeapMy.png', url: 'https://tenor.com/view/rickroll-roll-rick-never-gonna-give-you-up-never-gonna-gif-22954713' })
                     .setThumbnail(member.displayAvatarURL())
 
@@ -44,7 +44,7 @@ module.exports = {
                 await mes.sendMes(welcome, { embeds: [welcomeMessage]})
 
                 const socials =
-                    "> 📕▸**"+re+"Bienvenue sur Plumea !**\n\n 🧭 ▸Le guide du Pluméen contient toutes les informations nécessaires sur le bon fonctionnement de la communauté : *règles générales, comment poster son avis, comment poster son texte...*\n"+
+                    "> 📕▸**"+re+"Bienvenue sur pluméa !**\n\n 🧭 ▸Le guide du Pluméen contient toutes les informations nécessaires sur le bon fonctionnement de la communauté : *règles générales, comment poster son commentaire, comment poster son texte...*\n"+
                     "https://discord.com/channels/1027089727360344144/1063760987238436924\n\n"+
 
                     "👤 ▸Et si vous nous en disiez plus sur vous ? \n"+
@@ -67,7 +67,7 @@ module.exports = {
 
                     "> 📸 nos réseaux :\n"+
                     "__INSTAGRAM__\n"+
-                    "https://instagram.com/plumea.fr?igshid=ZDdkNTZiNTM=\n\n"+
+                    "https://instagram.com/pluméa.fr?igshid=ZDdkNTZiNTM=\n\n"+
 
                     "https://imgur.com/92562no"
 

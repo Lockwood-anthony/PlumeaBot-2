@@ -24,7 +24,7 @@ module.exports = {
         await inter.message.edit({ components: [] })
 
         const embed = mes.newEmbed()
-            .setDescription("Bravo ! Ton avis a été validé ! :D")
+            .setDescription("Bravo ! Ton commentaire a été validé ! :D")
 
         const p = await oUtils.getWords(uuid)
         const textUUID = await oUtils.getTextUUID(uuid)
@@ -40,7 +40,7 @@ module.exports = {
                     .setURL(message.url))
 
 
-        await mes.interSuccess(inter, { content: `<@${senderId}>`, embeds: [embed], components: [button]})
+        await mes.interSuccess(inter, { content: `<@${senderId}>`, embeds: [embed], components: [button], formatted: true})
 
         const opinionButton = new ActionRowBuilder()
             .setComponents(

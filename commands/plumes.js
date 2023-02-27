@@ -7,19 +7,22 @@ const m = require("../utils/member")
 module.exports = {
 	data(){
         return new SlashCommandBuilder()
-        .setName('plumes')
-        .setDescription('Ajoute un nombre de plumes à un' + config.string.inhab + ', négatif ou positif, au choix')
-        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
-        .addUserOption(option => option
-            .setName('user')
-            .setDescription('Utilisateur')
-            .setRequired(true))
-        .addIntegerOption(option => option
-            .setMinValue(-99)
-            .setMaxValue(99)
             .setName('plumes')
-            .setDescription('Nombre de Plumes à rajouter/enlever')
-            .setRequired(true))
+            .setDescription('Ajoute un nombre de plumes à un' + config.string.inhab + ', négatif ou positif, au choix')
+            .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+            .addUserOption(option => option
+                .setName('user')
+                .setDescription('Utilisateur')
+                .setRequired(true))
+            .addIntegerOption(option => option
+                .setMinValue(-99)
+                .setMaxValue(99)
+                .setName('plumes')
+                .setDescription('Nombre de Plumes à rajouter/enlever')
+                .setRequired(true))
+            .addStringOption(option => option
+                .setName("reason")
+                .setDescription("La raison d'ajout des plumes"))
 
     },
         
@@ -27,10 +30,16 @@ module.exports = {
         const user = inter.options.getMember('user')
         let p = inter.options.getInteger('plumes')
 
+        let reason = "Plumes ajoutées à la main"
+        const userReason = inter.options.getString('reason')
+        if (userReason) {
+            reason = userReason
+        }
+
         await inter.deferReply({ ephemeral: true })
 
         if(await m.exists(user.id)){
-            await oUtils.confirm(user, p, "Plumes ajoutées à la main", inter.member, inter)
+            await oUtils.confirm(user, p, reason, inter.member, inter)
 
             await mes.interSuccess(inter, null, true)
 

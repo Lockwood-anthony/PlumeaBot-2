@@ -116,6 +116,15 @@ module.exports = {
         await db.tabSetAtr(T_TAB, id, 'words', words)
     },
 
+    async setProtected(id, protected){
+        await db.tabSetAtr(T_TAB, id, 'protected', protected)
+
+    },
+
+    async isProtected(id, words){
+        return db.tabGetAtr(T_TAB, id, 'protected')
+    },
+
     async getTextMesId(id){
         return db.tabGetAtr(T_TAB, id, 'textMesId')
     },
@@ -160,12 +169,12 @@ module.exports = {
         await db.tabSetAtr(T_TAB, id, 'date', date)
     },
 
-    async getPassword(id){
-        return db.tabGetAtr(T_TAB, id, 'password')
+    async setProtected(id, protected){
+        await db.tabSetAtr(T_TAB, id, 'protected', protected)
     },
 
-    async setPassword(id, password){
-        await db.tabSetAtr(T_TAB, id, 'password', password)
+    async isProtected(id){
+        return db.tabGetAtr(T_TAB, id, 'protected')
     },
 
     async getThemes(id){

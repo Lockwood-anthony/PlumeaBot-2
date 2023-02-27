@@ -23,10 +23,25 @@ module.exports = {
 
         const title = inter.fields.getTextInputValue('title')
         const desc = inter.fields.getTextInputValue('desc')
-        const chap = inter.fields.getTextInputValue('chap')
-        let chap1 = inter.fields.getTextInputValue('chap1')
-        let chap2 = inter.fields.getTextInputValue('chap2')
-        if(chap2 === ''){ chap2 = -1}
+        let chap = inter.fields.getTextInputValue('chap')
+
+        chap = chap.split('-')
+        let chap1 = -1
+        let chap2 = -1
+        if(chap.length > 0){
+            chap1 = chap[0]
+
+            if(chap.length > 1){
+                chap2 = chap[1]
+
+            }
+        }
+
+        const erButton = require("../buttons/textModal2").get(textUUID, textUUID, PostProcess)
+        if(chap1 === -1){
+            await mes.interError(inter, { content: "Tu n'as pas mis de id_cahpitre valide !", components: [erButton] })
+            return
+        }
 
         const oldDt = await tUtils.getDt(textUUID)
         const oldDesc = await tUtils.getDesc(textUUID)
@@ -38,7 +53,7 @@ module.exports = {
         let errorMes = ''
 
         const words = await tUtils.getWords(textUUID)
-        const password = await tUtils.getPassword(textUUID)
+        const protected = await tUtils.isProtected(textUUID)
         const themes =  await tUtils.getThemes(textUUID)
 
         chap1 = parseInt(chap1)
@@ -95,9 +110,8 @@ module.exports = {
         }
 
         if(errorMes !== ''){
-            errorMes += "\n__appuis sur le bouton__  ↓↓↓"
-            const button = require("../buttons/textModal2").get(textUUID, textUUID, PostProcess)
-            await mes.interError(inter, { content: errorMes, components: [button] })
+            errorMes += "\n__Appuis sur le bouton__  ↓↓↓"
+            await mes.interError(inter, { content: errorMes, components: [erButton] })
         }
 
         if(PostProcess === '1'){
@@ -137,10 +151,10 @@ module.exports = {
             const editButton = require('../buttons/textEdit').get(textUUID)
 
             let getButton
-            if(password === ''){
-                getButton = require('../buttons/textGet').get(textUUID)
+            if(protected){
+                getButton = require('../buttons/textAsk').get(textUUID)
             }else{
-                getButton = require('../buttons/textPassword').get(textUUID)
+                getButton = require('../buttons/textGet').get(textUUID)
             }
 
             const questionsEmbed = tUtils.getQuestionsEmbed(
@@ -150,25 +164,27 @@ module.exports = {
                 dt,
                 member,
                 {
-                    content: `__**${title}**__`,
+                    content: `***${title.toUpperCase()}***`,
                     embeds: [textEmbed, questionsEmbed]
                 },
                 themes
             )
 
-            const postLinkButton = link.get(postIds[2], "Avis")
+            const lockButton = require("../buttons/textProtect").get(textUUID, true)
 
-            const getLinkButton = link.get(postIds[2], "Lire")
+            const postLinkButton = link.get(postIds[2], "Avis", '🖊️')
 
-            const buttons = new ActionRowBuilder().setComponents(getLinkButton, postLinkButton, editButton, delButton)
+            const getLinkButton = link.get(postIds[2], "Lire", '📖')
+
+            const buttons = new ActionRowBuilder().setComponents(getLinkButton, postLinkButton, editButton, delButton, lockButton)
             let textMes = await mes.sendMes(config.channels.text, { embeds: [spaceEmbed, textEmbed], components: [buttons]})
 
             const textLinkButton = link.get(textMes.url, "Lien")
 
-            const postButtons = new ActionRowBuilder().setComponents(getButton, textLinkButton, editButton, delButton)
+            const postButtons = new ActionRowBuilder().setComponents(getButton, textLinkButton, editButton, delButton, lockButton)
             await mes.editMes(postIds[0], postIds[1], {components: [postButtons]})
 
-            const safeButtons = new ActionRowBuilder().setComponents(textLinkButton, postLinkButton, editButton, delButton)
+            const safeButtons = new ActionRowBuilder().setComponents(textLinkButton, postLinkButton, editButton, delButton, lockButton)
             await mes.editMes(config.channels.safe, fileId, {components: [safeButtons]})
 
             await tUtils.setTextMesId(textUUID, textMes.id)
@@ -227,7 +243,7 @@ module.exports = {
                 }
 
                 await mes.editMes(config.channels.text, mesId1, { embeds: [textMes.embeds[0], embed] })
-                await mes.editMes(postId, postMesId, { content: `__**${title}**__`, embeds: [embed, postMes.embeds[1]] })
+                await mes.editMes(postId, postMesId, { content: `***${title.toUpperCase()}***`, embeds: [embed, postMes.embeds[1]] })
 
             }
 
@@ -240,7 +256,7 @@ module.exports = {
     async get(textUUID, textModelUUID, postProcess){
         const modal = new ModalBuilder()
             .setCustomId(this.name + "/" + textUUID + "/" + textModelUUID + "/" + postProcess)
-            .setTitle('Formulaire de post du texte :')
+            .setTitle('Formulaire 3/3 - Renseignements')
 
         let comp = []
 
@@ -248,16 +264,17 @@ module.exports = {
             new TextInputBuilder()
                 .setCustomId('title')
                 .setLabel('Le titre en entier (autorisés: a-z) :')
+                .setPlaceholder("ex: Le Guide de Para")
                 .setMaxLength(64)
                 .setStyle('Short')
                 .setRequired(true)
 
         const chap =
             new TextInputBuilder()
-                .setCustomId('id_chapitres')
-                .setLabel('0 pour une nouvellex')
-                .setPlaceholder()
-                .setMaxLength(3)
+                .setCustomId('chap')
+                .setLabel('ID_chapitres')
+                .setPlaceholder("ex: 0  |  ex: 1  |  ex: 1-2")
+                .setMaxLength(7)
                 .setStyle('Short')
                 .setRequired(true)
 
@@ -274,14 +291,16 @@ module.exports = {
             let chap1Value = await tUtils.getChap1(textModelUUID)
             if(textModelUUID !== textUUID){ chap1Value ++ }
 
+            let chapValue = chap1Value.toString()
+
             let chap2Value = await tUtils.getChap2(textModelUUID)
             if(chap2Value !== 0){
                 if(textModelUUID !== textUUID){ chap2Value ++ }
-                chap2.setValue(chap2Value.toString())
+                chapValue += '-' + chap2Value
             }
 
             title.setValue(await tUtils.getTitle(textModelUUID))
-            chap1.setValue(chap1Value.toString())
+            chap.setValue(chapValue)
             desc.setValue(await tUtils.getDesc(textModelUUID))
 
         }

@@ -8,8 +8,8 @@ const uuidCreate = require("uuid");
 module.exports = {
     data(){
         return new SlashCommandBuilder()
-            .setName('avis')
-            .setDescription('Offffficialiiiise un avis')
+            .setName('commentaire')
+            .setDescription('Offffficialiiiise un commentaire')
 
     },
 
@@ -17,6 +17,7 @@ module.exports = {
         const postId = inter.channel.id
         const textUUID = await tUtils.getTextUUIDByPostId(postId)
         const member = inter.member
+        const id = member.id
 
         if(!textUUID){
             const postChannel = await client.channels.fetch(config.channels.opinions)
@@ -24,8 +25,8 @@ module.exports = {
             return
         }
 
-        if(await oUtils.memberOpinionExist(textUUID, member.id)){
-            await mes.interError(inter, "Tu as déjà commenté ce texte ! Si des mises à jours importantes du texte méritent un nouveau retour demande à l'auteur d'effacer son ancien texte et de le reposter et pas d'utiliser /repost, en effet ce la permet de mettre au courrant tout le monde que leurs avis comptent à nouveau ! :D")
+        if(await oUtils.memberOpinionExist(textUUID, id)){
+            await mes.interError(inter, "Tu as déjà commenté ce texte ! Si des mises à jours importantes du texte méritent un nouveau retour demande à l'auteur d'effacer son ancien texte et de le reposter et pas d'utiliser /repost, en effet ce la permet de mettre au courrant tout le monde que leurs commentaire comptent à nouveau ! :D")
             return
         }
 
@@ -52,9 +53,15 @@ module.exports = {
 
         const message = await inter.channel.send({ content: `<@&${config.roles.staff}>`, embeds: [embed], components: [buttons] })
 
-        await oUtils.createOne(uuid, words, textUUID, member.id, message.id)
+        await oUtils.createOne(uuid, words, textUUID, id, message.id)
 
-        await mes.interSuccess(inter)
+        if(await tUtils.getAuthorId(textUUID) === id){
+            await mes.interSuccess(inter, "Tu as du culot toi, je respecte l'audace, bonne chance")
+
+        }else{
+            await mes.interSuccess(inter)
+
+        }
 
     }
 

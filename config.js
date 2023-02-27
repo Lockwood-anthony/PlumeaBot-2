@@ -102,57 +102,62 @@ module.exports = {
             {
                 name: 'SF',
                 desc: 'a',
-                id: '1071408016496267264'
+                id: '1076843360339378277'
             },
             {
                 name: 'Fantasy ',
                 desc: 'a',
-                id: '1071408065347321977'
-            },
-            {
-                name: 'Fantastique',
-                desc: 'a',
-                id: '1071408130489077803'
+                id: '1076843379536703518'
             },
             {
                 name: 'Horreur',
                 desc: 'Une seule règle, ne jamais lire dans le noir (ça abîme la rétine)',
-                id: '1071408184700444724'
+                id: '1076843422557667381'
             },
             {
                 name: 'Historique',
                 desc: 'Toujours rêvé de vivre une époque révolue de notre histoire? C~est le moment.',
-                id: '1071408228883251210'
+                id: '1076843400839569408'
             },
             {
                 name: 'Jeunesse',
                 desc: 'a',
-                id: '1071408274286583870'
+                id: '1076843442522554388'
             },
             {
-                name: 'Roman Noir',
+                name: 'Polar',
                 desc: 'a',
-                id: '1071408393920712774'
+                id: '1076843503973318726'
             },
             {
                 name: 'Romance',
                 desc: 'Un peu de douceur et d~émotions',
-                id: '1071408463302885489'
+                id: '1076843524902891580'
             },
             {
                 name: 'Action',
                 desc: 'Un peu d~adrénaline et d~aventure !',
-                id: '1071408523415650444'
+                id: '1076843542196015104'
             },
             {
                 name: 'Drame',
                 desc: 'a',
-                id: '1071408566797348934'
+                id: '1076843603915190422'
             },
             {
                 name: 'Comédie',
                 desc: 'Besoin d~une lecture sans prise de tête et joviale ?',
-                id: '1071408566797348934'
+                id: '1076843587439964290'
+            },
+            {
+                name: 'Averti',
+                desc: 'Pour un texte un peu trop...',
+                id: '1076844601962414193'
+            },
+            {
+                name: 'Autre',
+                desc: 'Pour les textes uniques en leur genre',
+                id: '1077261859926847520'
             }
 
         ]

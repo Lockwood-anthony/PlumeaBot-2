@@ -1,70 +1,52 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js')
-const { cmdSuccess, cmdError } =  require('../utils/message')
+const mes =  require('../utils/message')
 const { config } = require('../config')
-const { getPlumes, addPlumes } = require('../utils/member')
+const oUtils = require("../utils/opinion")
+const m = require("../utils/member")
 
 module.exports = {
 	data(){
-        let data = new SlashCommandBuilder()
-        .setName('plumes')
-        .setDescription('Ajoute un nombre de points à un scripturien, négatif ou positif, au choix')
-        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
-        .addUserOption(option => option
-            .setName('user')
-            .setDescription('Utilisateur')
-            .setRequired(true))
-        .addStringOption(option => option
-            .setName('dt')
-            .setDescription('12-15 lettres rapportant au texte')
-            .setMinLength(12)
-            .setMaxLength(15)
-            .setRequired(true))
-        .addIntegerOption(option => option
-            .setMinValue(-99)
-            .setMaxValue(99)
+        return new SlashCommandBuilder()
             .setName('plumes')
-            .setDescription('Nombre de Points à rajouter/enlever'))
+            .setDescription('Ajoute un nombre de plumes à un' + config.string.inhab + ', négatif ou positif, au choix')
+            .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+            .addUserOption(option => option
+                .setName('user')
+                .setDescription('Utilisateur')
+                .setRequired(true))
+            .addIntegerOption(option => option
+                .setMinValue(-99)
+                .setMaxValue(99)
+                .setName('plumes')
+                .setDescription('Nombre de Plumes à rajouter/enlever')
+                .setRequired(true))
+            .addStringOption(option => option
+                .setName("reason")
+                .setDescription("La raison d'ajout des plumes"))
+
+    },
         
-        return data
-    },  
-        
-    execute(inter) {
-        const member = inter.options.getMember('user')
-        const dt = inter.options.getString('dt')
-        const id = member.id
-        let p = inter.options.getInteger('plumes')    
+    async execute(inter) {
+        const user = inter.options.getMember('user')
+        let p = inter.options.getInteger('plumes')
 
-        try {
-            if(!p.length){}
-
-        }catch (error) {
-            const text = require('../utils/text.js')
-
-            if(text.exist(dt)){
-                p = Math.floor(text.words(dt)/1000)
-
-            }else{
-                cmdError(inter, '**Ce dt n~existe point owo**')
-                return
-
-            }
-
+        let reason = "Plumes ajoutées à la main"
+        const userReason = inter.options.getString('reason')
+        if (userReason) {
+            reason = userReason
         }
 
-        addPlumes(id, p)
-        const plumes = getPlumes(id)
+        await inter.deferReply({ ephemeral: true })
 
-        message = `**<@'${id}> possède maintenant *${plumes}* ${config.emotes.plume}**\n`
-        message += `${p} plumes\n`
-        message += `${dt}\n`
+        if(await m.exists(user.id)){
+            await oUtils.confirm(user, p, reason, inter.member, inter)
 
-        require('../utils/somes')
-        .plumesRolesSet(member, plumes, inter)
+            await mes.interSuccess(inter, null, true)
 
-        require('../utils/leaderboard.js')
-        .edit()
+        }else{
+            await mes.interError(inter, "Cet utilisateur n'est pas enregistré dans la db !", 1)
 
-        cmdSuccess(inter, message)
+        }
                 
     }
 

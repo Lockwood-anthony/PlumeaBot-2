@@ -1,53 +1,163 @@
 module.exports = {
     config: 
     {
-        'messages': {
-            'leaderboard': '1030404879585398794',
-            'data': '1030391553195266049'
+        messages: {
+            leaderboard: '1069290621552033863',
+            tutoPost: 'https://discord.com/channels/1066783578140180520/1066783579079716895/1075837538595520655',
+            tutoComment: 'https://discord.com/channels/1066783578140180520/1066783579079716895/1075837538595520655'
+
         },
 
-        'channels': {
-            'plumes': '1028004339974938678',
-            'leaderboard': '1028714070150500475',
-            'welcome': '1028004339974938680',
-            'presentation': '1028004339974938680',
-            'text': '1028004340490829959',
-            'textForum': '1035443655932129300',
-            'general': '1028004340490829962',
-            'sprint': '1028004340763459628',
-            'cya': '1028004340960612432',
-            'delete':'1030530341334692001',
-            'logs': '1030360521586782238',
-            'tournamentRules': '1056835990519550012',
-            'monthlyNovel': '1056835898689466428',
-            'nologs': ['💾scriptu-logs','👀panoptique-del'],
-            'safe': '1059939069389443072'
+        channels: {
+            plumes: '1066783578698027180',
+            leaderboard: '1066783578698027181',
+            counter: '1076064653349769233',
+            welcome: '1066783578698027185',
+            presentation: '1066783578698027186',
+            ticket: '1066783578698027188',
+            textForum: '1069894556356718592',
+            textRequest: '1077414783256645682',
+            text: '1066783579079716895',
+            monthlyNovel: '1066783579079716899',
+            general: '1066783579696271360',
+            sprint: '1066783579079716901',
+            cya: '1066783579926966278',
+            delete:'1066783580191195326',
+            logs: '1066783580371554463',
+            safe: '1066783580371554462',
+            opinions: '1069894556356718592'
         },
 
-        'plumesRoles': {
-            '1028004339194810420': 1,
-            '1028004339194810421': 25,
-            '1028004339194810422': 50,
-            '1028004339194810423': 100,
-            '1028004339194810424': 200,
-            '1028004339194810425': 666666666666666666
+        plumesRoles: {
+            '1066783578194718728': {
+                p: 1,
+                color: 'a9ffd1',
+                mes: " Vous pouvez poster gifs, fichiers, et liens, et bien évidemment votre texte dans le salon prévu. Vous pouvez parler dans un salon vocal."
+            },
+            '1066783578194718729': {
+                p: 25,
+                color: '97e8ff',
+                mes: " Vous pouvez faire votre publicité, mettre en avant vos réseaux ou un projet vous tenant à cœur dans le salon prévu."
+            },
+            '1066783578211483718': {
+                p: 50,
+                color: 'ff9494',
+                mes: " Contactez le staff via ticket et décidez de la prochaine emote à adopter."
+            },
+            '1066783578211483719': {
+                p: 100,
+                color: '00ff74',
+                mes: "Profitez d'un salon VIP exclusif : Le Palais. \n" +
+                    "Vous pouvez aussi désormais faire partie du jury des Pluméades."
+            },
+            '1066783578211483720': {
+                p: 200,
+                color: '00b2ff',
+                mes: "Contactez le staff via ticket et décidez d'un rôle permanent et d'une couleur exclusive."
+            },
+            '1076160165839122623': {
+                p: 500,
+                color: 'ff0000',
+                mes: "Tu es un véritable dieu à présent, nous n'avons plus rien à t'offrir que ce tu n'aies déjà. \n" +
+                    "Tu as gagné notre éternel respect.\n" +
+                    "Merci infiniment pour ton dévouement"
+            },
+            '1066783578211483721': {
+                p: 666666666666666666,
+                color: '080202',
+                mes: "lol"
+            }
         },
 
-        'messageReplies': {
-            'CHAD': 'https://tenor.com/view/mujikcboro-seriymujik-gif-24361533',
+        messageReplies: {
+            CHAD: 'https://tenor.com/view/mujikcboro-seriymujik-gif-24361533',
             ' rick': 'https://tenor.com/view/rickroll-rick-roll-gif-gif-25399889',
-            'nuck': 'https://i.imgur.com/N3oxDNW.gifv',
-            'RANK': 'https://i.imgur.com/hK9qUWc.gifv'
+            nuck: 'https://i.imgur.com/N3oxDNW.gifv',
+            RANK: 'https://i.imgur.com/hK9qUWc.gifv'
         },
 
-        'emotes': {
-            'plume':'<:Scriptuplume:1027094890099781673>'
+        emotes: {
+            plume: '❤️',
+            love: '❤️'
         },
 
-        'roles': {
-            'sprinter':'1028004339194810424',
-            'tournament':'1056834227783606283'
-        }
+        roles: {
+            tournament: '1066783578161156190',
+            staff: '1066783578211483723',
+            guard: '1066783578211483722',
+            pluméen: '1076559326430384250',
+            dev: '1066783578194718723'
+        },
+
+        string: {
+            serverName: 'pluméa',
+            inhab: 'pluméen'
+
+        },
+
+        tutoIds: {
+            commentaire: 1
+
+        },
+
+        themes: [
+            {
+                name: 'SF',
+                desc: 'a',
+                id: '1071408016496267264'
+            },
+            {
+                name: 'Fantasy ',
+                desc: 'a',
+                id: '1071408065347321977'
+            },
+            {
+                name: 'Fantastique',
+                desc: 'a',
+                id: '1071408130489077803'
+            },
+            {
+                name: 'Horreur',
+                desc: 'Une seule règle, ne jamais lire dans le noir (ça abîme la rétine)',
+                id: '1071408184700444724'
+            },
+            {
+                name: 'Historique',
+                desc: 'Toujours rêvé de vivre une époque révolue de notre histoire? C~est le moment.',
+                id: '1071408228883251210'
+            },
+            {
+                name: 'Jeunesse',
+                desc: 'a',
+                id: '1071408274286583870'
+            },
+            {
+                name: 'Roman Noir',
+                desc: 'a',
+                id: '1071408393920712774'
+            },
+            {
+                name: 'Romance',
+                desc: 'Un peu de douceur et d~émotions',
+                id: '1071408463302885489'
+            },
+            {
+                name: 'Action',
+                desc: 'Un peu d~adrénaline et d~aventure !',
+                id: '1071408523415650444'
+            },
+            {
+                name: 'Drame',
+                desc: 'a',
+                id: '1071408566797348934'
+            },
+            {
+                name: 'Comédie',
+                desc: 'Besoin d~une lecture sans prise de tête et joviale ?',
+                id: '1071408566797348934'
+            }
+
+        ]
 
     }
 

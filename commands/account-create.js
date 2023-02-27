@@ -1,28 +1,31 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js')
-const { cmdSuccess } =  require('../utils/message')
+const m =  require('../utils/member')
+const mes = require('../utils/message')
 
 module.exports = {
 	data(){
         let data = new SlashCommandBuilder()
         .setName('account-create')
-        .setDescription('Crée un compte /!\ ECRASE TOUTES LES DONNEES DE L~UTILISATEUR !!!')
+        .setDescription('Crée un compte pour un utilisateur')
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .addUserOption(option => option
             .setName('user')
-            .setDescription('user')
+            .setDescription('Utilisateur')
             .setRequired(true))
 
         return data
-
-    },
+    }, 
 
 	async execute(inter) {
-        const member = inter.options.getUser('user')
+        const user = inter.options.getUser('user')
 
-        const memberUtils = require('../utils/member')
-        memberUtils.add(member.user.id)
+        if(! await m.exists(user.id)){
+            await m.addMember(user.id)
+            await mes.interSuccess(inter)
 
-        await cmdSuccess(inter)
+        }else{
+            await mes.interError(inter, "Cet utilisateur existe déja !")
+        }
 
 	}
 

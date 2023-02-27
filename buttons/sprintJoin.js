@@ -1,23 +1,21 @@
-const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js')
+const { ActionRowBuilder, ButtonBuilder } = require('discord.js')
+const mes = require("../utils/message")
 
 module.exports = {
     name: 'sprintJoin',
     async execute(inter){
-        const modal = require('../modals/sprintWords')
-		await inter.showModal(modal.get())           
+        const id = inter.customId.split("/")[1]
+        const modal = require('../modals/sprintJoin')
+        await mes.interSuccess(inter, modal.get(id))
 
     },
 
-	get(){
-        const button = new ActionRowBuilder()
-        .addComponents(
-            new ButtonBuilder()
-                .setCustomId(this.name)
-                .setLabel('sprintJoin')
-                .setStyle(ButtonStyle.Primary)
-        )
+	get(id){
+        return new ButtonBuilder()
+            .setCustomId(this.name + "/" + id)
+            .setLabel(this.name)
+            .setStyle('Success')
 
-        return button
     }
 
 }

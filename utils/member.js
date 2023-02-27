@@ -1,157 +1,178 @@
-const { Member, FileInPosting, dbAddAtr, dbCreate, dbDestroy, dbExist, dbGetAtr, dbRemoveAtr, dbSetAtr, dbIncrementAtr, dbSetAtrToAll, dbGetAll } = require('../dbObjects.js')
+const db = require('../dbObjects.js')
+const mes = require('../utils/message')
+const { config } = require('../config')
+const tUtils = require('../utils/text')
+const { Op } = require("sequelize")
 
 module.exports = {
 
-    getMember(id){
-        dbGet(Member, id)
+    async getMember(id){
+        await db.tabGet(M_TAB, id)
     },
 
-    addMember(id){
-        const member = {
-            id: id
-        }
-        dbCreate(Member, member)
-    },
+    async addMember(id){
+        const date = new Date()
 
-    removeMember(id){
-        dbDestroy(Member, id)
-    },
-
-    exists(id){
-        return dbExist(id)
-    },
-
-    getAllNoPlumes(){
-        return Member.findAll({
-            where: {
-                plumes: 0
-            },
-            attributes: ['id', 'joinDate']
-        })
-    },
-
-    getNick(id){
-        return dbGetAtr(Member, id, 'nick')
-    },
-
-    setNick(id, nick){
-        dbSetAtr(Member, id, 'nick', nick)
-    },
-
-    hasNick(id){
-        return this.getNick(id).length == 4
-    },
-
-    getPlumes(id){
-        return dbGetAtr(Member, id, 'plumes')
-    },
-
-    addPlumes(id, plumes){
-        dbIncrementAtr(Member, id, 'plumes', plumes)
-    },
-
-    removePlumes(id, plumes){
-        dbIncrementAtr(Member, id, 'plumes', -plumes)
-    },
-
-    getCoins(id){
-        return dbGetAtr(Member, id, 'coins')
-    },
-
-    addCoins(id, coins){
-        dbIncrementAtr(Member, id, 'coins', coins)
-    },
-
-    removeCoins(id, coins){
-        dbIncrementAtr(Member, id, 'coins', -coins)
-    },
-
-    getWeeklyWords(id){
-        dbGetAtr(Member, id, 'weeklyWords')
-    },
-
-    addWeeklyWords(id, weeklyWords){
-        dbIncrementAtr(Member, id, 'weeklyWords', weeklyWords)
-    },
-
-    removeWeeklyWords(id, weeklyWords){
-        dbIncrementAtr(Member, id, 'weeklyWords', -weeklyWords)
-    },
-
-    toMuchWeeklyWords(id, words){
-        const weekly = this.getWeeklyWords(id)
-
-        if (weekly + words > 20000){
-            return true
-        }else{
-            return false
-        }
-
-    },
-
-    resetAllWeeklyWords(){
-        dbSetAtrToAll(Member, 'weeklyWords', 0)
-    },
-
-    getFileInPostingId(id){
-        return dbGetAtr(FileInPosting, id, 'fileId')
-    },
-
-    getFileInPostingDt(id){
-        return dbGetAtr(FileInPosting, id, 'dt')
-    },
-
-    addFileInPosting(id, file){
-        const { sendOne } = require('../utils/message')
-        const fileInPostingId = sendOne('safe', {content: 'Texte en cours de post', attachments: [file]})
-
-        const fileInPosting = {
+        await db.tabCreate(M_TAB, {
             id: id,
-            fileId: fileInPostingId
-        }
-        dbCreate(FileInPosting, fileInPosting)
-    },
-
-    setFileInPostingDt(id, dt){
-        dbSetAtr(FileInPosting, id, 'dt', dt)
-    },
-
-    removeFileInPosting(id){
-        const fileId = this.getFileInPosting(id)
-
-        const { deleteOne } = require('../utils/message')
-        deleteOne('safe', fileId)
-
-        dbDestroy(FileInPosting, id)
-    },
-
-    getTextsUUIDs(id){
-        return dbGetAtr(Member, id, 'textUUIDs')
-    },
-
-    addTextUUID(id, UUID, dt){
-        dbAddAtr(Member, id, 'textUUIDs', [UUID, dt])
-    },
-
-    removeTextUUID(id, UUID){        
-        const dt = require('../utils/text').getDt(UUID)
-        dbRemoveAtr(Member, id, 'textUUIDs', [UUID, dt])
-    },
-
-    removeAllTexts(id){
-        const texts = this.getTextsUUIDs(id)
-        const textUtils = require('../utils/text')
-
-        texts.array.forEach(t => {
-            textUtils.removeMes1InChannel(t)
-            textUtils.removeMes2InChannel(t)
-            textUtils.remove(t)
+            joinDate: date
         })
+    },
+
+    async removeMember(id){
+        await db.tabDestroy(M_TAB, id)
+    },
+
+    async exists(id){
+        return db.tabExist(M_TAB, id)
+    },
+
+    async getInactivesIds(){
+        const today = new Date()
+        const limit = today.setDate(today.getDate() - 32)
+
+        return M_TAB.findAll({
+            where: {
+                plumes: 0,
+                joinDate: {
+                    [Op.lt]: limit
+                }
+            },
+            attributes: ['id']
+        })
+    },
+
+    async getNick(id){
+        return await db.tabGetAtr(M_TAB, id, 'nick')
+    },
+
+    async setNick(id, nick){
+        await db.tabSetAtr(M_TAB, id, 'nick', nick)
+    },
+
+    async hasNick(id){
+        const nick = await this.getNick(id)
+        return nick.length === 4
+    },
+
+    async getPlumes(id){
+        return db.tabGetAtr(M_TAB, id, 'plumes')
+    },
+
+    async addPlumes(id, plumes){
+        await db.tabIncrementAtr(M_TAB, id, 'plumes', plumes)
+    },
+
+    async removePlumes(id, plumes){
+        await db.tabIncrementAtr(M_TAB, id, 'plumes', -plumes)
+    },
+
+    async getCoins(id){
+        return db.tabGetAtr(M_TAB, id, 'coins')
+    },
+
+    async addCoins(id, coins){
+        await db.tabIncrementAtr(M_TAB, id, 'coins', coins)
+    },
+
+    async removeCoins(id, coins){
+        await db.tabIncrementAtr(M_TAB, id, 'coins', -coins)
+    },
+
+    async getWeeklyWords(id){
+        return db.tabGetAtr(M_TAB, id, 'weeklyWords')
+    },
+
+    async addWeeklyWords(id, weeklyWords){
+        await db.tabIncrementAtr(M_TAB, id, 'weeklyWords', weeklyWords)
+    },
+
+    async getJoinDate(id){
+        return db.tabGetAtr(M_TAB, id, 'joinDate')
 
     },
 
-    getAllIdsPlumes(){
-        return dbGetAll(Member, ['id', 'plumes'])
-    }
+    async removeWeeklyWords(id, weeklyWords){
+        await db.tabIncrementAtr(M_TAB, id, 'weeklyWords', -weeklyWords)
+    },
+
+    async toMuchWeeklyWords(id, words){
+        const weekly = await this.getWeeklyWords(id)
+        return weekly + words > 16000;
+
+    },
+
+    async resetAllWeeklyWords(){
+        await db.tabSetAtrToAll(M_TAB, 'weeklyWords', 0)
+    },
+
+    async isFileInPosting(id){
+        return await this.getFileInPostingMesId(id) !== 0
+    },
+
+    async setFileInPostingMesId(id, fileInPostingMesId){
+        await db.tabSetAtr(M_TAB, id, 'fileInPostingMesId', fileInPostingMesId)
+    },
+
+    async getFileInPostingMesId(id){
+        return db.tabGetAtr(M_TAB, id, 'fileInPostingMesId')
+    },
+
+    async removeFileInPostingMes(id){
+        await mes.delMes(config.channels.safe, await this.getFileInPostingMesId(id))
+    },
+
+    async addFileInPosting(user, file){
+        const embed = mes.newEmbed()
+            .setTitle("Texte en /post")
+            .setDescription(`par ${user}`)
+
+        const fileInPostingMes = await mes.sendMes(config.channels.safe, {embeds: [embed], files: [file]})
+        await this.setFileInPostingMesId(user.id, fileInPostingMes.id)
+
+    },
+
+    async setTextInPostingUUID(id, textInPostingUUID){
+        await db.tabSetAtr(M_TAB, id, 'textInPostingUUID', textInPostingUUID)
+    },
+
+    async getTextInPostingUUID(id){
+        return db.tabGetAtr(M_TAB, id, 'textInPostingUUID')
+    },
+
+    async getTextInPosting(id){
+        const uuid = await this.getTextInPostingUUID(id)
+        return tUtils.get(uuid)
+    },
+
+    async getTextsUUIDs(id){
+        return await db.tabGetAtr(M_TAB, id, 'textsUUIDs')
+    },
+
+    async addTextUUID(id, UUID){
+        await db.tabAddAtr(M_TAB, id, 'textsUUIDs', UUID)
+    },
+
+    async removeTextUUID(id, UUID){
+        await db.tabRemoveAtr(M_TAB, id, 'textsUUIDs', UUID)
+    },
+
+    async removeAllTextsUUIDs(id){
+        await db.tabSetAtr(M_TAB, id, "textsUUIDs", [])
+    },
+
+    async getAllIdsPlumes(){
+        return db.tabGetMultipleAtr(M_TAB, null, ['id', 'plumes'])
+    },
+
+    async hasTutoId(id, tutoId){
+        const tutoIds = await db.tabGetAtr(M_TAB, id, 'tutoIds')
+        return tutoIds.includes(tutoId)
+
+    },
+
+    async addTutoId(id, tutoId){
+        await db.tabAddAtr(M_TAB, id, 'tutoIds', tutoId)
+    },
 
 }

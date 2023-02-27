@@ -1,22 +1,20 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js')
-const { cmdSuccess, cmdError } =  require('../utils/message')
+const mes =  require('../utils/message')
 
 module.exports = {
 	data(){
-        let data = new SlashCommandBuilder()
-        .setName('fast-nick')
-        .setDescription('rename user')
-        .setDefaultMemberPermissions(PermissionFlagsBits.ManageNicknames)
-        .addUserOption(option => option
-            .setName('user')
-            .setDescription('user to rename')
-            .setRequired(true))
-        .addStringOption(option => option
-            .setName('nick')
-            .setDescription('new nick')
-            .setRequired(true))
-
-        return data
+        return new SlashCommandBuilder()
+            .setName('fast-nick')
+            .setDescription('rename user')
+            .setDefaultMemberPermissions(PermissionFlagsBits.ManageNicknames)
+            .addUserOption(option => option
+                .setName('user')
+                .setDescription('user to rename')
+                .setRequired(true))
+            .addStringOption(option => option
+                .setName('nick')
+                .setDescription('new nick')
+                .setRequired(true))
 
     },
 
@@ -25,12 +23,12 @@ module.exports = {
         const nick = inter.options.getString('nick')
         const owner = await inter.guild.fetchOwner()
 
-        if(member != owner){
-            member.setNickname(nick)
-            await cmdSuccess(inter)
+        if(member !== owner){
+            await member.setNickname(nick)
+            await mes.interSuccess(inter)
 
         }else{
-            await cmdError(inter, 'On ne peut changer le pseudo du owner')
+            await mes.interError(inter, 'On ne peut changer le pseudo du owner')
 
         }
 

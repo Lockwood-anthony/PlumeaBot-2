@@ -1,61 +1,148 @@
-const { dbGetAtr, ParameterDate, dbSetAtr, ParameterId } =  require('../dbObjects')
-const { sendMes } =  require('../utils/message')
+const tab =  require('../dbObjects')
+const mes =  require('../utils/message')
+const config = require("../config").config
 
 module.exports = {
 
-    isWeeklyResetTime(){
-        today = new Date()
-        resetDay = this.getWeeklyResetDate()
-
-        if (today > resetDay) return true
-
-        return false
-    },
-
-    getWeeklyResetDate(){
-        return dbGetAtr(ParameterDate, 'weeklyResetDate', 'date')
-    },
-
-    setWeeklyResetDate(){
+    async createWeeklyResetTime(){
         const date = new Date()
-        dbSetAtr(ParameterDate, 'weeklyResetDate', 'date', date)
+        date.setDate(date.getDate() + 7)
+        await tab.tabCreate(PDATES_TAB, {
+            id: 'weeklyResetDate',
+            date: date
+        })
+
+    },
+
+    checkIntegerModalInput(input, inputName, max = 666666666, min = 0){
+        let errorMes = ''
+
+        if(isNaN(input)) {
+            errorMes += inputName + " : Ce n~est pas un nombre que tu as donné là !\n"
+
+        }else{
+
+            if(input < min){
+                errorMes += inputName + " : C'est un nombre en dessous de " + min + " ca !\n"
+
+            }
+
+            if(input > max){
+                errorMes += inputName + " : C'est un nombre en dessus de " + max + " ca !\n"
+
+            }
+
+            if((input - Math.floor(input)) !== 0){
+                errorMes +=  inputName + " : Pas de nombre à virgule stp -_-\n"
+            }
+
+        }
+
+        return errorMes
+
+    },
+
+    async isWeeklyResetTime(){
+        const today = new Date()
+        const resetDay = await this.getWeeklyResetDate()
+
+        return today > resetDay;
+
+    },
+
+    async getWeeklyResetDate(){
+        return await tab.tabGetAtr(PDATES_TAB, 'weeklyResetDate', 'date')
+    },
+
+    async setWeeklyResetDate(){
+        const date = new Date()
+        date.setDate(date.getDate() + 7)
+        await tab.tabSetAtr(PDATES_TAB, 'weeklyResetDate', 'date', date)
     }, 
 
-    getBumpDate(){
-        return dbGetAtr(ParameterDate, 'BumpDate', 'date')
+    async isWeeklyResetDate(){
+        return tab.tabExist(PDATES_TAB, 'weeklyResetDate')
     },
 
-    setBumpDate(){
+    async createBumpDate(){
         const date = new Date()
-        dbSetAtr(ParameterDate, 'BumpDate', 'date', date)
+        date.setHours(date.getHours() + 2)
+        await tab.tabCreate(PDATES_TAB, {
+            id: 'bumpDate',
+            date: date
+        })
+    },
+
+    async getBumpDate(){
+        return tab.tabGetAtr(PDATES_TAB, 'bumpDate', 'date')
+    },
+
+    async setBumpDate(){
+        let date = new Date()
+        date.setHours(date.getHours + 2)
+
+        await tab.tabSetAtr(PDATES_TAB, 'bumpDate', 'date', date)
     }, 
+
+    async isBumpDate(){
+        return tab.tabExist(PDATES_TAB, 'bumpDate')
+    },
+
+    async memberCheckRoles(m, roles){
+        const mRoles = await m.roles.cache
+        const rolesIds = mRoles.map(r => { return r.id })
+
+        let yes = false
+        roles.forEach(r => {
+            yes |= rolesIds.includes(r)
+        })
+
+        return yes
+
+    },
 
     plumesRolesSet(member, plumes, inter) {
-        json = config.plumesRoles
+        const json = config.plumesRoles
         const roles = new Map(Object.entries(json))
         
-        found =  false
-        lower = 0
-        roleBefore = 0
-        roles.forEach((points, roleid)=>{
-            const role = inter.guild.roles.cache.get(roleid)
-            if(member.roles.cache.find(r => r.id === roleid)){roleBefore = role}
+        let found =  false
+        let lower = 0
+        let roleBefore = 0
+        roles.forEach(async (args, rId)=>{
+            const points = args.p
+            const role = await inter.guild.roles.cache.get(rId)
 
-            member.roles.remove(role)
+            if(await member.roles.cache.find(r => r.id === rId)){ roleBefore = role }
+
+            await member.roles.remove(role)
 
             if (points <= plumes) {
                 lower = role
 
             }else{
 
-                if(!found && lower != 0){
+                if(!found && lower !== 0){
                     found = true
 
-                    member.roles.add(lower)
+                    await member.roles.add(lower)
 
-                    if(roleBefore != lower){
+                    if(roleBefore !== lower){
+                        const color = config.plumesRoles[lower.id].color
+
+                        const privEmbed = mes.newEmbed(color)
+                            .setTitle("Félicitations ! Vous voici `" + lower.name + "`.")
+                            .setDescription(config.plumesRoles[lower.id].mes)
+                        const sent = await mes.private(member, { embeds: [privEmbed] })
+
                         const channel = config.channels.plumes
-                        sendMes(channel, `<@${member.user.id}> devient un  ${lower.name}`)
+                        const embed = mes.newEmbed(color)
+                            .setDescription(`Félicitations ! ${member} accède au rang de  ${lower}`)
+                        await mes.sendMes(channel, { embeds: [embed] })
+
+                        if(! sent){
+                            await mes.sendMes(channel, { content: `<@${member.id}> Si tu souhaites recevoir ce message en privé, ouvre tes messages privés :`, embeds: [privEmbed] })
+
+                        }
 
                     }                
 

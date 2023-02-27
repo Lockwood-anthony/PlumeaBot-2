@@ -1,255 +1,311 @@
-const { dbGet, dbCreate, dbExist, dbDestroy, dbGetAtr, dbSetAtr, dbAddAtr, dbRemoveAtrIndex } = require('../dbObjects.js')
+const mes = require('../utils/message')
 const { config } = require('../config')
+const db = require("../dbObjects")
+const { Op } = require("sequelize")
+const m = require("./member");
 
 module.exports = {
 
-    get(id){
-        dbGet(Text, id)
+    async get(id){
+        return db.tabGet(T_TAB, id)
     },
 
-    add(id, dt, title, desc, author, chap1, chap2, words, mes1, mes2, date, password, themes, questions){
-        const text = {
-            id: id,
-            dt: dt,
-            title: title,
-            desc: desc,
-            author: author,
-            chap1: chap1,
-            chap2: chap2,
-            words: words,
-            mes1: mes1,
-            mes2: mes2,
-            date: date,
-            password: password,
-            themes: themes,
-            questions: questions
-        }
-        dbCreate(Text, text)
+    async addText(text){
+        await db.tabCreate(T_TAB, text)
     },
 
-    exist(id){
-        dbExist(Text, id)
+    async exist(id){
+        return db.tabExist(T_TAB, id)
     },
 
-    remove(id){
-        const { removeTextUUID } = require('../utils/member')
-        const authorId = dbGet(Text, id, 'authorId')
-        removeTextUUID(authorId, id)
+    async dtExist(dt, authorId, uuid){
 
-        this.removeMes1InChannel(id)
-        this.removeMes2InChannel(id)
-        
-        dbDestroy(Text, id)
-    },
+        return T_TAB.count({ where: { dt: dt, authorId: authorId, id: { [Op.not]: uuid } } })
+            .then(count => {
+                return count !== 0
 
-    countWords(str) {
-        str = str.replace(/(^\s*)|(\s*$)/gi,'')
-        str = str.replace(/[ ]{2,}/gi,' ')
-        str = str.replace(/\n /,'\n')
-        words = str.split(' ').length
-    },
-
-    getDt(id){
-        return dbGetAtr(Text, id, 'dt')
-    },
-
-    setDt(id, dt){
-        dbSetAtr(Text, id, 'dt', dt)
-    },
-
-    getTitle(id){
-        dbGetAtr(Text, id, 'title')
-    },
-
-    setTitle(id, title){
-        dbSetAtr(Text, id, 'title', title)
-    },
-
-    getDesc(id){
-        dbGetAtr(Text, id, 'desc')
-    },
-
-    setDesc(id, desc){
-        dbSetAtr(Text, id, 'desc', desc)
-    },
-
-    getAuthorId(id){
-        dbGetAtr(Text, id, 'author')
-    },
-
-    setAuthorId(id, authorId){
-        dbGetAtr(Text, id, 'authorId', authorId)
-    },
-
-    getChap1(id){
-        dbGetAtr(Text, id, 'chap1')
-    },
-
-    setChap1(id, chap1){
-        dbSetAtr(Text, id, 'chap1', 'chap1')
-    },
-
-    getChap2(id){
-        dbGetAtr(Text, id, 'chap2')
-    },
-
-    setChap2(id, chap2){
-        dbSetAtr(Text, id, 'chap2', chap2)
-    },
-
-    getWords(id){
-        dbGetAtr(Text, id, 'words')
-    },
-
-    setWords(id, words){
-        dbSetAtr(Text, id, 'words', words)
-    },
-
-    getMes1(id){
-        dbGetAtr(Text, id, 'mes1')
-    },
-
-    setMes1(id, mes1){
-        dbSetAtr(Text, id, 'mes1', mes1)
-    },
-
-    getMes2(id){
-        dbGetAtr(Text, id, 'mes2')
-    },
-
-    setMes2(id, mes2){
-        dbSetAtr(Text, id, 'mes2', mes2)
-    },
-
-    getDate(id){
-        dbGetAtr(Text, id, 'date')
-    },
-
-    setDate(id, date){
-        dbSetAtr(Text, id, 'date', date)
-    },
-    
-    getPassword(id){
-        dbGetAtr(Text, id, 'password')
-    },
-
-    setPassword(id, password){
-        dbSetAtr(Text, id, 'password', password)
-    },
-
-    getThemes(id){
-        dbGetAtr(Text, id, 'themes')
-    },
-
-    setThemes(id, themes){
-        dbSetAtr(Text, id, 'themes', themes)
-    },
-
-    getQuestions(id){
-        dbGetAtr(Text, id, 'questions')
-    },
-    
-    addQuestion(id, questionIndex){
-        dbAddAtrIndex(Text, id, 'questions', questionIndex)
-    },
-
-    removeQuestion(id, questionIndex){
-        dbRemoveAtrIndex(Text, id, 'questions', questionIndex)
-    },
-
-    /*
-    async forumPost(dt, file, description, author, title){
-        const { config } = require('../config')
-        const forumId = config.channels.textForum
-
-        client.channels.fetch(forumId)
-		.then(async forum => {
-
-            await forum.threads.create({ 
-                name: dt, 
-                message: {content: description,files:[file]}, 
-                appliedTags: [author, title, dt] 
             })
+    },
 
+    async remove(id){
+        await db.tabDestroy(T_TAB, id)
+    },
+
+    async vanish(id){
+        await this.removeTextMes(id)
+        await this.removeFileMes(id)
+
+        const postId = await this.getPostId(id)
+        const postMesId =  await this.getPostMesId(id)
+
+        await mes.editMes(postId, postMesId, {components: []})
+
+        let channel = await client.channels.fetch(postId)
+        setTimeout(() => {
+            channel.setLocked(true, "Text deleted")
+        }, 4000)
+
+        const m = require('../utils/member')
+        const authorId = await db.tabGetAtr(T_TAB, id, 'authorId')
+        await m.removeTextUUID(authorId, id)
+
+        await db.tabDestroy(T_TAB, id)
+    },
+
+    async getDt(id){
+        return db.tabGetAtr(T_TAB, id, 'dt')
+    },
+
+    async setDt(id, dt){
+        await db.tabSetAtr(T_TAB, id, 'dt', dt)
+    },
+
+    async getDtTitle(id){
+        return db.tabGetAtr(T_TAB, id, 'dt_title')
+    },
+
+    async setDtTitle(id, dtTitle){
+        await db.tabSetAtr(T_TAB, id, 'dt_title', dtTitle)
+    },
+
+    async getTitle(id){
+        return db.tabGetAtr(T_TAB, id, 'title')
+    },
+
+    async setTitle(id, title){
+        await db.tabSetAtr(T_TAB, id, 'title', title)
+    },
+
+    async getDesc(id){
+        return db.tabGetAtr(T_TAB, id, 'desc')
+    },
+
+    async setDesc(id, desc){
+        await db.tabSetAtr(T_TAB, id, 'desc', desc)
+    },
+
+    async getAuthorId(id){
+        return db.tabGetAtr(T_TAB, id, 'authorId')
+    },
+
+    async setAuthorId(id, authorId){
+        await db.tabGetAtr(T_TAB, id, 'authorId', authorId)
+    },
+
+    async getChap1(id){
+        return db.tabGetAtr(T_TAB, id, 'chap1')
+    },
+
+    async setChap1(id, chap1){
+        await db.tabSetAtr(T_TAB, id, 'chap1', chap1)
+    },
+
+    async getChap2(id){
+        return db.tabGetAtr(T_TAB, id, 'chap2')
+    },
+
+    async setChap2(id, chap2){
+        await db.tabSetAtr(T_TAB, id, 'chap2', chap2)
+    },
+
+    async getWords(id){
+        return db.tabGetAtr(T_TAB, id, 'words')
+    },
+
+    async setWords(id, words){
+        await db.tabSetAtr(T_TAB, id, 'words', words)
+    },
+
+    async setProtected(id, protected){
+        await db.tabSetAtr(T_TAB, id, 'protected', protected)
+
+    },
+
+    async isProtected(id, words){
+        return db.tabGetAtr(T_TAB, id, 'protected')
+    },
+
+    async getTextMesId(id){
+        return db.tabGetAtr(T_TAB, id, 'textMesId')
+    },
+
+    async setTextMesId(id, textMesId){
+        await db.tabSetAtr(T_TAB, id, 'textMesId', textMesId)
+    },
+
+    async getFileMesId(id){
+        return db.tabGetAtr(T_TAB, id, 'fileMesId')
+    },
+
+    async getFileMes(id){
+        return await mes.getMes(config.channels.safe, await this.getFileMesId(id))
+    },
+
+    async setFileMesId(id, fileMes){
+        await db.tabSetAtr(T_TAB, id, 'fileMesId', fileMes)
+    },
+
+    async setPostId(id, postId){
+        await db.tabSetAtr(T_TAB, id, 'postId', postId)
+    },
+
+    async getPostId(id){
+        return db.tabGetAtr(T_TAB, id, 'postId')
+    },
+
+    async setPostMesId(id, postMesId){
+        await db.tabSetAtr(T_TAB, id, 'postMesId', postMesId)
+    },
+
+    async getPostMesId(id){
+        return db.tabGetAtr(T_TAB, id, 'postMesId')
+    },
+
+    async getDate(id){
+        return db.tabGetAtr(T_TAB, id, 'date')
+    },
+
+    async setDate(id, date){
+        await db.tabSetAtr(T_TAB, id, 'date', date)
+    },
+
+    async setProtected(id, protected){
+        await db.tabSetAtr(T_TAB, id, 'protected', protected)
+    },
+
+    async isProtected(id){
+        return db.tabGetAtr(T_TAB, id, 'protected')
+    },
+
+    async getThemes(id){
+        return db.tabGetAtr(T_TAB, id, 'themes')
+    },
+
+    async setThemes(id, themes){
+        await db.tabSetAtr(T_TAB, id, 'themes', themes)
+    },
+
+    async getQuestions(id){
+        return db.tabGetAtr(T_TAB, id, 'questions')
+    },
+
+    async setQuestions(id, questions){
+        await db.tabSetAtr(T_TAB, id, 'questions', questions)
+    },
+
+    async removeTextMes(id){
+        await mes.delMes(config.channels.text, await this.getTextMesId(id))
+    },
+
+    async removeFileMes(id){
+        await mes.delMes(config.channels.safe, await this.getFileMesId(id))
+    },
+
+    async sendFile(id, member){
+        const message = await mes.getMes(config.channels.safe, await this.getFileMesId(id))
+        const file = message.attachments.first()
+        const authorId = await this.getAuthorId(id)
+        const author = await client.users.fetch(authorId)
+
+        const embed = mes.newEmbed()
+            .setTitle("Voici le texte demandé !")
+            .setDescription(`Les bannissements et poursuites judiciaires sont éprouvants pour tout le monde... Alors ne diffuse pas cette oeuvre et prends en soin, ${author.username} compte sur toi :) \n\n || ${id} ||`)
+
+        return await mes.private(member, { embeds: [embed], files: [file] })
+
+    },
+
+    async sendPostTutorial(){
+        const { ButtonBuilder, ActionRowBuilder } = require('discord.js')
+
+        const postButton = mes.getLinkButton(
+            config.messages.tutoPost,
+            'Comment poster son texte ?',
+            '🧭',
+            true
+        )
+
+        const commentButton = mes.getLinkButton(
+            config.messages.tutoComment,
+            'Comment commenter un texte ?',
+            '🧭',
+            true
+        )
+
+        const buttonMes = { content: '|\n|\n|\n|', components: [postButton, commentButton] }
+
+        const postMesId = await db.tabGetAtr(PIDS_TAB, 'textPostMessage', 'paramId')
+        await mes.delMes(config.channels.text, postMesId)
+
+        const message = await mes.sendMes(config.channels.text, buttonMes)
+        await db.tabSetAtr(PIDS_TAB, 'textPostMessage', 'paramId', message.id)
+
+    },
+
+    getQuestionsEmbed(questions){
+        let desc = ''
+        questions.forEach(q => {
+            desc += q + '\n'
         })
-		.catch(console.error)
 
-    },
-    */
-
-    words(dt){
-        const data = editJson(DATA)
-
-        const words = data.get('texts.'+dt+'.words')
-
-        return words
+        return mes.newEmbed()
+            .setTitle("Répondez aux questions de l'auteur :")
+            .setDescription(desc)
     },
 
-    removeMes1InChannel(id){
-        const text_channel = config.channels.text
-        const mes1 = this.getMes1(id)
+    async getSimilarTextUUID(dt_title, id, uuid){
+        const serie = await T_TAB.findAll({
+            where: {'dt_title': dt_title, 'authorId': id, 'id': { [Op.not]: uuid }},
+            attributes: ['id', 'chap1', 'chap2'],
+            raw: true
+        })
 
-        client.channels.fetch(text_channel)
-        .then(channel =>{
+        let max = 0
+        if(serie.length !== 0){
 
-            channel.messages.fetch(mes1)
-            .then(async m =>
-                await m.delete())  
-            .catch(console.error)
+            let text = serie[0]
+            for(let t of serie){
+                if(t.chap1 > max){
+                    max = t.chap1
+                    text = t
+                }else if(t.chap2 > max) {
+                    max = t.chap2
+                    text = t
+                }
 
-        }).catch(console.error)
+            }
+            return text.id
 
-    },
+        }else{
+            return 0
 
-    removeMes2InChannel(id){
-        const safe = config.channels.safe
-        const mes2 = this.getMes1(id)
-
-        client.channels.fetch(safe)
-        .then(channel =>{
-
-            channel.messages.fetch(mes2)
-            .then(async m =>
-                await m.delete())  
-            .catch(console.error)
-
-        }).catch(console.error)
+        }
 
     },
 
-    async sendMessage(message1){
-        const text_channel = config.channels.text
-        let id = 0
-        client.channels.fetch(text_channel)
-        .then(async channel => 
-            await channel.send(message1).then(sent => {
-                console.log(sent.id)
-                return sent.id
-              })
-        ).catch(console.error)
+    async getTextUUIDByPostId(postId){
+        const uuid = await T_TAB.findOne({
+            where: { postId: postId },
+            attributes: ['id'],
+            raw: true})
 
+        if(uuid !== null){
+            return uuid.id
+        }
+        return null
     },
 
-    isAuthor(id, userId){
-        const author = this.getAuthorId(id)
-        return author == userId
-    },
+    getThemesIdsByNames(themes){
+        let themesIds = []
 
-    sendFile(id, member){
-        const safe = config.channels.text
-        const textUtil = require('../utils/text')
-        const mes2 = textUtil.getMes2(id)
+        for(const t of config.themes){
+            if(themes.includes(t.name)){
+                themesIds.push(t.id)
+            }
+        }
 
-        let file
-        client.channels.fetch(safe)
-        .then(channel => 
-            channel.messages.fetch(mes2)
-            .then(mes =>
-                file = mes.attachments.first())
-            .catch(console.error)
-        ).catch(console.error)
+        return themesIds
 
-        member.send({content: id, attachments: [file]})
     }
 
 }

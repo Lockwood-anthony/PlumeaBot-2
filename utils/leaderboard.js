@@ -1,25 +1,26 @@
 const { config } = require('../config')
-const { editMes, newEmbed } =  require('../utils/message')
+const mes =  require('../utils/message')
 const { getAllIdsPlumes } = require('../utils/member')
 
 module.exports = {
-    edit(){
+    async edit(){
         const channelId = config.channels.leaderboard
         const mesId = config.messages.leaderboard
 
-        editMes(channelId, mesId, {content:'', embeds: [this.create()]} )
+        await mes.editMes(channelId, mesId, {content:'', embeds: [await this.create()]} )
 
     },
 
-    create(){
-		const members = getAllIdsPlumes()
+    async create(){
+		const members = await getAllIdsPlumes()
         let winnersPlumes = []
         let winnersId = []
 
-        members.forEach(m=>{
-            plumes = m[1]
-            higher = true
+        members.forEach(m => {
+            const plumes = m[1]
+            let higher = true
             const l = winnersPlumes.length
+
             for (let i = 0 ; i < l ; i++) {
 
                 if(plumes < winnersPlumes[i]){
@@ -41,34 +42,32 @@ module.exports = {
             if (higher){
                 winnersPlumes.push(plumes)
                 winnersId.push(m[0])
-            }             
+            }
 
         })
 
         let message = '\n'
         const l = winnersId.length
-        for(i = l-1 ; (i >= l-10 && i >= 0) ; i--){
-            id = winnersId[i]
-            intId = json.ABCtoInt(id)
+        for(let i = l-1 ; (i >= l-10 && i >= 0) ; i--){
+            const id = winnersId[i]
 
-            m = ''
-            if(i == l-1){
+            let m = ''
+            if(i === l-1){
                 m += ':first_place: '
-            }else if(i == l-2){
+            }else if(i === l-2){
                 m += ':second_place: '
-            }else if(i == l-3){
+            }else if(i === l-3){
                 m += ':third_place: '
             }
 
-            message+= m+'<@'+intId+'>: ' + winnersPlumes[i]+'\n---\n'
+            message+= m+'<@'+id+'>: ' + winnersPlumes[i]+'\n---\n'
 
         }
 
-        const Leaderboard = newEmbed()
-        .setTitle('LEADERBOARD :')
-        .setDescription(message)
+        return mes.newEmbed()
+            .setTitle('LEADERBOARD :')
+            .setDescription(message)
 
-        return Leaderboard
     }
 
 }

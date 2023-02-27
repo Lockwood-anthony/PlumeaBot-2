@@ -1,255 +1,281 @@
-const { Sprint, dbGetAtr, dbSetAtr, dbIncrementAtr, dbAddAtr, dbRemoveAtr, dbCreate } =  require('../dbObjects')
-const { editMes, getMes, newEmbed } =  require('../utils/message')
+const db =  require('../dbObjects')
+const mes =  require('../utils/message')
 const { config } = require('../config')
+const {ActionRowBuilder} = require("discord.js");
 
 module.exports = {
 
-    addOne(id){
-        const sprint = {
+    exists(id){
+        return db.tabExist(S_TAB, id)
+    }, 
+
+    async addOne(id){
+        const sprin = {
             id: id
         }
-        dbCreate(Sprint, sprint)    
+        await db.tabCreate(S_TAB, sprin)
     },
 
-    getTime(id){
-        return dbGetAtr(Sprint, id, 'time')
-    },
-
-    setTime(id, time){
-        dbSetAtr(Sprint, id, 'time', time)
-    },
-
-    isSprinting(id) {
-        time = this.getTime(id)
-
-        if(time == 0){
-            return false
-        }else{
-            return true
-        }
+    async getEnd(id){
+        return db.tabGetAtr(S_TAB, id, 'end')
 
     },
 
-    getMaxTime(id){
-        return dbGetAtr(Sprint, id, 'maxTime')
+    async setEnd(id, end){
+        return db.tabSetAtr(S_TAB, id, 'end', end)
+
     },
 
-    setMaxTime(id, sec){
-        dbSetAtr(Sprint, id, 'maxTime', sec)
+    async getWaitEnd(id){
+        return db.tabGetAtr(S_TAB, id, 'waitEnd')
+
     },
 
-    getTime(id){
-        return dbGetAtr(Sprint, id, 'time')
+    async setWaitEnd(id, waitEnd){
+        return db.tabSetAtr(S_TAB, id, 'waitEnd', waitEnd)
+
     },
 
-    setTime(id, sec){
-        dbSetAtr(Sprint, id, 'time', sec)
+    async getSprinterWords(id, sprinterId){
+        const sprinters = await this.getSprinters(id)
+        sprinters.filter(s => s.split("/")[0] === sprinterId)
+
+        return parseInt(sprinters[0].split("/")[1])
+
     },
 
-    addTime(id, sec){
-        dbIncrementAtr(Sprint, id, 'time', sec)
+    async addSprinter(id, sprinterId, words){
+        await db.tabAddAtr(S_TAB, id, 'sprinters', sprinterId + "/" + words)
     },
 
-    getSprinters(id){
-        return dbGetAtr(Sprint, id, 'sprinters')
+    async removeSprinter(id, sprinterId){
+        const sprinters = await this.getSprinters(id)
+        await db.tabSetAtr(S_TAB, id, 'sprinters', sprinters.filter(s => { s.split("/")[0] !== sprinterId }))
     },
 
-    getSprinter(id, sprinterId){
-        return this.getSprinters(id).filter(s => {
-            s[0] == sprinterId
+    async removeAllSprinters(id){
+        await db.tabSetAtr(S_TAB, id, 'sprinters', [])
+    },
+
+    async getSprintersIds(id){
+        const sprinters = await this.getSprinters(id)
+
+        return sprinters.map(s => {
+            return s.split("/")[0]
         })
-    },
-
-    getSprinterWords(id, sprinterId){
-        return this.getSprinter(id, sprinterId)[1]
-    },
-
-    addSprinter(id, sprinterId, words){
-        dbAddAtr(Sprint, id, 'sprinters', [sprinterId][words])
-    },
-
-    removeSprinter(id, sprinterId){
-        dbRemoveAtr(Sprint, id, 'sprinters', [sprinterId][any])
-    },
-
-    removeAllSprinters(id){
-        dbSetAtr(Srpint, id, 'sprinters', [])
-    },
-
-    getSprintersIds(id){
-        const ids = []
-        this.getSprinters(id).forEach(s => {
-            ids.push(s[0])
-        })
-        return ids
         
     },
 
-    isSprinter(id){
-        const sprinters = this.getSprintersIds()
-        if(sprinters.includes(id)){
-            return true
-        }else{
-            return false
-        }
+    getSprinters(id){
+        return db.tabGetAtr(S_TAB, id, 'sprinters')
     },
 
-    getMessageId(id){
-        dbGetAtr(Sprint, id, 'messageId')
+    async isSprinter(id){
+        const sprinters = await this.getSprintersIds()
+        return sprinters.includes(id)
     },
 
-    setMessageId(id, mesId){
-        dbSetAtr(Sprint, id, 'messageId', mesId)
+    async getMessageId(id){
+        return db.tabGetAtr(S_TAB, id, 'messageId')
     },
 
-    isChannel(id){
-        sprintChannel = config.channels.sprint
+    async setMessageId(id, mesId){
+        await db.tabSetAtr(S_TAB, id, 'messageId', mesId)
+    },
 
-        if(sprintChannel == id){
-            return true
-        }else{
-            return false
-        }
+    async isChannel(id){
+        return config.channels.sprint === id
 
     },
 
+    async getTime(id){
+        return db.tabGetAtr(S_TAB, id, "time")
+    },
 
+    async setTime(id, time){
+        await db.tabSetAtr(S_TAB, id, "time", time)
+    },
 
+    async getRunningMessageDesc(id){
+        const sprinters = await this.getSprinters(id)
+        let desc = '\n__**Participants :**__\n\n'
 
-    beginMessageEdit(id){
-        const sec = sprint.getTime(id)
-        const sprintChannel = config.channels.sprint
-        const mesId = this.getMessageId(id)
+        sprinters.forEach(s => {
+            const split = s.split("/")
+            desc += `<@${split[0]}> : \`${split[1]} mots\`\n`
+        })
+        return desc
+    },
 
-        let embed = message.newEmbed()
-        .setTitle(('Le sprint commence dans   ' + sec.toString() + ' secondes   :D'))
+    async updateRunningMessageDesc(id){
+        const mesId = await this.getMessageId(id)
+        const message = await mes.getMes(config.channels.sprint, mesId)
+        let embed = message.embeds[0]
 
-        editMes(sprintChannel, mesId, { content: '', embeds: [embed], components: [ this.roleButton(),  this.joinButton()] })
+        embed.data.description = await this.getRunningMessageDesc(id)
+
+        await mes.editMes(config.channels.sprint, mesId, { embeds: [embed] })
+    },
+
+    async beginMessageGet(id, date, inter){
+        date = ((date.getTime() / 1000).toFixed(0))
+
+        let embed = mes.newEmbed()
+            .setTitle(`Le sprint commence à <t:${date}:T> <t:${date}:R> :D`)
+            .setDescription(await this.getRunningMessageDesc(id))
+
+        const jButton = require('../buttons/sprintJoin').get(id)
+        const lButton = require("../buttons/sprintLeave").get(id)
+
+        return { content: '', embeds: [embed], components: [ new ActionRowBuilder().setComponents(jButton, lButton) ] }
 
     },
     
-    goMessageEdit(id){
-        sprintChannel = config.channels.sprint
-        mesId = this.getMessageId(id)
+    async goMessageSend(id){
+        const mesId = await this.getMessageId(id)
 
-        description = ''
+        let description = ''
 
-        const sec = sprint.getTime(id)
-        const sprinters = this.getSprinters(id)
+        const sprinters = await this.getSprintersIds(id)
 
         sprinters.forEach(s => {
             description += '<@'+s[0]+'>\n'
         })
 
-        embed = message.newEmbed()
-        .setTitle(('__SPRINT !__       ' + sec.toString() + ' ' + sec.toString() + ' ' + sec.toString() + ' '))
-        .setDescription(description)
+        const message = await mes.getMes(config.channels.sprint, mesId)
+        let embed = message.embeds[0]
 
-        editMes(sprintChannel, mesId, { embeds:[embed],components: [this.roleButton(),  this.joinButton()] })
+        let date = await this.getEnd(id)
+        date = (date.getTime() / 1000).toFixed(0)
+        embed.data.title = `Le sprint se termine à <t:${date}:T> <t:${date}:R> :D`
+
+        const newMes = await mes.sendMes(config.channels.sprint, { embeds: [embed], components: message.components })
+
+        await this.setMessageId(id, newMes.id)
+        message.delete()
 
     },
 
-    endMessageSend(id){
-        const channel = config.channels.sprint
-        const mesId = this.getMessageId(id)
-        getMes(channel, mesId).reply('**Le sprint est terminé ! :3**')
+    async endMessageSend(id){
+        const cId = config.channels.sprint
 
-        this.getSprinters(id).forEach(s =>{
-            channel.send('<@'+s[0]+'>')
+        const mesId = await this.getMessageId(id)
+        const message = await mes.getMes(cId, mesId)
+        await message.delete()
+
+        const sprinters = await this.getSprinters(id)
+        sprinters.forEach(async s =>{
+            await mes.sendMes(cId, '<@'+s.split("/")[0]+'>')
+        })
+
+        const embed = mes.newEmbed()
+            .setTitle(('LE SPRINT EST TERMINE ! BRAVO A TOUS :D'))
+
+        return await mes.sendMes(cId, {
+            embeds:[embed], components: [require('../buttons/sprintFinal').get(id)]
         })
 
     },
 
-    endMessageEdit(id){
-        channel = config.channels.sprint
-        mesId = this.getMessageId(id)
+    async endMessageUpdate(id, userId, words, beginWords){
+        const cId = config.channels.sprint
+        const mesId = await this.getMessageId(id)
 
-        embed = message.newEmbed()
-        .setTitle(('LE SPRINT EST TERMINE ! :3'))
+        const time = await this.getTime(id)
 
-        editMes(channel, mesId, { embeds:[embed],components: [ this.finalButton()] })
-
-    },
-
-    endmessageUpdate(id, userId, words){
-        const channel = config.channels.sprint
-        const mesId = this.getMessageId(id)
-
-        const beginWords = this.getSprinterWords(id, userId)
-        let embed = getMes(channel, mesId).embeds[0]
+        const message = await mes.getMes(cId, mesId)
+        let embed = message.embeds[0]
         let desc = embed.description
-        
-        desc += '<@'+userId+'> a bien profité du sprint en imaginant ***' + (words-beginWords) + ' ***mots '
+        if(! desc) desc= ''
 
-        embed = newEmbed()
-        .setTitle(('LE SPRINT EST TERMINE ! :3'))
-        .setDescription(description)
+        const difWords = words - beginWords
+        desc += '<@'+userId+'> : `' + difWords + ' mots | ' + Math.floor(difWords/time) + " mpm`\n"
 
-        editMes(channel, id, { embeds:[embed] })
+        embed = mes.newEmbed()
+            .setTitle(('LE SPRINT EST TERMINE ! BRAVO A TOUS :D'))
+            .setDescription(desc)
+
+        await mes.editMes(cId, mesId, { embeds:[embed] })
 
     },
 
 
     
 
-    removeMessageButtons(id){
-        const messageId = this.getMessageId(id)
-        const ChannelId = config.channels.sprint
-
-        editMes(ChannelId, messageId, { components:[] })
+    async removeMessageButtons(id){
+        await mes.editMes(config.channels.sprint, await this.getMessageId(id), { components:[] })
     },
 
 
 
 
-    SETUP(id){
-        this.removeMessageButtons(id)
+    async SETUP(id, wait, duration, words, inter){
+        await this.removeMessageButtons(id)
 
-        this.setTime(id, 0)
-        this.removeAllSprinters(id)
+        await this.setTime(id, duration/60)
 
-        sprintChannel = config.channels.sprint
-        const mes = sprintChannel.send(':3')
+        let date = new Date
+        date.setSeconds(date.getSeconds() + wait)
+        await this.setWaitEnd(id, date)
 
-        this.setMessage(mes.id)
+        const message = await mes.sendMes(config.channels.sprint, await this.beginMessageGet(id, date, inter))
+
+        await this.setMessageId(id, message.id)
+
+        await this.removeAllSprinters(id)
+        await this.addSprinter(0, inter.member.id, words)
+
+        date.setSeconds(date.getSeconds() + duration)
+        await this.setEnd(id, date)
+
     },
 
-    BEGIN(id){
+    async BEGIN(id){
+        const sprint = this
 
-        let BEGIN = setInterval(function() {
-            this.beginMessage(id, sprint.getTime())
-            this.addTime(id, +2)
+        let BEGIN = setInterval(async function() {
 
-            if(this.isFishished(id)){
-                this.GO(id)
+            if(new Date >= await sprint.getWaitEnd(id)){
+                await sprint.GO(id)
                 clearInterval(BEGIN)
+
+            }else{
+                const message = await mes.getMes(config.channels.sprint, await sprint.getMessageId(id))
+                const newMes = await mes.sendMes(config.channels.sprint, { embeds: message.embeds, components: message.components })
+                await message.delete()
+                await sprint.setMessageId(id, newMes.id)
+
             }
 
-        }, 2000)
-
-        this.setTime(id, this.getMaxTime(id))
+        }, 60*1000)
 
     },
 
-    GO(id){
+    async GO(id){
+        await this.goMessageSend(id)
+        const sprint = this
 
-        let GO = setInterval(function() {      
-            this.goMessageEdit(id)
-            this.timerProgress(id, -2)
+        let goScope = setInterval(async function() {
 
-            if(sprint.isFishished(id)){
-                this.END(id)
-                clearInterval(GO)
+            if(new Date >= await sprint.getEnd(id)){
+                await sprint.END(id)
+                clearInterval(goScope)
+
+            }else{
+                const message = await mes.getMes(config.channels.sprint, await sprint.getMessageId(id))
+                const newMes = await mes.sendMes(config.channels.sprint, { embeds: message.embeds, components: message.components })
+                await message.delete()
+                await sprint.setMessageId(id, newMes.id)
+
             }
 
-        }, 2000)  
+        }, 60*1000)
 
     },
 
-    END(id){
-        this.setTime(id, 0)
-        this.endMessageSend(id)
-        this.endMessageEdit(id)
+    async END(id){
+        const message = await this.endMessageSend(id)
+        await this.setMessageId(id, message.id)
 
     },
 

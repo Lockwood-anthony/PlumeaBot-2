@@ -1,13 +1,12 @@
 const { config } = require('../config')
-const { getPlumes, addFileInPosting, hasNick } = require('../utils/member')
 const { getBumpDate, setBumpDate } = require('../utils/somes')
+const mUtils = require("../utils/member")
+const mes = require("../utils/message")
 
 module.exports = {
 	name: 'messageCreate',
 
-	execute(message) {
-        const messageUtils = require('../utils/message')
-        const channelName = message.channel.name
+	async execute(message) {
         const channelId = message.channel.id
         const author = message.author
         const id = author.id
@@ -16,6 +15,8 @@ module.exports = {
             const content = message.content
 
             //message.react(':champagne_glass:') //pour noel
+            const r = Math.floor(Math.random() * (64 + 1))
+            if(r === 64) await message.react(config.emotes.love)
 
             const triggersJson = config.messageReplies
             const triggers = new Map(Object.entries(triggersJson))
@@ -28,37 +29,10 @@ module.exports = {
             switch(channelId){
 
                 case config.channels.text:
-                    const attach = message.attachments
-
-                    if(!getPlumes(id) <= 0){
-
-                        if(attach){
-                            addFileInPosting(id, attach.first())
-                            message.delete()
-
-                            if(hasNick(id)){
-                                const modal = require('../modals/textTitle').get()
-                                inter.showModal(modal) 
-    
-                            }else{
-                                const modal = require('../modals/textNick').get()
-                                inter.showModal(modal) 
-    
-                            }
-                            
-                        }else{
-                            message.delete()
-                            author.send('Ton message ne contient pas le fichier de ton texte !')
-
-                        }
-
-                    }else{
-                        message.delete()
-                        author.send('Avant de poster un texte, donne au moins un avis et attend de recevoir une plume ;)')
-
-                    }
-
-                break
+                    message.delete()
+                    await mes.private('Utilise la commande /post pour partager ton texte owo')
+                    return
+                    break
 
                 case config.channels.general:
                     const today = new Date()
@@ -67,32 +41,43 @@ module.exports = {
                     if(today > recall){
                         message.reply('***Bumpy ! :3***')
                         today.setFullYear(today.getFullYear()+66)
-                        setBumpDate(today)
+                        await setBumpDate(today)
     
                     }
-                break
+                    break
 
             }
-                        
-            const power = message.member.roles.cache.map(r => `${r}`).length
-            if (power == 1){
-                if (message.attachments.size == 0 && !message.content.includes('http')) return
-                message.delete()
-                author.send('__**Impossible d~envoyer ce message :**__```md\n#Tu ne peux poster ni lien, ni fichier, ni gif sans n~avoir jamais gagné de plumes :D```')
-            }
 
-        }else{
-            //messages de bibot
-            if(id == 1018969464739467317){
+            if (message.member.roles.cache.size === 1){
 
-                if(!config.channels.nologs.includes(channelName) && message.flags.bitfield != 64){ //!= 64 => n'est pas un ephemeral
-                     messageUtils.log(message,'logs')
+                if (message.attachments.size >= 0 || message.content.includes('http')){
+                    message.delete()
+                    await author.send('__**Impossible d~envoyer ce message :**__```md\n#Tu ne peux poster ni lien, ni fichier, ni gif sans n~avoir jamais gagné de plumes :D```')
                 }
 
             }
+
+            if(message.channel.parentId === config.channels.textForum){
+
+                if(await mUtils.exists(id)){
+
+                    if(! await mUtils.hasTutoId(id, 1)){
+                        const reply = "Fait la commande /commentaire dans salon associé au texte pour que la staff valide ton commentaire :)"
+                        await mes.private(author, reply)
+                        await message.reply(reply)
+
+                        await mUtils.addTutoId(id, config.tutoIds.commentaire)
+
+                    }
+
+                }
+
+            }
+
+        }else{
             
             //messages disboard
-            if(id == 302050872383242240){
+            if(id === 302050872383242240){
                 const embeds = message.embeds
 
                 embeds.forEach(embed =>{

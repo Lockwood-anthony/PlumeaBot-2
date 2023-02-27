@@ -1,20 +1,19 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js')
-const { cmdSuccess } =  require('../utils/message')
+const { interSuccess } =  require('../utils/message')
 
 module.exports = {
 	data(){
-        let data = new SlashCommandBuilder()
-        .setName('happy')
-        .setDescription('be happy new year')
-        .setDefaultMemberPermissions(PermissionFlagsBits.ManageNicknames)
+        return new SlashCommandBuilder()
+            .setName('happy')
+            .setDescription('be happy new year')
+            .setDefaultMemberPermissions(PermissionFlagsBits.ManageNicknames)
 
-        return data
     },
 
-    execute(inter) {
+    async execute(inter) {
         const general = inter.channel.id
 
-        cmdSuccess(inter)
+        await interSuccess(inter)
 
         const messages = ['https://tenor.com/view/perfect-10-score-gif-7911501',
         'https://tenor.com/view/wow-omg-surprised-scared-kid-gif-15526979',
@@ -47,8 +46,7 @@ module.exports = {
         client.channels.fetch(general)
         .then(channel => {
             channel.send(messages[0])
-
-            count = 1
+            let count = 1
             let COUNT = setInterval(function() {    
                 
                 try{

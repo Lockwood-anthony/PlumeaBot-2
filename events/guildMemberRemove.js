@@ -1,26 +1,43 @@
-const { EmbedBuilder } = require('discord.js')
-const { sendMes } = require('../utils/message')
-const { removeMember } =  require('../utils/member')
+const mes = require('../utils/message')
+const m =  require('../utils/member')
 const { config } = require('../config')
+const t = require("../utils/text");
 
 module.exports = {
 	name: 'guildMemberRemove',
 	once: false,
 
-	execute(member) {
-                const user = member.user
+	async execute(member) {
+        const id = member.id
 
-                const cyaMessage = new EmbedBuilder()
-                .setColor(0x2C2F33)
-                .setDescription(`**${user} nous a quitté !!!**`)
-                .setAuthor({ name: 'Niooon !',iconURL: 'https://i.imgur.com/TYeapMy.png', url: 'https://www.youtube.com/watch?v=xvFZjo5PgG0' })
-                .setThumbnail(user.displayAvatarURL())
-                .setTimestamp()
+        if(await m.exists(id)){
+            await m.removeMember(id)
 
-                removeMember(user.id)
+            const textsUUIDs = await m.getTextsUUIDs(userId)
 
-                const cya = config.channels.cya
-                sendMes(cya, {embeds: [cyaMessage]})
+            if(textsUUIDs.length !== 0){
+
+                await textsUUIDs.forEach(async uuid => {
+                    await t.vanish(uuid)
+                })
+
+                await m.removeAllTextsUUIDs(id)
+
+            }else{
+                await mes.interError(inter, "Cet utilisateur n'a pas de texte !")
+
+            }
+
+        }
+
+        const cyaMessage = mes.newEmbed()
+            .setDescription(`**${member}  | ${member.user.username} nous a quitté !!!**`)
+            .setAuthor({ name: 'Niooon !', iconURL: 'https://i.imgur.com/TYeapMy.png', url: 'https://www.youtube.com/watch?v=xvFZjo5PgG0' })
+            .setThumbnail(member.displayAvatarURL())
+
+        const cya = config.channels.cya
+        await mes.sendMes(cya, {embeds: [cyaMessage]})
 		
-	},
+	}
+
 }

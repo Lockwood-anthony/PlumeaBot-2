@@ -1,16 +1,15 @@
-const { log } = require('../utils/message')
+const mes = require('../utils/message')
 
 module.exports = {
 	name: 'messageDelete',
 
-	execute(message) {
+	async execute(message) {
 
-		if (message.channel.type === 'dm') {
-			return
+		if(!message.author.bot){
+			await mes.logMes(message, "Deleted")
+
 		}
 
-		log(message,'delete')
-	
 	}
 
 }

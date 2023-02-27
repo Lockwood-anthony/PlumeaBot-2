@@ -13,13 +13,11 @@ module.exports = {
 	},
 
 	async execute(inter) {
-		console.log(await client.channels.fetch(config.channels.textForum))
+		await mes.interSuccess(inter, { content: config.emotes.plume, formatted: true, ephemeral: false })
 
 		const data = editJsonFile("DATA.json")
 
 		const members = await data.get("members.list")
-
-		console.log(members.length)
 
 		await inter.deferReply({ ephemeral: true })
 
@@ -76,7 +74,7 @@ module.exports = {
 		string = string.replace(/à/g, "8")
 		string = string.replace(/ç/g, "9")
 		console.log(string)
-		console.log(parseInt(string))
+		console.log(Number(string))
 
 	}
 

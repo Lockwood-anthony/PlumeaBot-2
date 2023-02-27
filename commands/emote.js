@@ -13,8 +13,9 @@ module.exports = {
 	},
 
 	async execute(inter) {
-		//await mes.interSuccess(inter, { content: config.emotes.plume, formatted: true, ephemeral: false })
+		await mes.interSuccess(inter, { content: config.emotes.plume, formatted: true, ephemeral: false })
 
+		/*
 		const data = editJsonFile("DATA.json")
 
 		const members = await data.get("members.list")
@@ -56,6 +57,8 @@ module.exports = {
 			}
 
 		}
+		
+		 */
 
 	},
 

@@ -120,8 +120,8 @@ module.exports = {
 
         const content = mes.content
         const files = Array.from(mes.attachments.values())
-        const embeds = Array.from(mes.attachments.values())
-        const components = Array.from(mes.attachments.values())
+        const embeds = Array.from(mes.embeds.values())
+        const components = Array.from(mes.components.values())
 
         const sendMes = await this.sendMes(config.channels.delete, {embeds: [embed]})
         await sendMes.reply( {

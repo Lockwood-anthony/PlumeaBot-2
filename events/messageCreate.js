@@ -62,9 +62,11 @@ module.exports = {
                 if(await mUtils.exists(id)){
 
                     if(! await mUtils.hasTutoId(id, 1)){
-                        const reply = "Fait la commande /commentaire dans salon associé au texte pour que la staff valide ton commentaire :)"
-                        await mes.private(author, reply)
-                        await message.reply(reply)
+                        const reply = "Fait la commande /commentaire dans salon associé au texte pour que le staff valide ton commentaire :)"
+                        const sent = await mes.private(author, reply)
+                        if(! sent){
+                            await message.reply(reply)
+                        }
 
                         await mUtils.addTutoId(id, config.tutoIds.commentaire)
 

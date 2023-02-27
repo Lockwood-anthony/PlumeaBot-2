@@ -75,7 +75,7 @@ module.exports = {
 		string = string.replace(/à/g, "8")
 		string = string.replace(/ç/g, "9")
 		console.log(string)
-		console.log(Number(string))
+		console.log(BigInt(string))
 
 	}
 

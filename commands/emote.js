@@ -13,6 +13,7 @@ module.exports = {
 	},
 
 	async execute(inter) {
+		//await mes.interSuccess(inter, { content: config.emotes.plume, formatted: true, ephemeral: false })
 
 		const data = editJsonFile("DATA.json")
 
@@ -23,9 +24,6 @@ module.exports = {
 		for(let i = 0 ; i < 344 ; i++){
 			const m = members[i]
 			const id = this.ABCtoInt(m)
-
-
-					await mes.interSuccess(inter, { content: config.emotes.plume, formatted: true, ephemeral: false })
 
 			const plumes = await data.get("members." + m + ".plumes")
 

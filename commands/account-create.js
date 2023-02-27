@@ -24,7 +24,7 @@ module.exports = {
             await mes.interSuccess(inter)
 
         }else{
-            await mes.interError(inter, "Cet utilisateur existe déjà !")
+            await mes.interError(inter, "Cet utilisateur existe déja !")
         }
 
 	}

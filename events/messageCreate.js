@@ -30,7 +30,7 @@ module.exports = {
 
                 case config.channels.text:
                     message.delete()
-                    await mes.private('Utilise la commande /post pour partager ton texte owo')
+                    await mes.private(author, 'Utilise la commande /post pour partager ton texte owo')
                     return
                     break
 

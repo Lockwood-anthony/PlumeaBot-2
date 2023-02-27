@@ -20,7 +20,7 @@ module.exports = {
         const id = member.id
 
         if(!textUUID){
-            const postChannel = await client.channels.fetch(config.channels.opinions)
+            const postChannel = await client.channels.fetch(config.channels.textForum)
             await mes.interError(inter, `Va dans le channel associé au texte pour poster ton ${postChannel} \n Et si ce poste est fermé c'est que l'auteur a retiré son texte`)
             return
         }

@@ -323,7 +323,7 @@ module.exports = {
     async forumPost(dt, user, message, themes){
         themes = tUtils.getThemesIdsByNames(themes)
 
-        const forum = await client.channels.fetch(config.channels.opinions)
+        const forum = await client.channels.fetch(config.channels.textForum)
 
         let post =  await new GuildForumThreadManager(forum).create({
             name: `${dt}  | ${user}`,

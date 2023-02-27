@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="845ce9de-b47f-4ae2-9cb5-6907719c26dd" name="Changes" comment="" />
+    <list default="true" id="ed3c73e2-02b6-48df-b328-379894b6a724" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/buttons/tournamentRole.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/commands/commentaire.js" beforeDir="false" afterPath="$PROJECT_DIR$/commands/commentaire.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/commands/emote.js" beforeDir="false" afterPath="$PROJECT_DIR$/commands/emote.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modals/textModal2.js" beforeDir="false" afterPath="$PROJECT_DIR$/modals/textModal2.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,6 +20,17 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/utils/sprint.js" root0="FORCE_HIGHLIGHTING" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)"
+  }
+}]]></component>
   <component name="TaskManager">
     <servers />
   </component>

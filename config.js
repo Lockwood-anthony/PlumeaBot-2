@@ -2,67 +2,66 @@ module.exports = {
     config: 
     {
         messages: {
-            leaderboard: '1069290621552033863',
+            leaderboard: '1060999836024963194',
             tutoPost: 'https://discord.com/channels/1066783578140180520/1066783579079716895/1075837538595520655',
             tutoComment: 'https://discord.com/channels/1066783578140180520/1066783579079716895/1075837538595520655'
 
         },
 
         channels: {
-            plumes: '1066783578698027180',
-            leaderboard: '1066783578698027181',
-            counter: '1076064653349769233',
+            plumes: '1060681628411777054',
+            leaderboard: '1060681664352751666',
+            counter: '1076180642443833376',
             welcome: '1066783578698027185',
-            presentation: '1066783578698027186',
-            ticket: '1066783578698027188',
-            textForum: '1069894556356718592',
-            textRequest: '1077414783256645682',
-            text: '1066783579079716895',
-            monthlyNovel: '1066783579079716899',
-            general: '1066783579696271360',
-            sprint: '1066783579079716901',
-            cya: '1066783579926966278',
-            delete:'1066783580191195326',
-            logs: '1066783580371554463',
-            safe: '1066783580371554462',
-            opinions: '1069894556356718592'
+            presentation: '1060682713960562768',
+            ticket: '1060681924877766786',
+            textForum: '1076842352397791243',
+            textRequest: '1079661344556580915',
+            text: '1079661496742719488',
+            monthlyNovel: '1060679258579669083',
+            general: '1060677819107115088',
+            sprint: '1060682429565767760',
+            cya: '1060682282874187866',
+            delete:'1060682339451158599',
+            logs: '1060680852729770166',
+            safe: '1060680793241960458'
         },
 
         plumesRoles: {
-            '1066783578194718728': {
+            '1027119828504424478': {
                 p: 1,
                 color: 'a9ffd1',
                 mes: " Vous pouvez poster gifs, fichiers, et liens, et bien évidemment votre texte dans le salon prévu. Vous pouvez parler dans un salon vocal."
             },
-            '1066783578194718729': {
+            '1027119923509612597': {
                 p: 25,
                 color: '97e8ff',
                 mes: " Vous pouvez faire votre publicité, mettre en avant vos réseaux ou un projet vous tenant à cœur dans le salon prévu."
             },
-            '1066783578211483718': {
+            '1027120011459952680': {
                 p: 50,
                 color: 'ff9494',
                 mes: " Contactez le staff via ticket et décidez de la prochaine emote à adopter."
             },
-            '1066783578211483719': {
+            '1027120127768010783': {
                 p: 100,
                 color: '00ff74',
                 mes: "Profitez d'un salon VIP exclusif : Le Palais. \n" +
                     "Vous pouvez aussi désormais faire partie du jury des Pluméades."
             },
-            '1066783578211483720': {
+            '1027120189445259284': {
                 p: 200,
                 color: '00b2ff',
                 mes: "Contactez le staff via ticket et décidez d'un rôle permanent et d'une couleur exclusive."
             },
-            '1076160165839122623': {
+            '1075353931997253642': {
                 p: 500,
                 color: 'ff0000',
                 mes: "Tu es un véritable dieu à présent, nous n'avons plus rien à t'offrir que ce tu n'aies déjà. \n" +
                     "Tu as gagné notre éternel respect.\n" +
                     "Merci infiniment pour ton dévouement"
             },
-            '1066783578211483721': {
+            '1027850518321692692': {
                 p: 666666666666666666,
                 color: '080202',
                 mes: "lol"
@@ -77,16 +76,15 @@ module.exports = {
         },
 
         emotes: {
-            plume: '❤️',
-            love: '❤️'
+            plume: '<:Plumea:1062260412600557598>',
+            love: '<:Midori:1062488633594101831>'
         },
 
         roles: {
-            tournament: '1066783578161156190',
-            staff: '1066783578211483723',
-            guard: '1066783578211483722',
-            pluméen: '1076559326430384250',
-            dev: '1066783578194718723'
+            staff: '1027119511054327858',
+            guard: '1056996103213563914',
+            pluméen: '1070790483879677962',
+            dev: '1060878507242160260'
         },
 
         string: {

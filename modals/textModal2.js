@@ -38,9 +38,10 @@ module.exports = {
         }
 
         const erButton = require("../buttons/textModal2").get(textUUID, textUUID, PostProcess)
+        let errorMes = ''
+
         if(chap1 === -1){
-            await mes.interError(inter, { content: "Tu n'as pas mis de id_cahpitre valide !", components: [erButton] })
-            return
+            errorMes += "Tu n'as pas mis de id_chapitre valide !"
         }
 
         const oldId_Text = await tUtils.getId_Text(textUUID)
@@ -50,10 +51,8 @@ module.exports = {
         await tUtils.setTitle(textUUID, title)
         await tUtils.setDesc(textUUID, desc)
 
-        let errorMes = ''
-
         const words = await tUtils.getWords(textUUID)
-        const protected = await tUtils.isProtected(textUUID)
+        const locked = await tUtils.isProtected(textUUID)
         const themes =  await tUtils.getThemes(textUUID)
 
         chap1 = parseInt(chap1)
@@ -115,7 +114,7 @@ module.exports = {
         }
 
         if(PostProcess === '1'){
-            if(errorMes !== ''){ return }
+            if(errorMes === ''){ return }
 
             const fileId = await mUtils.getFileInPostingMesId(id)
             const fileMes = await mes.getMes(config.channels.safe, fileId)
@@ -151,7 +150,7 @@ module.exports = {
             const editButton = require('../buttons/textEdit').get(textUUID)
 
             let getButton
-            if(protected){
+            if(locked){
                 getButton = require('../buttons/textAsk').get(textUUID)
             }else{
                 getButton = require('../buttons/textGet').get(textUUID)
@@ -213,7 +212,7 @@ module.exports = {
 
                 if(oldId_Text !== id_text && !id_textExist){
                     const postChannel = await client.channels.fetch(postId)
-                    postChannel.setName(id_text + " | <@" + id + ">")
+                    await postChannel.setName(id_text + " | <@" + id + ">")
 
                     const author = embed.author.name
                     const words = author.split('|')[1]

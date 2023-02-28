@@ -6,9 +6,9 @@ module.exports = {
     name: 'textRepost',
     async execute(inter){
         const textUUID = inter.customId.split('/')[1]
-        const textDt = await tUtils.getDt(textUUID)
+        const textId_Text = await tUtils.getId_Text(textUUID)
 
-        await mes.interSuccess(inter, "Tape la commande :\n\n /repost `" + textDt + "`\n\nNE PAS COPIER MAIS TAPER LE NOM DE LA COMMANDE A LA MAIN")
+        await mes.interSuccess(inter, "Tape la commande :\n\n /repost `" + textId_Text + "`\n\nNE PAS COPIER MAIS TAPER LE NOM DE LA COMMANDE A LA MAIN")
 
     },
 

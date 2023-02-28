@@ -22,7 +22,7 @@ module.exports = {
         const authorId = await tUtils.getAuthorId(textId)
 
         const embed = mes.newEmbed()
-            .setTitle(await tUtils.getDt(textId))
+            .setTitle(await tUtils.getId_Text(textId))
             .setDescription(`<@${senderId}> demande l'accès au texte`)
 
         const row = new ActionRowBuilder()
@@ -39,7 +39,7 @@ module.exports = {
         const authorId = await tUtils.getAuthorId(textId)
 
         const embed = mes.newEmbed()
-            .setTitle(await tUtils.getDt(textId))
+            .setTitle(await tUtils.getId_Text(textId))
             .setDescription(`<@${authorId}> t'as donné accès au texte mais tes mp sont fermés, ouvre les pour que le bot puisse t'envoyer le fichier ! ;-;`)
 
         const row = require("../buttons/textGet").get(textId, senderId, true)
@@ -51,7 +51,7 @@ module.exports = {
         const authorId = await tUtils.getAuthorId(textId)
 
         const embed = mes.newEmbed()
-            .setTitle(await tUtils.getDt(textId))
+            .setTitle(await tUtils.getId_Text(textId))
             .setDescription(`$<@${authorId}> ne t'as pas donné accès au fichier ;-;\nps : ouvre tes mp stp, sinon je ne peux pas t'envoyer de messages...`)
 
         return {embeds: [embed]}
@@ -76,7 +76,7 @@ module.exports = {
         const authorId = await tUtils.getAuthorId(textId)
 
         const embed = mes.newEmbed()
-            .setTitle(await tUtils.getDt(textId))
+            .setTitle(await tUtils.getId_Text(textId))
             .setDescription(`$<@${authorId}> n'as pas répondu à ta demande ;-;'\nps : ouvre tes mp stp, sinon je ne peux pas t'envoyer de messages...`)
 
         return {embeds: [embed]}

@@ -18,9 +18,9 @@ module.exports = {
         return db.tabExist(T_TAB, id)
     },
 
-    async dtExist(dt, authorId, uuid){
+    async id_textExist(id_text, authorId, uuid){
 
-        return T_TAB.count({ where: { dt: dt, authorId: authorId, id: { [Op.not]: uuid } } })
+        return T_TAB.count({ where: { id_text: id_text, authorId: authorId, id: { [Op.not]: uuid } } })
             .then(count => {
                 return count !== 0
 
@@ -52,20 +52,20 @@ module.exports = {
         await db.tabDestroy(T_TAB, id)
     },
 
-    async getDt(id){
-        return db.tabGetAtr(T_TAB, id, 'dt')
+    async getId_Text(id){
+        return db.tabGetAtr(T_TAB, id, 'id_text')
     },
 
-    async setDt(id, dt){
-        await db.tabSetAtr(T_TAB, id, 'dt', dt)
+    async setId_Text(id, id_text){
+        await db.tabSetAtr(T_TAB, id, 'id_text', id_text)
     },
 
-    async getDtTitle(id){
-        return db.tabGetAtr(T_TAB, id, 'dt_title')
+    async getIdTitle(id){
+        return db.tabGetAtr(T_TAB, id, 'id_text_title')
     },
 
-    async setDtTitle(id, dtTitle){
-        await db.tabSetAtr(T_TAB, id, 'dt_title', dtTitle)
+    async setIdTitle(id, id_textTitle){
+        await db.tabSetAtr(T_TAB, id, 'id_text_title', id_textTitle)
     },
 
     async getTitle(id){
@@ -253,9 +253,9 @@ module.exports = {
             .setDescription(desc)
     },
 
-    async getSimilarTextUUID(dt_title, id, uuid){
+    async getSimilarTextUUID(id_text_title, id, uuid){
         const serie = await T_TAB.findAll({
-            where: {'dt_title': dt_title, 'authorId': id, 'id': { [Op.not]: uuid }},
+            where: {'id_text_title': id_text_title, 'authorId': id, 'id': { [Op.not]: uuid }},
             attributes: ['id', 'chap1', 'chap2'],
             raw: true
         })

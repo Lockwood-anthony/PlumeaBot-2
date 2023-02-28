@@ -9,8 +9,8 @@ module.exports = {
             .setName('repost')
             .setDescription("Permet de reposter le fichier d'un de vos texte")
             .addStringOption(option => option
-                .setName("dt")
-                .setDescription("Le dt du texte, ex : LGUIDE002-000ASRA")
+                .setName("id_text")
+                .setDescription("Le id_text du texte, ex : LGUIDE002-000ASRA")
                 .setMinLength(17)
                 .setMaxLength(17)
                 .setRequired(true))
@@ -22,16 +22,16 @@ module.exports = {
     },
 
     async execute(inter) {
-        const dt = inter.options.getString("dt")
+        const id_text = inter.options.getString("id_text")
         const file = inter.options.getAttachment("fichier")
         const id = inter.member.id
 
-        const fileId = await T_TAB.findOne({ where: { authorId: id, dt: dt }, attributes: ['fileMesId'], raw: true })
+        const fileId = await T_TAB.findOne({ where: { authorId: id, id_text: id_text }, attributes: ['fileMesId'], raw: true })
 
         if(fileId){
 
             if(pdf.checkExtension(file, "pdf")){
-                pdf.rename(file, dt)
+                pdf.rename(file, id_text)
                 await mes.editMes(config.channels.safe, fileId.fileMesId, { files: [file] })
 
                 await mes.interSuccess(inter)
@@ -42,7 +42,7 @@ module.exports = {
             }
 
         }else{
-            await mes.interError(inter, "Ce dt n'existe pas !")
+            await mes.interError(inter, "Ce id_text n'existe pas !")
 
         }
 

@@ -6,6 +6,7 @@ const mUtils = require("../utils/member")
 const tUtils = require("../utils/text")
 const uuidCreate = require("uuid");
 const pdf = require("../utils/pdf")
+const { config } = require('../config')
 
 module.exports = {
 	data(){
@@ -26,6 +27,11 @@ module.exports = {
 
         if(! await m.exists(id)){
             await mes.interError(inter, "Ton compte n'existe pas, va donc sonner les cloches d'un admin ;D", 1)
+            return
+        }
+
+        if(inter.channel.id !== config.channels.central){
+            await mes.interError(inter, "Va faire cette commande dans le <#" + config.channels.central + ">", 1)
             return
         }
 
@@ -76,7 +82,7 @@ module.exports = {
                     const button = await require('../buttons/textModalTitle').get(uuid, 0, 1)
                     await mes.interSuccess(
                         inter,
-                        {content: "Entre le Dt_Titre de ton texte \n __Appuis sur le bouton__  ↓↓↓", components: [button] },
+                        {content: "Entre le Id_Titre de ton texte \n __Appuis sur le bouton__  ↓↓↓", components: [button] },
                         true)
 
                 }else{

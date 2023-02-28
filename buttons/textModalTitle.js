@@ -9,14 +9,14 @@ module.exports = {
         const textModelUUID = split[2]
         const PostProcess = split[3]
 
-        await mes.interSuccess(inter, await require("../modals/textDtTitle").get(textUUID, textModelUUID, PostProcess))
+        await mes.interSuccess(inter, await require("../modals/textIdTitle").get(textUUID, textModelUUID, PostProcess))
         
     },
 
     get(textUUID, textModelUUID, PostProcess, row = true){
         const button = new ButtonBuilder()
             .setCustomId(this.name + "/" + textUUID + "/" + textModelUUID + "/" + PostProcess)
-            .setLabel('Dt_Titre')
+            .setLabel('Id_Titre')
             .setStyle('Success')
 
         if(row){

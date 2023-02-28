@@ -57,11 +57,11 @@
                 primaryKey: true,
                 unique: true,
             },
-            dt_title: {
+            id_text_title: {
                 type: DataTypes.STRING,
                 defaultValue: ''
             },
-            dt: {
+            id_text: {
                 type: DataTypes.STRING,
                 defaultValue: ''
             },

@@ -3,7 +3,7 @@ const mes = require("../utils/message")
 const tUtils = require("../utils/text")
 
 module.exports = {
-    name: 'textDtTitle',
+    name: 'textIdTitle',
 
     async execute(inter){
         const split = inter.customId.split('/')
@@ -11,14 +11,14 @@ module.exports = {
         let textModelUUID = split[2]
         const PostProcess = split[3]
 
-        const dt_title = inter.fields.getTextInputValue('dt_title')
+        const id_text_title = inter.fields.getTextInputValue('id_text_title')
         const id = inter.member.id
 
-        if(/^[a-zA-Z()]+$/.test(dt_title)){
-            await tUtils.setDtTitle(textUUID, dt_title)
+        if(/^[a-zA-Z()]+$/.test(id_text_title)){
+            await tUtils.setIdTitle(textUUID, id_text_title)
 
             if(PostProcess === '1'){
-                const textModelUUID = await tUtils.getSimilarTextUUID(dt_title, id, textUUID)
+                const textModelUUID = await tUtils.getSimilarTextUUID(id_text_title, id, textUUID)
                 const button = await require("../buttons/textModal1").get(textUUID, textModelUUID, PostProcess)
                 await mes.interSuccess(
                     inter,
@@ -48,8 +48,8 @@ module.exports = {
             .setCustomId(this.name + "/" + textUUID + "/" +textModelUUID + "/" + postProcess)
             .setTitle('ID_titre')
 
-        const dt_title = new TextInputBuilder()
-            .setCustomId('dt_title')
+        const id_text_title = new TextInputBuilder()
+            .setCustomId('id_text_title')
             .setLabel('6 lettres représentant le titre')
             .setPlaceholder('ex : LGUIDE pour Le Guide de Para')
             .setMinLength(6)
@@ -58,12 +58,12 @@ module.exports = {
             .setRequired(true)
 
         if(textModelUUID !== '0'){
-            dt_title.setValue(await tUtils.getDtTitle(textModelUUID))
+            id_text_title.setValue(await tUtils.getIdTitle(textModelUUID))
         }
 
         return modal.addComponents(
             new ActionRowBuilder()
-                .addComponents(dt_title))
+                .addComponents(id_text_title))
 
     }
 

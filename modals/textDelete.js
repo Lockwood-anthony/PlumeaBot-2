@@ -6,15 +6,15 @@ module.exports = {
     async execute(inter){
         const tUtils = require('../utils/text')
         const uuid = inter.customId.split('/')[1]
-        const id = inter.fields.getTextInputValue('id')
+        const dt = inter.fields.getTextInputValue('dt')
         const trueDt = await tUtils.getDt(uuid)
 
-        if(id === trueDt){
+        if(dt === trueDt){
             await tUtils.vanish(uuid)
             await mes.interSuccess(inter)
 
         }else{
-            await mes.interError(inter, 'Mauvais id !')
+            await mes.interError(inter, 'Mauvais dt !')
 
         }
 
@@ -26,8 +26,8 @@ module.exports = {
             .setTitle('DESTRUCTION D~UN TEXTE EN COURS')
 
         const nick = new TextInputBuilder()
-            .setCustomId('id')
-            .setLabel('Entre son id pour confirmation :')
+            .setCustomId('dt')
+            .setLabel('Entre son dt pour confirmation :')
             .setPlaceholder('Le texte disparaitra à jamais !')
             .setMinLength(13)
             .setMaxLength(17)

@@ -5,20 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ed3c73e2-02b6-48df-b328-379894b6a724" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DATA.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/buttons/textGet.js" beforeDir="false" afterPath="$PROJECT_DIR$/buttons/textGet.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/buttons/textRequestAccept.js" beforeDir="false" afterPath="$PROJECT_DIR$/buttons/textRequestAccept.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/commands/post.js" beforeDir="false" afterPath="$PROJECT_DIR$/commands/post.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/commands/repost.js" beforeDir="false" afterPath="$PROJECT_DIR$/commands/repost.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dbObjects.js" beforeDir="false" afterPath="$PROJECT_DIR$/dbObjects.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/events/messageCreate.js" beforeDir="false" afterPath="$PROJECT_DIR$/events/messageCreate.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modals/textDelete.js" beforeDir="false" afterPath="$PROJECT_DIR$/modals/textDelete.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modals/textDtTitle.js" beforeDir="false" afterPath="$PROJECT_DIR$/modals/textDtTitle.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modals/textModal2.js" beforeDir="false" afterPath="$PROJECT_DIR$/modals/textModal2.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/message.js" beforeDir="false" afterPath="$PROJECT_DIR$/utils/message.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/text.js" beforeDir="false" afterPath="$PROJECT_DIR$/utils/text.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,7 +63,7 @@
       <workItem from="1677508324591" duration="182000" />
       <workItem from="1677526946324" duration="1874000" />
       <workItem from="1677531146994" duration="232000" />
-      <workItem from="1677568897466" duration="2038000" />
+      <workItem from="1677568897466" duration="466000" />
     </task>
     <servers />
   </component>

@@ -84,7 +84,7 @@ module.exports = {
         if(checkChap(chap1, 1)){ await tUtils.setChap1(textUUID, chap1) }
 
 
-        let id_chap = ('000' + chap1).slice(-3)
+        let dt_chap = ('000' + chap1).slice(-3)
 
         if(chap2 !== -1){
 
@@ -96,17 +96,17 @@ module.exports = {
             chap2 = 0
             await tUtils.setChap2(textUUID, 0)
         }
-        id_chap += '-' + ('000' + chap2).slice(-3)
+        dt_chap += '-' + ('000' + chap2).slice(-3)
 
-        const id_title = await tUtils.getDtTitle(textUUID)
-        const id_nick = await mUtils.getNick(id)
-        const id = (id_title + id_chap + id_nick).toUpperCase()
+        const dt_title = await tUtils.getDtTitle(textUUID)
+        const dt_nick = await mUtils.getNick(id)
+        const dt = (dt_title + dt_chap + dt_nick).toUpperCase()
 
-        const idExist = await tUtils.idExist(id, id, textUUID)
-        if(idExist){
-            errorMes += "le id_titre, et les deux chapitres sont identiques à une de tes oeuvre déjà postée ! Si tu le souhaites tu peux l'éditer au lieu de la reposter :D"
+        const dtExist = await tUtils.dtExist(dt, id, textUUID)
+        if(dtExist){
+            errorMes += "le dt_titre, et les deux chapitres sont identiques à une de tes oeuvre déjà postée ! Si tu le souhaites tu peux l'éditer au lieu de la reposter :D"
         }else{
-            await tUtils.setDt(textUUID, id)
+            await tUtils.setDt(textUUID, dt)
         }
 
         if(errorMes !== ''){
@@ -127,7 +127,7 @@ module.exports = {
 
             await inter.deferReply({ephemeral: true})
 
-            pdf.rename(file, id)
+            pdf.rename(file, dt)
 
             const spaceEmbed = new EmbedBuilder()
                 .setColor(0x2C2F33)
@@ -136,14 +136,14 @@ module.exports = {
             const textEmbed = mesUtils.newEmbed()
                 .setTitle(title)
                 .setAuthor({
-                    name: id + ' | '+ words + ' mots',
+                    name: dt + ' | '+ words + ' mots',
                     iconURL: member.displayAvatarURL(),
                     url: "https://www.youtube.com/watch?v=zRs58D34OLY" })
                 .setDescription(`${desc} \n\n ||[${textUUID}](${fileMes.url})||`)
 
             const safeEmbed = mes.newEmbed()
                 .setTitle(textUUID)
-                .setDescription(`${member}\n ${id}`)
+                .setDescription(`${member}\n ${dt}`)
 
             await mes.editMes(config.channels.safe, fileId, { files: [file], embeds: [safeEmbed] })
 
@@ -161,7 +161,7 @@ module.exports = {
                 await tUtils.getQuestions(textUUID)
             )
             const postIds = await this.forumPost(
-                id,
+                dt,
                 member,
                 {
                     content: `***${title.toUpperCase()}***`,
@@ -202,7 +202,7 @@ module.exports = {
             await mes.interSuccess(inter, null, true)
 
         }else{
-            if(oldDt !== id || oldDesc !== desc || title !== oldTitle){
+            if(oldDt !== dt || oldDesc !== desc || title !== oldTitle){
                 const mesId1 = await tUtils.getTextMesId(textUUID)
                 const postId = await tUtils.getPostId(textUUID)
                 const postMesId = await tUtils.getPostMesId(textUUID)
@@ -211,23 +211,23 @@ module.exports = {
 
                 let embed = textMes.embeds[1]
 
-                if(oldDt !== id && !idExist){
+                if(oldDt !== dt && !dtExist){
                     const postChannel = await client.channels.fetch(postId)
-                    postChannel.setName(id + " | <@" + id + ">")
+                    postChannel.setName(dt + " | <@" + id + ">")
 
                     const author = embed.author.name
                     const words = author.split('|')[1]
-                    embed.data.author.name = id + " | " + words
+                    embed.data.author.name = dt + " | " + words
 
                     const safeMesId = await tUtils.getFileMesId(textUUID)
                     const safeMes = await mes.getMes(config.channels.safe, safeMesId)
 
                     const file = safeMes.attachments.first()
-                    pdf.rename(file, id)
+                    pdf.rename(file, dt)
 
                     const safeEmbed = safeMes.embeds[0]
                     const safeEmbedDesc = safeEmbed.description
-                    safeEmbed.data.description = safeEmbedDesc.split("\n")[0] + "\n" + id
+                    safeEmbed.data.description = safeEmbedDesc.split("\n")[0] + "\n" + dt
 
                     await mes.editMes(config.channels.safe, safeMesId, {files:[file], embeds: [ safeEmbed]})
 
@@ -320,13 +320,13 @@ module.exports = {
 
     },
 
-    async forumPost(id, user, message, themes){
+    async forumPost(dt, user, message, themes){
         themes = tUtils.getThemesIdsByNames(themes)
 
         const forum = await client.channels.fetch(config.channels.textForum)
 
         let post =  await new GuildForumThreadManager(forum).create({
-            name: `${id}  | ${user}`,
+            name: `${dt}  | ${user}`,
             message: message,
             reason: "Create textPost for uuid",
             appliedTags: themes

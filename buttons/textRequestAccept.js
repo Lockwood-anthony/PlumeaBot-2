@@ -18,7 +18,7 @@ module.exports = {
             inter.message.delete()
 
             if(sent){
-                await rUtils.removeOne(senderId, textUUID)
+                await rUtils.setOut(senderId, textUUID)
 
             }else{
                 const message = await rUtils.sendAccept(senderId, textUUID)

@@ -162,8 +162,8 @@ module.exports = {
     },
 
     async getMes(cId, mesId){
+        const channel = await client.channels.fetch(cId)
         try{
-            const channel = await client.channels.fetch(cId)
             return await channel.messages.fetch(mesId)
         }catch(e){
             return null

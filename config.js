@@ -18,7 +18,6 @@ module.exports = {
             textForum: '1076842352397791243',
             textRequest: '1079661344556580915',
             text: '1079661496742719488',
-            central: '1079710593239486524',
             monthlyNovel: '1060679258579669083',
             general: '1060677819107115088',
             sprint: '1060682429565767760',
@@ -101,13 +100,13 @@ module.exports = {
 
         themes: [
             {
-                name: 'Science Fiction',
-                desc: 'Tu aimes les aventures spatiales, les technologies futuristes et les récits avec des aliens?',
+                name: 'SF',
+                desc: 'a',
                 id: '1076843360339378277'
             },
             {
                 name: 'Fantasy ',
-                desc: 'Plonge dans les histoires de mondes imaginaires, créatures mystiques et autres épopées magiques',
+                desc: 'a',
                 id: '1076843379536703518'
             },
             {
@@ -117,17 +116,17 @@ module.exports = {
             },
             {
                 name: 'Historique',
-                desc: 'Toujours rêvé de vivre une époque révolue de notre histoire? le moment est venu.',
+                desc: 'Toujours rêvé de vivre une époque révolue de notre histoire? C~est le moment.',
                 id: '1076843400839569408'
             },
             {
                 name: 'Jeunesse',
-                desc: 'La voie est longue pour devenir adulte, certaines péripéties valent bien être contées.',
+                desc: 'a',
                 id: '1076843442522554388'
             },
             {
                 name: 'Polar',
-                desc: 'Intéressé par un roman policier soupoudré de critique sociale?',
+                desc: 'a',
                 id: '1076843503973318726'
             },
             {
@@ -137,22 +136,22 @@ module.exports = {
             },
             {
                 name: 'Action',
-                desc: 'Deux mots, adrénaline et aventure !',
+                desc: 'Un peu d~adrénaline et d~aventure !',
                 id: '1076843542196015104'
             },
             {
                 name: 'Drame',
-                desc: 'La fatalité semble tous nous avoir à sa merci, et pourtant, certains se lèvent pour la défier',
+                desc: 'a',
                 id: '1076843603915190422'
             },
             {
                 name: 'Comédie',
-                desc: 'Besoin de lecture sans prise de tête et joviale?',
+                desc: 'Besoin d~une lecture sans prise de tête et joviale ?',
                 id: '1076843587439964290'
             },
             {
                 name: 'Averti',
-                desc: 'Contient du contenu explicit, déconseillé aux lecteurs mineurs ou sensibles (violence, sexe...)',
+                desc: 'Pour un texte un peu trop...',
                 id: '1076844601962414193'
             },
             {

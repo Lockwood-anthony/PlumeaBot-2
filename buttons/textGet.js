@@ -22,11 +22,11 @@ module.exports = {
                 const sent = await send(await inter.guild.members.fetch(userId))
                 if(sent){
                     await inter.message.delete()
-                    await rUtils.setOut(userId, textId)
+                    await rUtils.removeOne(userId, textId)
                 }
 
             }else{
-                await mes.interSuccess(inter, "Non, tu n'es pas <@" + member.id + ">")
+                await mes.interSuccess(inter, "Non, tu n'es pas <@" + userId + ">")
 
             }
 

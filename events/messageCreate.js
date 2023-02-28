@@ -28,11 +28,10 @@ module.exports = {
 
             switch(channelId){
 
-                case config.channels.text:
+                case config.channels.central:
                     message.delete()
-                    await mes.private(author, 'Utilise la commande /post pour partager ton texte owo')
+                    await mes.private(author, 'Utilise la commande `/post` pour partager ton texte ;3')
                     return
-                    break
 
                 case config.channels.general:
                     const today = new Date()

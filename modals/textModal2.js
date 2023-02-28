@@ -114,7 +114,7 @@ module.exports = {
         }
 
         if(PostProcess === '1'){
-            if(errorMes === ''){ return }
+            if(errorMes !== ''){ return }
 
             const fileId = await mUtils.getFileInPostingMesId(id)
             const fileMes = await mes.getMes(config.channels.safe, fileId)

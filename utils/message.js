@@ -137,8 +137,7 @@ module.exports = {
 
         try{
             const channel = await client.channels.fetch(cId)
-            const m = await channel.send(mes)
-            return m
+            return await channel.send(mes)
         }catch(e){
             console.log(e)
             return null

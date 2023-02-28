@@ -34,12 +34,15 @@ global.sequelize = new Sequelize(process.env.DB, process.env.DB_USER, process.en
 	dialect: 'postgres',
     logging: false,
     port: process.env.DB_PORT,
+    /*
     dialectOptions: {
         ssl: {
             require: true,
             rejectUnauthorized: false // <<<<<<< YOU NEED THIS
         }
       }
+
+     */
     })
 
 sequelize

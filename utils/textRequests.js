@@ -47,19 +47,19 @@ module.exports = {
 
     },
 
-    async getDenyMes(textId){
+    async getDenyMes(textId, senderId){
         const authorId = await tUtils.getAuthorId(textId)
 
         const embed = mes.newEmbed()
             .setTitle(await tUtils.getId_Text(textId))
-            .setDescription(`$<@${authorId}> ne t'as pas donné accès au fichier ;-;\nps : ouvre tes mp stp, sinon je ne peux pas t'envoyer de messages...`)
+            .setDescription(`<@${authorId}> ne t'as pas donné accès au fichier ;-;\nps : ouvre tes mp stp, sinon je ne peux pas t'envoyer de messages...`)
 
-        return {embeds: [embed]}
+        return {content: `<@${senderId}>`, embeds: [embed]}
 
     },
 
     async sendDeny(senderId, textId){
-        return await mes.sendMes(config.channels.textRequest, await this.getDenyMes(textId))
+        return await mes.sendMes(config.channels.textRequest, await this.getDenyMes(textId, senderId))
 
     },
 

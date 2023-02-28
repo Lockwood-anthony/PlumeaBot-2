@@ -18,7 +18,7 @@ module.exports = {
     async execute(inter) {
         const pass = inter.options.getString('pass')
         const member = inter.member
-        const plumeRole = config.roles.pluméen
+        const plumeRole = config.roles.plumeen
 
         if(member.roles.cache.has(plumeRole)){
             inter.reply({ content: 'Tu fais quoi là -_-', ephemeral: true })
@@ -36,7 +36,7 @@ module.exports = {
                 }
 
                 const welcomeMessage = mes.newEmbed()
-                    .setDescription(`**${re}Bienvenue sur pluméa ${member} | ${member.username}.**`)
+                    .setDescription(`**${re}Bienvenue sur pluméa ${member} | ${member.user.username}.**`)
                     .setAuthor({ name: 'Youpiii !',iconURL: 'https://i.imgur.com/TYeapMy.png', url: 'https://tenor.com/view/rickroll-roll-rick-never-gonna-give-you-up-never-gonna-gif-22954713' })
                     .setThumbnail(member.displayAvatarURL())
 

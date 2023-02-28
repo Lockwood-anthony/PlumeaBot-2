@@ -14,7 +14,7 @@ module.exports = {
         if(inter.member.id === textAuthor){
             inter.message.delete()
 
-            const sent = await mes.private(inter.member, rUtils.getDenyMes(textUUID))
+            const sent = await mes.private(await inter.guild.members.fetch(senderId), await rUtils.getDenyMes(textUUID, senderId))
             if(sent){
                 await rUtils.setOut(senderId, textUUID)
 

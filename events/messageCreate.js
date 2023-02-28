@@ -33,6 +33,11 @@ module.exports = {
                     await mes.private(author, 'Utilise la commande `/post` pour partager ton texte ;3')
                     return
 
+                case config.channels.sesame:
+                    message.delete()
+                    await mes.private(author, 'Tape la commande `/sesame` `code` pour accéder au serveur')
+                    return
+
                 case config.channels.general:
                     const today = new Date()
                     const recall = getBumpDate()

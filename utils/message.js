@@ -311,7 +311,7 @@ module.exports = {
         let color = this.color.yellow
         if (level === 1){
             color = this.color.red
-            errorMes += "Contacte <@548551538487066629>"
+            errorMes += "\nContacte <@548551538487066629>"
         }
 
         const embed = this.newEmbed()

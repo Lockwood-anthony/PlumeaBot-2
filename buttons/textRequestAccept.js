@@ -14,7 +14,7 @@ module.exports = {
 
         if(inter.member.id === textAuthor){
 
-            const sent = await tUtils.sendFile(textUUID, inter.member)
+            const sent = await tUtils.sendFile(textUUID, await inter.guild.members.fetch(senderId))
             inter.message.delete()
 
             if(sent){

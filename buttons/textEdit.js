@@ -9,7 +9,7 @@ module.exports = {
     async execute(inter){
         const textId = inter.customId.split('/')[1]
         const tUtils = require('../utils/text')
-        const textAuthor = tUtils.getAuthorId(textId)
+        const textAuthor = await tUtils.getAuthorId(textId)
 
         const member = inter.member
         if(member.user.id === textAuthor || await somes.memberCheckRoles(inter.member, [config.roles.staff])){

@@ -107,7 +107,7 @@ module.exports = {
                     id: '1076843360339378277'
                 },
                 {
-                    name: 'Fantasy ',
+                    name: 'Fantasy',
                     desc: 'Plonge dans les histoires de mondes imaginaires, créatures mystiques et autres épopées magiques',
                     id: '1076843379536703518'
                 },

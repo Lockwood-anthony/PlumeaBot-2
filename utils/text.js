@@ -295,7 +295,7 @@ module.exports = {
         return null
     },
 
-    async getThemesIdsByNames(themes){
+    getThemesIdsByNames(themes){
         let themesIds = []
 
         for(const t of config.themes){

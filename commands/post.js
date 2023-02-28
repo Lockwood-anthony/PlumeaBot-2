@@ -31,7 +31,7 @@ module.exports = {
         }
 
         if(inter.channel.id !== config.channels.central){
-            await mes.interError(inter, "Va faire cette commande dans le <#" + config.channels.central + ">", 1)
+            await mes.interError(inter, "Va faire cette commande dans le <#" + config.channels.central + ">")
             return
         }
 

@@ -14,7 +14,7 @@ module.exports = {
         const member = inter.member
 
         if(userId === '0'){
-            await send()
+            await send(member)
 
         }else{
 

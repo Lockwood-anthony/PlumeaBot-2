@@ -12,7 +12,7 @@ module.exports = {
         const textAuthor = await tUtils.getAuthorId(textUUID)
 
         if(inter.member.id === textAuthor){
-            inter.message.delete()
+            await inter.message.edit({ components: [] })
 
             const sent = await mes.private(await inter.guild.members.fetch(senderId), await rUtils.getDenyMes(textUUID, senderId))
             if(sent){

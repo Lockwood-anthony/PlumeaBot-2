@@ -21,12 +21,12 @@ module.exports = {
             if(userId === member.id){
                 const sent = await send(await inter.guild.members.fetch(userId))
                 if(sent){
-                    await inter.message.delete()
+                    await inter.message.edit({ components: [] })
                     await rUtils.setOut(userId, textId)
                 }
 
             }else{
-                await mes.interSuccess(inter, "Non, tu n'es pas <@" + member.id + ">")
+                await mes.interError(inter, "Non, tu n'es pas <@" + userId + ">")
 
             }
 

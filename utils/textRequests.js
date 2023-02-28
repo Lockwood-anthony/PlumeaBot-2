@@ -40,7 +40,10 @@ module.exports = {
 
         const embed = mes.newEmbed()
             .setTitle(await tUtils.getId_Text(textId))
-            .setDescription(`<@${authorId}> t'as donné accès au texte mais tes mp sont fermés, ouvre les pour que le bot puisse t'envoyer le fichier ! ;-;`)
+            .setDescription(
+                `<@${authorId}> t'as donné accès au texte mais tes mp sont fermés, ouvre les pour que le bot puisse t'envoyer le fichier ! ;-;\n` +
+                "> Clic droit sur Pluméa > [Paramètres de confidentialité] > [Messages privés]\n")
+            .setImage("https://cdn.discordapp.com/attachments/1075907880055742494/1077992029956608050/plumea_demo.gif")
 
         const row = require("../buttons/textGet").get(textId, senderId, true)
         return await mes.sendMes(config.channels.textRequest, { content: `<@${senderId}>`, embeds: [embed], components: [row]})

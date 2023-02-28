@@ -13,7 +13,7 @@ module.exports = {
         if(await m.exists(id)){
             await m.removeMember(id)
 
-            const textsUUIDs = await m.getTextsUUIDs(userId)
+            const textsUUIDs = await m.getTextsUUIDs(id)
 
             if(textsUUIDs.length !== 0){
 
@@ -22,9 +22,6 @@ module.exports = {
                 })
 
                 await m.removeAllTextsUUIDs(id)
-
-            }else{
-                await mes.interError(inter, "Cet utilisateur n'a pas de texte !")
 
             }
 

@@ -245,7 +245,7 @@ module.exports = {
     getQuestionsEmbed(questions){
         let desc = ''
         questions.forEach(q => {
-            desc += q + '\n'
+            desc += q + '\n\n'
         })
 
         return mes.newEmbed()

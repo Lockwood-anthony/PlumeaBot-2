@@ -19,7 +19,7 @@ module.exports = {
         }else{
 
             if(userId === member.id){
-                const sent = await send()
+                const sent = await send(await inter.guild.members.fetch(userId))
                 if(sent){
                     await inter.message.delete()
                     await rUtils.setOut(userId, textId)
@@ -32,10 +32,10 @@ module.exports = {
 
         }
 
-        async function send(){
+        async function send(mem){
 
             if(! await m.exists(userId)){
-                const sent = await tUtils.sendFile(textId, await inter.guild.members.fetch(userId))
+                const sent = await tUtils.sendFile(textId, mem)
 
                 if(sent){
                     await mes.interSuccess(inter)

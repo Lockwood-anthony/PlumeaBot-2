@@ -16,7 +16,7 @@ module.exports = {
             inter.deferReply({ ephemeral: true })
 
             const sent = await tUtils.sendFile(textUUID, await inter.guild.members.fetch(senderId))
-            inter.message.delete()
+            await inter.message.edit({ components: [] })
 
             if(sent){
                 await rUtils.removeOne(senderId, textUUID)

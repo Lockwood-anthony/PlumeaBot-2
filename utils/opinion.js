@@ -76,6 +76,4 @@ module.exports = {
         return db.tabGetAtr(O_TAB, id, "senderId")
     }
 
-
-
 }

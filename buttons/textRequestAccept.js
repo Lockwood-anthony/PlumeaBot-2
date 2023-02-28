@@ -13,6 +13,7 @@ module.exports = {
         const textAuthor = await tUtils.getAuthorId(textUUID)
 
         if(inter.member.id === textAuthor){
+            inter.deferReply({ ephemeral: true })
 
             const sent = await tUtils.sendFile(textUUID, await inter.guild.members.fetch(senderId))
             inter.message.delete()
@@ -29,7 +30,7 @@ module.exports = {
 
             }
 
-            await mes.interSuccess(inter)
+            await mes.interSuccess(inter, null, true)
 
         }else{
             await mes.interError(inter, "Ce n~est pas ton texte")

@@ -52,7 +52,7 @@ module.exports = {
 
             }
 
-            if (message.member.roles.cache.size === 1){
+            if (message.member.roles.cache.size < 2){
 
                 if (message.attachments.size >= 0 || message.content.includes('http')){
                     message.delete()

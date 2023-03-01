@@ -37,7 +37,7 @@ module.exports = {
 
         let nothing = true
         await inactivesIds.forEach(async id => {
-            console.log(id)
+            console.log("id")
             const m = await inter.guild.members.fetch(id)
 
             if(await m._roles.cache.size <= 2){

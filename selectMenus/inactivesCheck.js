@@ -37,6 +37,7 @@ module.exports = {
             .setPlaceholder('Choisis les gens')
 
         let n = 24
+        let o = 0
 
         await inactivesIds.forEach(async id => {
             const m = await inter.guild.members.fetch(id.id)
@@ -52,10 +53,11 @@ module.exports = {
                 components.push(new ActionRowBuilder().addComponents(menu))
 
                 menu = new StringSelectMenuBuilder()
-                    .setCustomId(this.name)
-                    .setPlaceholder('Choisis les gens')
+                    .setCustomId(this.name + "/" + o)
+                    .setPlaceholder('Choisis les gens' + o)
 
                 n = 24
+                o++
             }
 
         })

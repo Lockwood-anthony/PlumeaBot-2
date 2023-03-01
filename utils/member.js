@@ -38,7 +38,8 @@ module.exports = {
                     [Op.lt]: limit
                 }
             },
-            attributes: ['id']
+            attributes: ['id'],
+            raw: true
         })
     },
 

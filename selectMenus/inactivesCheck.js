@@ -31,7 +31,7 @@ module.exports = {
     },
 
     async get(inactivesIds, inter){
-        let row = new ActionRowBuilder()
+        let components = []
         let menu = new StringSelectMenuBuilder()
             .setCustomId(this.name)
             .setPlaceholder('Choisis les gens')
@@ -48,8 +48,8 @@ module.exports = {
             }
 
             n--
-            if(n == 0){
-                row.addComponents(menu)
+            if(n === 0){
+                components.push(ActionRowBuilder().addComponents(menu))
 
                 menu = new StringSelectMenuBuilder()
                     .setCustomId(this.name)
@@ -60,7 +60,7 @@ module.exports = {
 
         })
 
-        return row
+        return components
 
     }
 

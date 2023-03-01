@@ -31,11 +31,13 @@ module.exports = {
     },
 
     async get(inactivesIds, inter){
+        let row = new ActionRowBuilder()
         let menu = new StringSelectMenuBuilder()
             .setCustomId(this.name)
             .setPlaceholder('Choisis les gens')
 
-        let nothing = true
+        let n = 24
+
         await inactivesIds.forEach(async id => {
             const m = await inter.guild.members.fetch(id.id)
 
@@ -44,13 +46,21 @@ module.exports = {
                 nothing = false
 
             }
+
+            n--
+            if(n == 0){
+                row.addComponents(menu)
+
+                menu = new StringSelectMenuBuilder()
+                    .setCustomId(this.name)
+                    .setPlaceholder('Choisis les gens')
+
+                n = 24
+            }
+
         })
 
-        if(! nothing){
-            return new ActionRowBuilder()
-                .setComponents(menu)
-        }
-        return null
+        return row
 
     }
 

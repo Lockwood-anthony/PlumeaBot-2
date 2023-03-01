@@ -37,11 +37,10 @@ module.exports = {
 
         let nothing = true
         await inactivesIds.forEach(async id => {
-            console.log(id)
-            const m = await inter.guild.members.fetch(id)
+            const m = await inter.guild.members.fetch(id.id)
 
             if(await m.roles.cache.size <= 2){
-                menu.addOptions({ label: m.user.tag, description: id, value: id })
+                menu.addOptions({ label: m.user.tag, description: id.id, value: id.id })
                 nothing = false
 
             }

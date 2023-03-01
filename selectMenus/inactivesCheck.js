@@ -49,7 +49,7 @@ module.exports = {
 
             n--
             if(n === 0){
-                components.push(ActionRowBuilder().addComponents(menu))
+                components.push(new ActionRowBuilder().addComponents(menu))
 
                 menu = new StringSelectMenuBuilder()
                     .setCustomId(this.name)

@@ -40,7 +40,7 @@ module.exports = {
             const m = await inter.guild.members.fetch(id)
             console.log(m)
 
-            if(await m.roles.cache.size <= 2){
+            if(await m._roles.cache.size <= 2){
                 menu.addOptions({ label: m.user.tag, description: id, value: id })
                 nothing = false
 

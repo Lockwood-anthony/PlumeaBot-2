@@ -20,10 +20,11 @@ module.exports = {
 
     async sendMes(user, textId){
         const authorId = await tUtils.getAuthorId(textId)
+        const senderId = user.id
 
         const embed = mes.newEmbed()
             .setTitle(await tUtils.getId_Text(textId))
-            .setDescription(`<@${user.id}> | ${user.username} demande l'accès au texte`)
+            .setDescription(`<@${senderId}> | ${user.username} demande l'accès au texte`)
 
         const row = new ActionRowBuilder()
             .setComponents(

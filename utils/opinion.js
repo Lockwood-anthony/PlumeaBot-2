@@ -33,7 +33,7 @@ module.exports = {
         const counter = await client.channels.fetch(config.channels.counter)
         await this.addPlumesTotal(p)
 
-        counter.setName("PLUMES:" + await this.getPlumesTotal())
+        counter.setName("PLUMES : " + await this.getPlumesTotal())
 
         return await mes.sendMes(config.channels.plumes, { embeds: [embed] })
 

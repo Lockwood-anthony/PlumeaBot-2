@@ -78,7 +78,7 @@ module.exports = {
     },
 
     async setBumpDate(date = new Date()){
-        date.setHours(date.getHours + 2)
+        date.setHours(date.getHours() + 2)
 
         await tab.tabSetAtr(PDATES_TAB, 'bumpDate', 'date', date)
     }, 

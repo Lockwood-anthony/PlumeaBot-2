@@ -185,7 +185,6 @@ module.exports = {
 
         if(inter.isChatInputCommand()){
             title.content = '/ ' + inter.commandName
-            console.log(inter)
             const cmdOptions = inter.options._hoistedOptions
 
             if(cmdOptions){

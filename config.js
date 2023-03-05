@@ -112,6 +112,11 @@ module.exports = {
                     id: '1076843379536703518'
                 },
                 {
+                    name: 'Fantastique',
+                    desc: 'Deux ingrédients constituent un bon récit fantastique, un monde réaliste, et un peu de surnaturel',
+                    id: '1080551250254364744'
+                },
+                {
                     name: 'Horreur',
                     desc: 'Une seule règle, ne jamais lire dans le noir (ça abîme la rétine)',
                     id: '1076843422557667381'

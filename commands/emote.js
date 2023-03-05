@@ -13,7 +13,6 @@ module.exports = {
 	},
 
 	async execute(inter) {
-		console.log(await inter.guild.channels.fetch(config.channels.textForum))
 		await mes.interSuccess(inter, { content: config.emotes.plume, formatted: true, ephemeral: false })
 
 		/*

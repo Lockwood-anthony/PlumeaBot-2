@@ -52,9 +52,9 @@ module.exports = {
 
             }
 
-            console.log(message.member.roles.cache.size)
+            console.log(message.member.roles.cache)
 
-            if (message.member.roles.cache.size < 2){
+            if (message.member.roles.cache.size < 3){
 
                 if (message.attachments.size > 0 || message.content.includes('http')){
                     await message.delete()

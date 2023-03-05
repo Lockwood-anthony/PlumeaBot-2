@@ -52,10 +52,12 @@ module.exports = {
 
             }
 
+            console.log(message.member.roles.cache.size)
+
             if (message.member.roles.cache.size < 2){
 
-                if (message.attachments.size >= 0 || message.content.includes('http')){
-                    message.delete()
+                if (message.attachments.size > 0 || message.content.includes('http')){
+                    await message.delete()
                     await author.send('__**Impossible d~envoyer ce message :**__```md\n#Tu ne peux poster ni lien, ni fichier, ni gif sans n~avoir jamais gagné de plumes :D```')
                 }
 

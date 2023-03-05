@@ -35,7 +35,7 @@ module.exports = {
 
         counter.setName("😱 PLUMES GLOBALES : " + await this.getPlumesTotal())
 
-        await mes.sendMes(config.channels.plumes, { embeds: [embed] })
+        return await mes.sendMes(config.channels.plumes, { embeds: [embed] })
 
     },
 

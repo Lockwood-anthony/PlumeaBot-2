@@ -85,6 +85,7 @@ module.exports = {
                             }
                         })
 
+                        console.log(message)
                         if(messagesSent === 1){
                             const reply = "Fait la commande /commentaire dans salon associé au texte pour que le staff valide ton commentaire :)"
                             const sent = await mes.private(author, reply)

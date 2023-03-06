@@ -180,7 +180,7 @@ module.exports = {
     },
 
     chooseInterMessageTitle(inter){
-        let title = { }
+        let title = { files: [] }
         let options = []
 
         if(inter.isChatInputCommand()){

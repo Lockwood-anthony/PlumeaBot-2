@@ -73,6 +73,7 @@ module.exports = {
             if(message.channel.parentId === config.channels.textForum){
                 const messages = await message.channel.messages.fetch({ limit: 64 })
 
+                console.log(author)
                 if(! await somes.memberCheckRoles(author, [config.roles.staff, config.roles.guard])){
                     const textUUId = await tUtils.getTextUUIDByPostId(message.channel.id)
                     const authorId = await tUtils.getAuthorId(textUUId)

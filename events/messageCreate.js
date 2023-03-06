@@ -1,7 +1,8 @@
 const { config } = require('../config')
 const { getBumpDate, setBumpDate } = require('../utils/somes')
-const mUtils = require("../utils/member")
 const mes = require("../utils/message")
+const somes = require("../utils/somes")
+const tUtils = require("../utils/text")
 
 module.exports = {
 	name: 'messageCreate',
@@ -41,12 +42,12 @@ module.exports = {
                 case config.channels.general:
                     const today = new Date()
                     const recall = await getBumpDate()
-    
+
                     if(today > recall){
                         message.reply('***Bumpy ! :3***')
                         today.setFullYear(today.getFullYear()+66)
                         await setBumpDate(today)
-    
+
                     }
                     break
 
@@ -70,26 +71,48 @@ module.exports = {
             }
 
             if(message.channel.parentId === config.channels.textForum){
+                const messages = await message.channel.messages.fetch({ limit: 64 })
 
-                if(await mUtils.exists(id)){
+                if(! await somes.memberCheckRoles(author, config.roles.staff, config.roles.guard)){
+                    const textUUId = await tUtils.getTextUUIDByPostId(message.channel.id)
+                    const authorId = await tUtils.getAuthorId(textUUId)
 
-                    if(! await mUtils.hasTutoId(id, 1)){
-                        const reply = "Fait la commande /commentaire dans salon associé au texte pour que le staff valide ton commentaire :)"
-                        const sent = await mes.private(author, reply)
-                        if(! sent){
-                            await message.reply(reply)
+                    if(authorId !== id){
+                        let messagesSent = 0
+                        messages.forEach(m => {
+                            if(m.author === author){
+                                messagesSent++
+                            }
+                        })
+
+                        if(messagesSent === 0){
+                            const reply = "Fait la commande /commentaire dans salon associé au texte pour que le staff valide ton commentaire :)"
+                            const sent = await mes.private(author, reply)
+                            if(!sent){
+                                await message.reply(reply)
+                            }
+
                         }
-
-                        await mUtils.addTutoId(id, config.tutoIds.commentaire)
 
                     }
 
                 }
 
+                /*
+                if(await mUtils.exists(id)){
+
+                    if(! await mUtils.hasTutoId(id, 1)){
+                        await mUtils.addTutoId(id, config.tutoIds.commentaire)
+
+                    }
+
+                }
+                 */
+
             }
 
         }else{
-            
+
             //messages disboard
             if(id === 302050872383242240){
                 const embeds = message.embeds
@@ -105,7 +128,7 @@ module.exports = {
             }
 
         }
-		
+
 	}
 
 }

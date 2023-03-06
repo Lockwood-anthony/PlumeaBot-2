@@ -57,7 +57,7 @@ module.exports = {
         while(n !== 0){
             let fetch
             if(n > 100){
-                option["limit"] = 100
+                option.limit = 100
                 fetch = await channel.messages.fetch(option)
 
                 try{
@@ -70,7 +70,7 @@ module.exports = {
                 n -= 100
 
             }else{
-                option["limit"] = n
+                option.limit = n
                 fetch = await channel.messages.fetch(option)
                 n = 0
 

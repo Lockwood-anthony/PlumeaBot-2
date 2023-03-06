@@ -7,6 +7,7 @@
     <list default="true" id="ed3c73e2-02b6-48df-b328-379894b6a724" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/events/messageCreate.js" beforeDir="false" afterPath="$PROJECT_DIR$/events/messageCreate.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/message.js" beforeDir="false" afterPath="$PROJECT_DIR$/utils/message.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,6 +70,7 @@
       <workItem from="1677591843185" duration="601000" />
       <workItem from="1678041264070" duration="5944000" />
       <workItem from="1678100591393" duration="871000" />
+      <workItem from="1678129981165" duration="2500000" />
     </task>
     <servers />
   </component>

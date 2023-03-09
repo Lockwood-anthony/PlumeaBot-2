@@ -15,7 +15,7 @@ module.exports = {
 
             if(nick === nickConfirm){
                 nick.toUpperCase()
-                await mUtils.setNick(id, nick)
+                await mUtils.setNick(id, nick.toUpperCase() )
 
                 if(textUUID === '0'){
                     await mes.interSuccess(inter)

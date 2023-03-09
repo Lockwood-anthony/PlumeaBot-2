@@ -34,7 +34,7 @@ module.exports = {
 
         async function send(mem){
 
-            if(! await m.exists(userId)){
+            if(await m.exists(userId)){
                 const sent = await tUtils.sendFile(textId, mem)
 
                 if(sent){

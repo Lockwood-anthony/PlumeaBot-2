@@ -15,7 +15,7 @@ module.exports = {
         const id = inter.member.id
 
         if(/^[a-zA-Z()]+$/.test(id_text_title)){
-            await tUtils.setIdTitle(textUUID, id_text_title)
+            await tUtils.setIdTitle(textUUID, id_text_title.toUpperCase())
 
             if(PostProcess === '1'){
                 const textModelUUID = await tUtils.getSimilarTextUUID(id_text_title, id, textUUID)

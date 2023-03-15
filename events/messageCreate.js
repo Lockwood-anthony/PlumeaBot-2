@@ -35,9 +35,12 @@ module.exports = {
                     return
 
                 case config.channels.sesame:
-                    message.delete()
-                    await mes.private(author, 'Tape la commande `/sesame` `code` pour accéder au serveur')
-                    return
+                    if(! await somes.memberCheckRoles(message.member, [config.roles.staff])){
+                        message.delete()
+                        await mes.private(author, 'Tape la commande `/sesame` `code` pour accéder au serveur')
+                        return
+                    }
+                    break
 
                 case config.channels.general:
                     const today = new Date()

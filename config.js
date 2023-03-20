@@ -77,7 +77,8 @@ module.exports = {
                 RANK: 'https://i.imgur.com/hK9qUWc.gifv',
                 "non": "si <:Mago:1060705830481186868>",
                 "n on": "je tentacule tes ancetres, tu me prends pour qui <:Echo:1087016550114013196>",
-                "Non": "je tentacule tes ancetres <:Echo:1087016550114013196>"
+                "Non": "je tentacule tes ancetres <:Echo:1087016550114013196>",
+                "NON": "SI !"
 
             },
 

@@ -115,12 +115,13 @@ module.exports = {
 
             //messages disboard
             if(id === 302050872383242240){
-                const embeds = message.embeds
+                console.log("bump command")
 
-                if(embeds[0].data.description.includes('Bump effectué !')){
+                if(message.embeds[0].data.description.includes('Bump effectué !')){
                     const recall = new Date()
                     recall.setHours(('0' + (recall.getHours() + 2)).slice(-2))
                     recall.setMinutes(('0' + (recall.getMinutes() + 30)).slice(-2))
+                    console.log(recall)
 
                     await setBumpDate(recall)
                 }

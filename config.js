@@ -74,7 +74,7 @@ module.exports = {
                 CHAD: 'https://tenor.com/view/mujikcboro-seriymujik-gif-24361533',
                 ' rick': 'https://tenor.com/view/rickroll-rick-roll-gif-gif-25399889',
                 nuck: 'https://i.imgur.com/N3oxDNW.gifv',
-                RANK: 'https://i.imgur.com/hK9qUWc.gifv';
+                RANK: 'https://i.imgur.com/hK9qUWc.gifv',
                 non: "non :Mago:"
             },
 

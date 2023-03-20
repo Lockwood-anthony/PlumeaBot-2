@@ -75,7 +75,7 @@ module.exports = {
                 ' rick': 'https://tenor.com/view/rickroll-rick-roll-gif-gif-25399889',
                 nuck: 'https://i.imgur.com/N3oxDNW.gifv',
                 RANK: 'https://i.imgur.com/hK9qUWc.gifv',
-                non: "non :Mago:"
+                non: "non <:Mago:1060705830481186868>"
             },
 
             emotes: {

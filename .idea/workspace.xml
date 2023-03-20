@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ed3c73e2-02b6-48df-b328-379894b6a724" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/events/messageCreate.js" beforeDir="false" afterPath="$PROJECT_DIR$/events/messageCreate.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,6 +18,7 @@
         <entry key="$PROJECT_DIR$" value="AstrantV" />
       </map>
     </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/utils/sprint.js" root0="FORCE_HIGHLIGHTING" />
@@ -74,11 +74,23 @@
       <workItem from="1678294195817" duration="5380000" />
       <workItem from="1678365771374" duration="1354000" />
       <workItem from="1678899254831" duration="1299000" />
-      <workItem from="1678915267482" duration="87000" />
+      <workItem from="1678915267482" duration="283000" />
+      <workItem from="1679246317440" duration="158000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

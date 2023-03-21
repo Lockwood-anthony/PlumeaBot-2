@@ -51,7 +51,7 @@ module.exports = {
         const buttons = new ActionRowBuilder()
             .setComponents(validButton, refuseButton)
 
-        const message = await inter.channel.send({ content: `<@&${config.roles.staff}>`, embeds: [embed], components: [buttons] })
+        const message = await inter.channel.send({ content: `<@&${config.roles.secretary}>`, embeds: [embed], components: [buttons] })
 
         await oUtils.createOne(uuid, words, textUUID, id, message.id)
 

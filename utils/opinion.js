@@ -47,6 +47,10 @@ module.exports = {
         return db.tabGetAtr(PIDS_TAB, 'plumesTotal', 'paramId')
     },
 
+    async getPlumesWeeklyTotal(){
+        return db.tabGetAtr(PIDS_TAB, 'plumesWeeklyTotal', 'paramId')
+    },
+
     memberOpinionExist(textUUID, id){
         return O_TAB.count({ where: { textId: textUUID, senderId: id } })
             .then(count => {

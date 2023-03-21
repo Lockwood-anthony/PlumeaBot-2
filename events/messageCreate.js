@@ -16,8 +16,11 @@ module.exports = {
             const content = message.content
 
             //message.react(':champagne_glass:') //pour noel
-            const r = Math.floor(Math.random() * (64 + 1))
-            if(r === 64) await message.react(config.emotes.love)
+            let r = Math.floor(Math.random() * (64 * 100 / config.weeklyPlumes))
+            if(r === 1) await message.react(config.emotes.love)
+
+            r = Math.floor(Math.random() * (64 * 1000 / config.weeklyPlumes))
+            if(r === 1) await message.react(config.emotes.chad)
 
             const triggersJson = config.messageReplies
             const triggers = new Map(Object.entries(triggersJson))

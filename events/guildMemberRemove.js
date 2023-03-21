@@ -24,7 +24,7 @@ module.exports = {
 
             }
 
-            await m.removeMember(id)
+            if(await m.getPlumes(id) <= 0) await m.removeMember(id)
 
         }
 

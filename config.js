@@ -75,7 +75,8 @@ module.exports = {
                 ' rick': 'https://tenor.com/view/rickroll-rick-roll-gif-gif-25399889',
                 nuck: 'https://i.imgur.com/N3oxDNW.gifv',
                 RANK: 'https://i.imgur.com/hK9qUWc.gifv',
-                "Dièse~": "Dièse est une personne merveilleuse !"
+                "Dièse~": "Dièse est une personne merveilleuse !",
+                titania: "https://cdn.discordapp.com/attachments/1060677819107115088/1089120587185655808/image0.gif"
 
             },
 

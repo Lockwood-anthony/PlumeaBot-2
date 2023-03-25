@@ -4,13 +4,13 @@ const {ActionRowBuilder, ButtonBuilder} = require("discord.js");
 module.exports = {
 
     color: {
-        blue: "00112B",
-        red: "D52B1E",
-        yellow: "FFB612",
+        blue: "#00112B",
+        red: "#D52B1E",
+        yellow: "#FFB612",
 
     },
 
-    newEmbed(color = "#34ebd5"){
+    newEmbed(color = color.blue){
         const { EmbedBuilder } = require('discord.js')
 
         return new EmbedBuilder()

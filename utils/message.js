@@ -10,11 +10,11 @@ module.exports = {
 
     },
 
-    newEmbed(color = "00112B"){
+    newEmbed(color = "#34ebd5"){
         const { EmbedBuilder } = require('discord.js')
 
         return new EmbedBuilder()
-            .setColor("0x"+color)
+            .setColor(color)
             .setTimestamp()
             .setFooter({ text: 'PluméaBot', iconURL: 'https://i.imgur.com/TYeapMy.png' })
     },

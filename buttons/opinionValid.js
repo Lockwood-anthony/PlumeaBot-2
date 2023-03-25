@@ -40,7 +40,7 @@ module.exports = {
                     .setURL(message.url))
 
 
-        await mes.interSuccess(inter, { content: `<@${senderId}>`, embeds: [embed], components: [button], formatted: true})
+        await mes.interSuccess(inter, { content: `<@${senderId}>`, embeds: [embed], components: [button], formatted: true, ephemeral: false})
 
         const opinionButton = new ActionRowBuilder()
             .setComponents(

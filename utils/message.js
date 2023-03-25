@@ -3,14 +3,14 @@ const {ActionRowBuilder, ButtonBuilder} = require("discord.js");
 
 module.exports = {
 
-    color: {
+    COLOR: {
         blue: "#00112B",
         red: "#D52B1E",
         yellow: "#FFB612",
 
     },
 
-    newEmbed(color = color.blue){
+    newEmbed(color = this.COLOR.blue){
         const { EmbedBuilder } = require('discord.js')
 
         return new EmbedBuilder()
@@ -308,9 +308,9 @@ module.exports = {
 
         }
 
-        let color = this.color.yellow
+        let color = this.COLOR.yellow
         if (level === 1){
-            color = this.color.red
+            color = this.COLOR.red
             errorMes += "\nContacte <@548551538487066629>"
         }
 

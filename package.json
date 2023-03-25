@@ -1,0 +1,27 @@
+{
+  "dependencies": {
+    "@discordjs/rest": "^1.1.0",
+    "@types/node": "^18.7.18",
+    "discord.js": "^14.7.1",
+    "dotenv": "^16.0.3",
+    "edit-json-file": "^1.7.0",
+    "fs": "^0.0.1-security",
+    "mysql2": "^3.0.1",
+    "path": "^0.12.7",
+    "pdf-parse": "^1.1.1",
+    "pg": "^8.8.0",
+    "postgres": "^3.3.3",
+    "request": "^2.88.2",
+    "sequelize": "^6.28.0",
+    "sqlite3": "^5.1.4",
+    "uuid": "^9.0.0",
+    "uuidv4": "^6.2.13",
+    "uuidv5": "^1.0.0"
+  },
+  "scripts": {
+    "start": "node deploy-commands & node index.js"
+  },
+  "devDependencies": {
+    "typescript": "^4.9.4"
+  }
+}

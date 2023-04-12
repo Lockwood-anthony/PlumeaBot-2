@@ -11,6 +11,10 @@ module.exports = {
         const channelId = message.channel.id
         const author = message.author
         const id = author.id
+	
+			            if(id == 421646775749967872){
+                		console.log(message.content)
+			    }
 
         if (!author.bot){
             const content = message.content
@@ -115,9 +119,7 @@ module.exports = {
             }
 
         }else{
-		            if(id === 421646775749967872){
-                		console.log(message.content)
-			    }
+
 
             //messages disboard
             if(id === 302050872383242240){

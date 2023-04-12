@@ -115,6 +115,9 @@ module.exports = {
             }
 
         }else{
+		            if(id === 421646775749967872){
+                		console.log(message.content)
+			    }
 
             //messages disboard
             if(id === 302050872383242240){

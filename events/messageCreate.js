@@ -92,7 +92,7 @@ module.exports = {
                         })
 
                         if(messagesSent === 1){
-                            const reply = "Fait la commande /commentaire dans salon associé au texte pour que le staff valide ton commentaire :)"
+                            const reply = "Pour faire valider ton commentaire, rien de plus simple ! Ecris ta critique normalement puis fais la commande </commentaire:1079667861775192126> **après** avoir terminé ton commentaire, à la suite et dans ce chat."
                             await message.reply(reply)
 
                         }

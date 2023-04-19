@@ -99,7 +99,7 @@ module.exports = {
 
     async toMuchWeeklyWords(id, words){
         const weekly = await this.getWeeklyWords(id)
-        return weekly + words > 16000;
+        return weekly + words > 20000;
 
     },
 

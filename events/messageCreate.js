@@ -20,9 +20,9 @@ module.exports = {
 		    message.react("🇦")
 		    message.react("🇼")
 		    message.react("🇪")
-		    message.react("🔘")
+		    message.react("🔥")
 		    message.react("🇹")
-		    message.react("💶")		    
+		    message.react("<:ECHO:1087016550114013196>")		    
 
 	    }
 

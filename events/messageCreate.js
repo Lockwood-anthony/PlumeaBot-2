@@ -16,13 +16,13 @@ module.exports = {
             const content = message.content
 	    
 	    if(content.includes("rawette")){
+		    message.react("<:PLM_or:1111686382121930903>")
 		    message.react("🇷")
 		    message.react("🇦")
 		    message.react("🇼")
 		    message.react("🇪")
-		    message.react("🔥")
 		    message.react("🇹")
-		    message.react("<:ECHO:1087016550114013196>")		    
+		    message.react("<:PLM_or:1111686382121930903>")
 
 	    }
 

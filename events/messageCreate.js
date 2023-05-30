@@ -16,13 +16,13 @@ module.exports = {
             const content = message.content
 	    
 	    if(content.includes("rawette")){
-		    message.react(":regional_indicator_r:")
-		    message.react(":regional_indicator_a:")
-		    message.react(":regional_indicator_w:")
-		    message.react(":regional_indicator_e:")
-		    message.react(":regional_indicator_t:")
-		    message.react(":radio_button:")
-		    message.react(":euro:")		    
+		    message.react("🇷 ")
+		    message.react("🇦")
+		    message.react("🇼")
+		    message.react("🇪")
+		    message.react("🔘")
+		    message.react("🇹")
+		    message.react("💶")		    
 
 	    }
 

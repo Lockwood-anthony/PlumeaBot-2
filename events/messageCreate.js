@@ -21,6 +21,9 @@ module.exports = {
 		    message.react("🇼")
 		    message.react("🇪")
 		    message.react("🇹")
+		    
+		    reply = message.reply("# RAWETTE")
+		    setTimeout(() => {  reply.delete() }, 1000)
 
 	    }
 

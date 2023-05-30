@@ -16,7 +16,7 @@ module.exports = {
             const content = message.content
 	    
 	    if(content.includes("rawette")){
-		    message.react("🇷 ")
+		    message.react("🇷")
 		    message.react("🇦")
 		    message.react("🇼")
 		    message.react("🇪")

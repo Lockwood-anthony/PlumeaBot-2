@@ -15,7 +15,19 @@ module.exports = {
         if (!author.bot){
             const content = message.content
 	    
-	    if(content.includes("rawette")){message.reply("# RAWETTE")}
+	    if(content.includes("rawette")){
+		    message.react("<:CRIM:1060704053430075486>")
+		    message.react("<:SCRA:1028377987567075400>")
+		    message.react("<:COEU:1087795287399071865>")
+		    message.react("<:CHOU:1093049396893065236>")
+		    message.react("<:DIES:1028571953277190214>")
+		    message.react("<:ORTI:1086995088879648838>")
+		    message.react("<:ECHO:1087016550114013196>")
+		    message.react("<:BabyPara:1079752744593789010>")
+		    message.react("<:VEVO:1028379541980332073>")
+		    
+
+	    }
 
             //message.react(':champagne_glass:') //pour noel
             let r = Math.floor(Math.random() * (64 * 100 / config.weeklyPlumes))

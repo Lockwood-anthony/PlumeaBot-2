@@ -22,7 +22,7 @@ module.exports = {
 		    message.react("🇪")
 		    message.react("🇹")
 		    
-		    reply = message.reply("# RAWETTE")
+		    reply = await message.reply("# RAWETTE")
 		    setTimeout(() => {  reply.delete() }, 1000)
 
 	    }

@@ -19,7 +19,7 @@ module.exports = {
         let n = inter.options.getInteger('faces')
         const r = Math.floor(Math.random() * (n + 1))
 
-        await mes.interSuccess(inter, `Tu avais une chance sur ${n}, et c~est un: ||     ${r}     || !\n**^^**`)
+        await mes.interSuccess(inter, {`${r}/${n} <:ECHO:1087016550114013196>`)
 
 	}
 

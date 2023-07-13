@@ -19,7 +19,7 @@ module.exports = {
         let n = inter.options.getInteger('faces')
         const r = Math.floor(Math.random() * (n + 1))
 
-        await mes.interSuccess(inter, {content: `${r}/${n} <:ECHO:1087016550114013196>`)
+        await mes.interSuccess(inter, {content: `${r}/${n}}`)
 
 	}
 

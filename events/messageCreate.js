@@ -3,6 +3,7 @@ const { getBumpDate, setBumpDate } = require('../utils/somes')
 const mes = require("../utils/message")
 const somes = require("../utils/somes")
 const tUtils = require("../utils/text")
+const sesame = require('../commands/sesame')
 
 module.exports = {
 	name: 'messageCreate',
@@ -51,9 +52,10 @@ module.exports = {
 
                 case config.channels.sesame:
                     if(! await somes.memberCheckRoles(message.member, [config.roles.staff])){
-                        message.delete()
-                        await mes.private(author, 'Tape la commande `/sesame` `code` pour accéder au serveur')
+                        const sesame = await sesame(content, author)
+                        await message.delete()
                         return
+
                     }
                     break
 

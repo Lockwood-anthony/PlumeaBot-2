@@ -83,7 +83,7 @@ module.exports = {
 
             if (config.channels.sesame === message.channel.parentId){
                 if(! await somes.memberCheckRoles(message.member, [config.roles.staff])){
-                    await sesame.sesame(content, author)
+                    await sesame.sesame(content, message.member)
                     await message.delete()
                     return
 

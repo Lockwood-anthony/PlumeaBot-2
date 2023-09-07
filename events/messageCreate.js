@@ -50,15 +50,6 @@ module.exports = {
                     await mes.private(author, 'Utilise la commande `/post` pour partager ton texte ;3')
                     return
 
-                case config.channels.sesame:
-                    if(! await somes.memberCheckRoles(message.member, [config.roles.staff])){
-                        const sesame = await sesame(content, author)
-                        await message.delete()
-                        return
-
-                    }
-                    break
-
                 case config.channels.general:
                     const today = new Date()
                     const recall = await getBumpDate()
@@ -88,6 +79,15 @@ module.exports = {
                 console.log(e)
                 console.log(message)
 
+            }
+
+            if (config.channels.sesame === message.channel.parentId){
+                if(! await somes.memberCheckRoles(message.member, [config.roles.staff])){
+                    const sesame = await sesame(content, author)
+                    await message.delete()
+                    return
+
+                }
             }
 
             if(message.channel.parentId === config.channels.textForum){

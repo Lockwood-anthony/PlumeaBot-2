@@ -54,11 +54,8 @@ module.exports = {
 
         await member.roles.add(plumeRole)
 
-        let re = ''
         if(! await exists(member.id)){
             await addMember(member.id)
-        }else{
-            re = "Re"
         }
 
         const welcomeMessage = mes.newEmbed()
@@ -81,7 +78,7 @@ module.exports = {
     },
 
     socials :
-            "> 📕▸**"+re+"Bienvenue sur pluméa !**\n\n 🧭 ▸Le guide du Pluméen contient toutes les informations nécessaires sur le bon fonctionnement de la communauté : *règles générales, comment poster son commentaire, comment poster son texte...*\n"+
+            "> 📕▸**Bienvenue sur pluméa !**\n\n 🧭 ▸Le guide du Pluméen contient toutes les informations nécessaires sur le bon fonctionnement de la communauté : *règles générales, comment poster son commentaire, comment poster son texte...*\n"+
             "https://discord.com/channels/1027089727360344144/1063760987238436924\n\n"+
 
             "👤 ▸Et si vous nous en disiez plus sur vous ? \n"+

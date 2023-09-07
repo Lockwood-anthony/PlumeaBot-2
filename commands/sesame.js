@@ -60,7 +60,7 @@ module.exports = {
         }
 
         const welcomeMessage = mes.newEmbed()
-            .setDescription(`**${re}Bienvenue sur pluméa ${member} | ${member.user.username}.**`)
+            .setDescription(`**Bienvenue sur pluméa ${member} | ${member.user.username}.**`)
             .setAuthor({ name: 'Youpiii !',iconURL: 'https://i.imgur.com/TYeapMy.png', url: 'https://tenor.com/view/rickroll-roll-rick-never-gonna-give-you-up-never-gonna-gif-22954713' })
             .setThumbnail(member.displayAvatarURL())
 

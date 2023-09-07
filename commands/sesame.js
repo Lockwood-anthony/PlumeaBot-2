@@ -47,6 +47,7 @@ module.exports = {
     },
 
     async sesame(pass, member){
+        const plumeRole = config.roles.plumeen
 
         if(pass != "050123"){
             return this.SESAME_STATE.INVALID

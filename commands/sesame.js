@@ -75,9 +75,9 @@ module.exports = {
     },
 
     SESAME_STATE : {
-        INVALID,
-        SENT,
-        NOT_SENT
+        INVALID: "INVALID",
+        SENT: "SENT",
+        NOT_SENT: "NOT_SENT"
     },
 
     socials :

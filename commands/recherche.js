@@ -36,7 +36,6 @@ module.exports = {
 
         texts.forEach(t =>{
             message.content += `- <#${t.postId}>\n`
-            max--
         })
 
         inter.reply(message)

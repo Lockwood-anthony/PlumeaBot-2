@@ -37,7 +37,7 @@ module.exports = {
         max = 20
         while(max != 0){
             texts.forEach(t =>{
-                message.content += `- <#${t.postId}> \n`
+                message.content += `- <#${t.postId}>\n`
                 max--
             }) 
         }

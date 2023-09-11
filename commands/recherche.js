@@ -58,17 +58,9 @@ module.exports = {
 
         const occurrences = await T_TAB.findAll(args)
 
-        const multipleAtr = []
-        occurrences.forEach(o => {
-            let list = []
-            atr.forEach(a => {
-                list.push(o[a])
-            })
-            multipleAtr.push(list)
+        console.log(occurrences)
 
-        })
-
-        return multipleAtr
+        return occurrences
     }
 
 }

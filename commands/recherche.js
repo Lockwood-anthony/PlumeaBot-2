@@ -34,13 +34,10 @@ module.exports = {
 
         message = {content: "Résultats :\n\n"}
 
-        max = 20
-        while(max != 0){
-            texts.forEach(t =>{
-                message.content += `- <#${t.postId}>\n`
-                max--
-            }) 
-        }
+        texts.forEach(t =>{
+            message.content += `- <#${t.postId}>\n`
+            max--
+        })
 
         inter.reply(message)
 
@@ -49,7 +46,8 @@ module.exports = {
     async find_texts(author, theme, max_words){
         const args = {
             attributes: ["postId"],
-            raw: true
+            raw: true,
+            limit: 30
         }
         console.log(author)
 

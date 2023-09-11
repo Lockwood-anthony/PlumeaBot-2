@@ -51,8 +51,9 @@ module.exports = {
             attributes: ["postId"],
             raw: true
         }
+        console.log(author)
 
-        if(author) args["where.authorId"] = author
+        if(author) args["where"] = {authorId: author}
         if(theme) args["where.theme"][Op.contains][theme]
         if(max_words) args["where.max_words.validate"] = max_words
 

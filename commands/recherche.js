@@ -48,7 +48,7 @@ module.exports = {
 
     async find_texts(author, theme, max_words){
         const args = {
-            attributes: [],
+            attributes: ["postId"],
             raw: true
         }
 

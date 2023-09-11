@@ -32,7 +32,7 @@ module.exports = {
         const theme = inter.options.getInteger('theme')
         const max_words = inter.options.getInteger('max_mots')
 
-        const texts = await this.find_texts(author.id, theme, max_words)
+        const texts = await this.find_texts(author, theme, max_words)
 
         message = {content: "Résultats :\n\n"}
 
@@ -52,13 +52,11 @@ module.exports = {
         }
         console.log(author)
 
-        if(author) args["where.authorId"] = author
+        if(author) args["where"]["authorId"] = author.id
         if(theme) args["where.theme"][Op.contains][theme]
         if(max_words) args["where.max_words.validate"] = max_words
 
         const occurrences = await T_TAB.findAll(args)
-
-        console.log(occurrences)
 
         return occurrences
     }

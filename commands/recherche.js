@@ -30,7 +30,7 @@ module.exports = {
         const theme = inter.options.getInteger('theme')
         const max_words = inter.options.getInteger('max_mots')
 
-        const texts = await this.find_texts(author, theme, max_words)
+        const texts = await this.find_texts(author.id, theme, max_words)
 
         message = {content: "Résultats :\n\n"}
 

@@ -15,12 +15,14 @@ module.exports = {
                 .setDescription("l'auteur du texte"))
             .addIntegerOption(option => option
                 .setName('theme')
-                .setDescription('le thème recherché'))
+                .setDescription('le thème recherché')
+                .setMinValue(1)
+                .setMaxValue(13))
             .addIntegerOption(option => option
                 .setName('max_mots')
                 .setDescription('longueur maximale du texte en mots')
-                .setMinValue(1)
-                .setMaxValue(13))
+                .setMinValue(1000)
+                .setMaxValue(20000))
 
 
     },
@@ -50,7 +52,7 @@ module.exports = {
         }
         console.log(author)
 
-        if(author) args["where"] = {authorId: author}
+        if(author) args["where.authorId"] = author
         if(theme) args["where.theme"][Op.contains][theme]
         if(max_words) args["where.max_words.validate"] = max_words
 

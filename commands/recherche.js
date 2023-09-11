@@ -54,7 +54,7 @@ module.exports = {
 
         if(author) args["where"]["authorId"] = author.id
         if(theme) args["where"][theme][Op.contains][theme]
-        if(max_words) args.where["max_words"] = {[Op.lt]: max_words}
+        if(max_words) args.where["words"] = {[Op.lt]: max_words}
 
         const occurrences = await T_TAB.findAll(args)
 

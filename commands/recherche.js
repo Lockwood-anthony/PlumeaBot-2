@@ -48,13 +48,13 @@ module.exports = {
         const args = {
             attributes: ["postId"],
             raw: true,
-            limit: 30
+            limit: 30,
+            where : {}
         }
-        console.log(author)
 
         if(author) args["where"]["authorId"] = author.id
-        if(theme) args["where.theme"][Op.contains][theme]
-        if(max_words) args["where.max_words.validate"] = max_words
+        if(theme) args["where"][theme][Op.contains][theme]
+        if(max_words) args.where["max_words"] = {"$lt": max_words}
 
         const occurrences = await T_TAB.findAll(args)
 

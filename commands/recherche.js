@@ -27,7 +27,7 @@ module.exports = {
         const author = inter.options.getUser('auteur')
         const max_words = inter.options.getInteger('max_mots')
 
-        const texts = await this.find_texts(author, theme, max_words)
+        const texts = await this.find_texts(author, max_words)
 
         let message = {content: "Résultats :\n\n", embeds: []}
 
@@ -50,7 +50,7 @@ module.exports = {
 
 	},
 
-    async find_texts(author, theme, max_words){
+    async find_texts(author, max_words){
         const args = {
             attributes: ["postId", "postMesId"],
             raw: true,

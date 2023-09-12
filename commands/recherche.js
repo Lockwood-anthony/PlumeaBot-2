@@ -44,7 +44,7 @@ module.exports = {
                 embed = mes.embeds[0]
                 embed.url = await client.channels.fetch(t.postId).url
     
-                message.embeds.push()
+                message.embeds.push(embed)
             }
 
         })

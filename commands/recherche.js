@@ -43,10 +43,10 @@ module.exports = {
             if(mes){
                 embed = mes.embeds[0]
 
-                postUrl = await client.channels.fetch(t.postId)
+                postUrl = (await client.channels.fetch(t.postId)).url
                 embed.data.url = postUrl
                 embed.author.url = postUrl
-                
+
                 message.embeds.push(embed)
             }
 

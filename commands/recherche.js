@@ -42,6 +42,7 @@ module.exports = {
 
             if(mes){
                 embed = mes.embeds[0]
+                console.log(embed)
                 embed.setTitle(embed.author.name)
                 postUrl = await client.channels.fetch(t.postId)
                 embed.setUrl(postUrl.url)

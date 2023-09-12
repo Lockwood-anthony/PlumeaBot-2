@@ -26,10 +26,11 @@ module.exports = {
 
 	async execute(inter) {
         const cmdChannel = config.config.channels.cmd
-        if(inter.chennel.id != cmdChannel){
+        if(inter.channel.id != cmdChannel){
             inter.reply(`va dans <#${cmdChannel}>`)
             return
         }
+
         const author = inter.options.getUser('auteur')
         const max_words = inter.options.getInteger('max_mots')
 

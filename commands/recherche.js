@@ -49,6 +49,7 @@ module.exports = {
 
         })
 
+        console.log(message)
         await inter.reply(message)
 
 	},

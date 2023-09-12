@@ -45,7 +45,8 @@ module.exports = {
 
                 postUrl = (await client.channels.fetch(t.postId)).url
                 embed.data.url = postUrl
-                embed.author.data.url = postUrl
+                console.log(embed.author)
+                embed.author.url = postUrl
 
                 message.embeds.push(embed)
             }

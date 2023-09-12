@@ -47,7 +47,7 @@ module.exports = {
                 embed.data.url = postUrl
                 embed.author.url = postUrl
 
-                message.embeds.push(embed)
+                message.embeds.push(embed )
             }
 
         }

@@ -41,8 +41,8 @@ module.exports = {
             const mes = await mesUtil.getMes(t.postId, t.postMesId)
 
             if(mes){
-                console.log(mes)
                 embed = mes.embeds[0]
+                embed.title = embed.author.name
                 embed.url = (await client.channels.fetch(t.postId)).url
     
                 message.embeds.push(embed)
@@ -50,7 +50,6 @@ module.exports = {
 
         }
 
-        await console.log(message)
         await inter.reply(message)
 
 	},

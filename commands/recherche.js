@@ -38,12 +38,15 @@ module.exports = {
         let message = {content: "Résultats :\n\n", embeds: []}
 
         await texts.forEach(async t =>{
-            console.log(t)
             const mes = await mesUtil.getMes(t.postId, t.postMesId)
-            embed = mes.embeds[0]
-            embed.url = await client.channels.fetch(t.postId).url
 
-            message.embeds.push()
+            if(mes){
+                embed = mes.embeds[0]
+                embed.url = await client.channels.fetch(t.postId).url
+    
+                message.embeds.push()
+            }
+
         })
 
         inter.reply(message)

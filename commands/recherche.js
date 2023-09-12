@@ -11,7 +11,6 @@ module.exports = {
         return new SlashCommandBuilder()
             .setName('recherche')
             .setDescription('trouve les textes')
-            .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
             .addUserOption(option => option
                 .setName('auteur')
                 .setDescription("l'auteur du texte"))

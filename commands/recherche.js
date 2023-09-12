@@ -35,7 +35,7 @@ module.exports = {
 
         const texts = await this.find_texts(author, theme, max_words)
 
-        message = {content: "Résultats :\n\n", embeds: []}
+        let message = {content: "Résultats :\n\n", embeds: []}
 
         await texts.forEach(async t =>{
             const mes = await message.getMes(t.postId, t.postMesId)

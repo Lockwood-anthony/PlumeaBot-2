@@ -45,7 +45,7 @@ module.exports = {
 
                 postUrl = (await client.channels.fetch(t.postId)).url
                 embed.data.url = postUrl
-                embed.author.url = postUrl
+                embed.author.data.url = postUrl
 
                 message.embeds.push(embed)
             }
@@ -60,7 +60,7 @@ module.exports = {
         const args = {
             attributes: ["postId", "postMesId"],
             raw: true,
-            limit: 30,
+            limit: 10,
             where : {}
         }
 

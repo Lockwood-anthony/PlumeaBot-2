@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js')
 const { Op } = require('sequelize')
 const mesUtil = require('../utils/message')
+const config = require("../config")
 
 module.exports = {
 
@@ -24,6 +25,11 @@ module.exports = {
     },
 
 	async execute(inter) {
+        const cmdChannel = config.config.channels.cmd
+        if(inter.chennel.id != cmdChannel){
+            inter.reply(`va dans <#${cmdChannel}>`)
+            return
+        }
         const author = inter.options.getUser('auteur')
         const max_words = inter.options.getInteger('max_mots')
 

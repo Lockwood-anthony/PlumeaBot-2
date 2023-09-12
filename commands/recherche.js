@@ -37,7 +37,7 @@ module.exports = {
 
         let message = {content: "Résultats :\n\n", embeds: []}
 
-        await texts.forEach(async t =>{
+        for(const t of texts){
             const mes = await mesUtil.getMes(t.postId, t.postMesId)
 
             if(mes){
@@ -48,7 +48,7 @@ module.exports = {
                 message.embeds.push(embed)
             }
 
-        })
+        }
 
         await console.log(message)
         await inter.reply(message)

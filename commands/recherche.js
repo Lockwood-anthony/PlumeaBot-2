@@ -35,7 +35,7 @@ module.exports = {
 
         const texts = await this.find_texts(author, max_words)
 
-        let message = {content: "Résultats :\n\n", embeds: []}
+        let message = {content: `Résultats de <@${inter.author.id}> :\n\n`, embeds: []}
 
         for(const t of texts){
             const mes = await mesUtil.getMes(t.postId, t.postMesId)

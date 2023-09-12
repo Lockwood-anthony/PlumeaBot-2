@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js')
 const { Op } = require('sequelize')
+const message = require('../utils/message')
 
 module.exports = {
 
@@ -34,10 +35,14 @@ module.exports = {
 
         const texts = await this.find_texts(author, theme, max_words)
 
-        message = {content: "Résultats :\n\n"}
+        message = {content: "Résultats :\n\n", embeds: []}
 
-        texts.forEach(t =>{
-            message.content += `- <#${t.postId}>\n`
+        await texts.forEach(async t =>{
+            const mes = await message.getMes(t.postId, t.postMesId)
+            embed = mes.embeds[0]
+            embed.url = await client.channels.fetch(t.postId).url
+
+            message.embeds.push()
         })
 
         inter.reply(message)
@@ -46,7 +51,7 @@ module.exports = {
 
     async find_texts(author, theme, max_words){
         const args = {
-            attributes: ["postId"],
+            attributes: ["postId", "postMesId"],
             raw: true,
             limit: 30,
             where : {}

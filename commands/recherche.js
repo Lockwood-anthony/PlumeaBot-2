@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js')
 const { Op } = require('sequelize')
-const message = require('../utils/message')
+const mesUtil = require('../utils/message')
 
 module.exports = {
 
@@ -38,7 +38,7 @@ module.exports = {
         let message = {content: "Résultats :\n\n", embeds: []}
 
         await texts.forEach(async t =>{
-            const mes = await message.getMes(t.postId, t.postMesId)
+            const mes = await mesUtil.getMes(t.postId, t.postMesId)
             embed = mes.embeds[0]
             embed.url = await client.channels.fetch(t.postId).url
 

@@ -52,7 +52,7 @@ module.exports = {
 
         }
 
-        await inter.chennel.send(message)
+        await inter.channel.send(message)
 
 	},
 

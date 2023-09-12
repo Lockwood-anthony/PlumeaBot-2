@@ -49,7 +49,7 @@ module.exports = {
 
         })
 
-        inter.reply(message)
+        await inter.reply(message)
 
 	},
 

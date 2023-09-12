@@ -43,6 +43,7 @@ module.exports = {
             if(mes){
                 embed = mes.embeds[0]
                 embed.title = embed.author.name
+                embed.author = null
                 embed.url = (await client.channels.fetch(t.postId)).url
     
                 message.embeds.push(embed)

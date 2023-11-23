@@ -60,7 +60,7 @@ module.exports = {
 
 
                 const words = await this.wordsChecker(inter, id, file)
-                await new Promise(r => setTimeout(r, 2000))
+                await new Promise(r => setTimeout(r, 10000))
                 if(! words){
                     console.log("DEBUGi !")
                     return

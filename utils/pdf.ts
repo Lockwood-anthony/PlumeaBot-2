@@ -27,17 +27,21 @@ module.exports = {
         console.log(";3")
         */
 
+        let buf
         await request({url:file.url, encoding:null}, async function (error, response, pdfBuffer) {
-            pdfBuffer = pdfBuffer.toString()
-            pdfBuffer = pdfBuffer.replace(/(^\s*)|(\s*$)/gi,"")
-            pdfBuffer = pdfBuffer.replace(/[ ]{2,}/gi," ")
-            pdfBuffer = pdfBuffer.replace(/\n /,"\n")
-            console.log(pdfBuffer)
-            console.log(pdfBuffer.split(" ").length)
 
-            return pdfBuffer.split(" ").length
+            new (await p).PdfReader({ debug: true }).parseBuffer(pdfBuffer, async (err, item) => {
+                if (err) console.error("error:", err)
+                else if (!item) console.warn("end of buffer")
+                else if (item.text){
+                    buf += item.text
+                }
+            })
 
         })
+
+        console.log(buf)
+        return buf.split(" ").length
 
     },
 

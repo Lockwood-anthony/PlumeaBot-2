@@ -36,7 +36,7 @@ module.exports = {
                 if (err) console.error("error:", err)
                 else if (!item){
                     console.log(count)
-                    return count
+                    return count/4.6
                 }
                 else if (item.text){
                     console.log(item.text)

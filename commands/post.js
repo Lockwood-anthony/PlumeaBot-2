@@ -122,19 +122,14 @@ module.exports = {
 
         }else if (words < 1000){
 
-            try{
-                await mes.interError(
-                    inter,
-                    '**NO !**  Soit un chad et envoie plus de 1000 mots.\nMots Comptés: ' + words
-                    + '\nSi c~est largement éloigné du nombre de mots réel, converti ton fichier en pdf grâce à ce site :'
-                    +'\nhttps://www.ilovepdf.com/fr/word_en_pdf',
-                    0,
-                    true
-                )
-
-            }catch(e){
-                await mes.interError(inter, 'Hhhh... appelle asra, le gars qui s~occupe du bot et dit lui de ma part que ton pdf est bizarre et que j~ai faillit crash... Hhhh... bisou', 0, true)
-            }
+            await mes.interError(
+                inter,
+                '**NO !**  Soit un chad et envoie plus de 1000 mots.\nMots Comptés: ' + words
+                + '\nSi c~est largement éloigné du nombre de mots réel, converti ton fichier en pdf grâce à ce site :'
+                +'\nhttps://www.ilovepdf.com/fr/word_en_pdf',
+                0,
+                true
+            )
 
             await mUtils.removeFileInPostingMes(id)
             return null

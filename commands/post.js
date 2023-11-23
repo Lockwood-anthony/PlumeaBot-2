@@ -115,7 +115,7 @@ module.exports = {
 
         if(await mUtils.toMuchWeeklyWords(id, words)){
             const weekly = await mUtils.getWeeklyWords(id)
-            await mes.interError(inter, "NO ! Pas plus de 16k par semaine\nMots: "+words+" | Mots de la semaine: "+weekly, 0, true)
+            await mes.interError(inter, "NO ! Pas plus de 16k par semaine\nMots: "+words+" | Mots de la semaine: "+weekly, 0, false)
 
             await mUtils.removeFileInPostingMes(id)
             return null

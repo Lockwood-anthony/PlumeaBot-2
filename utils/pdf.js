@@ -13,7 +13,7 @@ module.exports = {
 
         console.log(";3")
 
-        let data = await pdf(file_path)
+        let data = await pdf(fs.readFileSync(file_path))
         console.log(";3")
 
         data = data.text

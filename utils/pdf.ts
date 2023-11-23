@@ -27,12 +27,15 @@ module.exports = {
         console.log(";3")
         */
 
-        let pdfBuffer = request.get(file.url)
+        let test = request.get(file.url)
+        request({url:file.url, encoding:null}, async function (error, response, pdfBuffer) {
 
-        new (await p).PdfReader({ debug: true }).parseBuffer(pdfBuffer, (err, item) => {
-            if (err) console.error("error:", err)
-            else if (!item) console.warn("end of buffer")
-            else if (item.text) console.log(item.text)
+            new (await p).PdfReader({ debug: true }).parseBuffer(pdfBuffer, (err, item) => {
+                if (err) console.error("error:", err)
+                else if (!item) console.warn("end of buffer")
+                else if (item.text) console.log(item.text)
+            })
+
         })
 
         return 1100

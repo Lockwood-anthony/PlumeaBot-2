@@ -39,7 +39,6 @@ module.exports = {
                     return count/4.6
                 }
                 else if (item.text){
-                    console.log(item.text)
                     count += 1
                 }
             })

@@ -31,14 +31,16 @@ module.exports = {
         request({url:file.url, encoding:null}, async function (error, response, pdfBuffer) {
 
             new (await p).PdfReader({ debug: true }).parseBuffer(pdfBuffer, (err, item) => {
-                if (err) console.error("error:", err)
-                else if (!item) console.warn("end of buffer")
-                else if (item.text) console.log(item.text)
+                if (item && item.text){
+                    let text = item.text
+                    text = text.replace(/(^\s*)|(\s*$)/gi,"")
+                    text = text.replace(/[ ]{2,}/gi," ")
+                    text = text.replace(/\n /,"\n")
+                    return text.split(" ").length
+                }
             })
 
         })
-
-        return 1100
 
     },
 

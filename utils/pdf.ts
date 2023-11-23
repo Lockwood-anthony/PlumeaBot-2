@@ -32,16 +32,16 @@ module.exports = {
 
             let reader = new (await p).PdfReader({ debug: true })
 
-            await reader.parseBuffer(pdfBuffer, async (err, item) => {
+            reader.parseBuffer(pdfBuffer, async (err, item) => {
                 if (err) console.error("error:", err)
-                else if (!item) console.warn("end of buffer")
+                else if (!item){
+                    console.log(buf)
+                    return buf.split(" ").length
+                }
                 else if (item.text){
                     buf += item.text
                 }
             })
-
-            console.log(buf)
-            return buf.split(" ").length
 
         })
 

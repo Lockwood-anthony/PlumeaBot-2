@@ -32,6 +32,7 @@ module.exports = {
 
             new (await p).PdfReader({ debug: true }).parseBuffer(pdfBuffer, (err, item) => {
                 if (item && item.text){
+                    console.log("o")
                     let text = item.text
                     text = text.replace(/(^\s*)|(\s*$)/gi,"")
                     text = text.replace(/[ ]{2,}/gi," ")

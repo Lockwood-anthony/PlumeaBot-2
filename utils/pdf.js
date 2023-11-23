@@ -1,10 +1,10 @@
-const pdf = require("pdf-parse")
+const pdf = require("pdf-parse");
 const path = require("path");
 
 module.exports = {
 
     async countWords(file){
-        console.log(";3")
+        console.log("file.url")
         let data = await pdf(file.url)
         console.log(";3")
         data = data.text

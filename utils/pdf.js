@@ -29,6 +29,7 @@ module.exports = {
         let count = 0
         let p = await import("pdfreader")
         request({url:file.url, encoding:null}, function (error, response, pdfBuffer) {
+            return 1
 
             let reader = new p.PdfReader({ debug: true })
 

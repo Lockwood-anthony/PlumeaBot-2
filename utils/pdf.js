@@ -4,7 +4,7 @@ const path = require("path");
 module.exports = {
 
     async countWords(file){
-        console.log("file.url")
+        console.log(file.url)
         let data = await pdf(file.url)
         console.log(";3")
         data = data.text

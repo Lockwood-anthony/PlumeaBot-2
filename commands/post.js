@@ -51,6 +51,8 @@ module.exports = {
 
                 const uuid  = uuidCreate.v4()
 
+                inter.deferReply({ephemeral: true})
+
                 if(await somesUtils.isWeeklyResetTime()){
                     await mUtils.resetAllWeeklyWords()
                     await somesUtils.setWeeklyResetDate()
@@ -113,7 +115,7 @@ module.exports = {
 
         if(await mUtils.toMuchWeeklyWords(id, words)){
             const weekly = await mUtils.getWeeklyWords(id)
-            await mes.interError(inter, "NO ! Pas plus de 16k par semaine\nMots: "+words+" | Mots de la semaine: "+weekly, 0, false)
+            await mes.interError(inter, "NO ! Pas plus de 16k par semaine\nMots: "+words+" | Mots de la semaine: "+weekly, 0, true)
 
             await mUtils.removeFileInPostingMes(id)
             return null
@@ -126,7 +128,7 @@ module.exports = {
                 + '\nSi c~est largement éloigné du nombre de mots réel, converti ton fichier en pdf grâce à ce site :'
                 +'\nhttps://www.ilovepdf.com/fr/word_en_pdf',
                 0,
-                false
+                true
             )
 
             await mUtils.removeFileInPostingMes(id)

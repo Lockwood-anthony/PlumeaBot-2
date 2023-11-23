@@ -32,11 +32,12 @@ module.exports = {
 
             new (await p).PdfReader({ debug: true }).parseBuffer(pdfBuffer, (err, item) => {
                 if (item && item.text){
-                    console.log("o")
+                    console.log("!Debug : o")
                     let text = item.text
                     text = text.replace(/(^\s*)|(\s*$)/gi,"")
                     text = text.replace(/[ ]{2,}/gi," ")
                     text = text.replace(/\n /,"\n")
+                    console.log("!Debug : i")
                     return text.split(" ").length
                 }
             })

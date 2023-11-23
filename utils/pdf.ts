@@ -27,7 +27,7 @@ module.exports = {
         console.log(";3")
         */
 
-        let buf
+        let count = 0
         await request({url:file.url, encoding:null}, async function (error, response, pdfBuffer) {
 
             let reader = new (await p).PdfReader({ debug: true })
@@ -35,11 +35,10 @@ module.exports = {
             reader.parseBuffer(pdfBuffer, async (err, item) => {
                 if (err) console.error("error:", err)
                 else if (!item){
-                    console.log(buf)
-                    return buf.split(" ").length
+                    return count
                 }
                 else if (item.text){
-                    buf += item.text
+                    count += 1
                 }
             })
 

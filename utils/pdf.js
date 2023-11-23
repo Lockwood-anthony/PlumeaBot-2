@@ -35,8 +35,8 @@ module.exports = {
             reader.parseBuffer(pdfBuffer, async (err, item) => {
                 if (err) console.error("error:", err)
                 else if (!item){
-                    console.log(count/4.6)
                     return count/4.6
+                    console.log(count/4.6)
                 }
                 else if (item.text){
                     count += 1

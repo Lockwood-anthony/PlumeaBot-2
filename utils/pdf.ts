@@ -34,11 +34,7 @@ module.exports = {
                 if (err) console.error("error:", err)
                 else if (!item) console.warn("end of buffer")
                 else if (item.text){
-                    let text = item.text
-                    text = text.replace(/(^\s*)|(\s*$)/gi,"")
-                    text = text.replace(/[ ]{2,}/gi," ")
-                    text = text.replace(/\n /,"\n")
-                    length += text.split(" ").length
+                    length += 1
                 }
             })
 

@@ -16,6 +16,7 @@ module.exports = {
 
         const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
         await sleep(10000)
+        console.log(";3")
 
         let data = await pdf(file_path)
         console.log(";3")

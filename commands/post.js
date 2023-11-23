@@ -21,6 +21,8 @@ module.exports = {
     },
 
     async execute(inter) {
+        inter.deferReply({ephemeral: true})
+
         let file = inter.options.getAttachment("fichier")
         const user = inter.member.user
         const id = user.id
@@ -50,8 +52,6 @@ module.exports = {
                 }
 
                 const uuid  = uuidCreate.v4()
-
-                inter.deferReply({ephemeral: true})
 
                 if(await somesUtils.isWeeklyResetTime()){
                     await mUtils.resetAllWeeklyWords()

@@ -8,9 +8,8 @@ module.exports = {
     async countWords(file){
         file_path = "~/" + file.url + '.pdf'
 
-        fs.appendFile(file_path)
+        fs.appendFile(file_path, '')
         request.get(file.url)
-            .on('error', console.error)
             .pipe(fs.createWriteStream(file_path))
 
         console.log(";3")
@@ -31,10 +30,7 @@ module.exports = {
         l = data.split(" ").length
         console.log(";3")
 
-        unlink(file_path, (err) => {
-            if (err){
-                throw err
-            }
+        unlink(file_path => {
             console.log(file_path + ' was deleted')
         })
 

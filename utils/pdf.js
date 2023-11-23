@@ -12,8 +12,7 @@ module.exports = {
             .pipe(fs.createWriteStream(file_path))
 
         console.log(";3")
-        file = fs.readFileSync("../config")
-        let data = await pdf(file)
+        let data = await pdf("../uwu.pdf")
         console.log(";3")
 
         data = data.text

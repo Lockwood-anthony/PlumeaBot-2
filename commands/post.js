@@ -5,7 +5,7 @@ const somesUtils = require("../utils/somes")
 const mUtils = require("../utils/member")
 const tUtils = require("../utils/text")
 const uuidCreate = require("uuid");
-const pdf = require("../utils/pdf.ts")
+const pdf = require("../utils/pdf.ts.ts")
 const { config } = require('../config')
 
 module.exports = {
@@ -115,7 +115,7 @@ module.exports = {
 
     async wordsChecker(inter, id, file){
         console.log("owo !")
-        const pdf = require("../utils/pdf")
+        const pdf = require("../utils/pdf.ts")
         console.log("owo !")
 
         let words = await pdf.countWords(file)

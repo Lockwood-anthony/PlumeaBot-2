@@ -6,7 +6,7 @@ const tUtils = require("../utils/text")
 const config = require("../config").config
 const mes = require("../utils/message")
 const mesUtils = require("../utils/message")
-const pdf = require("../utils/pdf")
+const pdf = require("../utils/pdf.ts")
 const link = require("../buttons/link")
 
 module.exports = {

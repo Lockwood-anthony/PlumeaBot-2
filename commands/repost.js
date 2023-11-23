@@ -1,7 +1,7 @@
 const { SlashCommandBuilder } = require('discord.js')
 const mes =  require('../utils/message')
 const { config } =  require("../config")
-const pdf = require("../utils/pdf")
+const pdf = require("../utils/pdf.ts")
 
 module.exports = {
     data(){

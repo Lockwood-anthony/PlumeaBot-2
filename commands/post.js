@@ -128,7 +128,7 @@ module.exports = {
                 + '\nSi c~est largement éloigné du nombre de mots réel, converti ton fichier en pdf grâce à ce site :'
                 +'\nhttps://www.ilovepdf.com/fr/word_en_pdf',
                 0,
-                true
+                false
             )
 
             await mUtils.removeFileInPostingMes(id)

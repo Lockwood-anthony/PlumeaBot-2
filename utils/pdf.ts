@@ -38,10 +38,10 @@ module.exports = {
                 }
             })
 
-        })
+            console.log(buf)
+            return buf.split(" ").length
 
-        console.log(buf)
-        return buf.split(" ").length
+        })
 
     },
 

@@ -34,7 +34,7 @@ module.exports = {
             }
 
             if(sesame == this.SESAME_STATE.SENT){
-                await mes.interSuccess(inter, re+'Bienvenue ! :D')
+                await mes.interSuccess(inter, 'Bienvenue ! :D')
                 return
             }
     

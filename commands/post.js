@@ -48,6 +48,7 @@ module.exports = {
                     }catch (e) {}
 
                 }
+                console.log("uwu !")
 
                 const uuid  = uuidCreate.v4()
 
@@ -57,12 +58,14 @@ module.exports = {
                     await mUtils.resetAllWeeklyWords()
                     await somesUtils.setWeeklyResetDate()
                 }
+                console.log("uwu !")
 
 
                 const words = await this.wordsChecker(inter, id, file)
                 if(! words){
                     return
                 }
+                console.log("uwu !")
 
 
                 const today = new Date()
@@ -72,7 +75,6 @@ module.exports = {
                     date: today,
                     authorId: id
                 }
-
 
                 await tUtils.addText(t)
                 await mUtils.setTextInPostingUUID(id, uuid)

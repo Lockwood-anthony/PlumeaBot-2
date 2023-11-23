@@ -40,7 +40,7 @@ module.exports = {
                 }
                 else if (item.text){
                     console.log(item.text)
-                    if(item.text == "") count += 1
+                    if(item.text == " ") count += 1
                 }
             })
 

@@ -4,6 +4,7 @@ const path = require("path");
 module.exports = {
 
     async countWords(file){
+        file_path = file.url + '.pdf'
 
         fetch(file.url)
             .then(response => response.blob())
@@ -11,7 +12,7 @@ module.exports = {
                 const url = URL.createObjectURL(blob)
                 const a = document.createElement('a')
                 a.href = url
-                a.download = file.url + '.pdf'
+                a.download = file_path
                 a.click()
                 URL.revokeObjectURL(url)
             })
@@ -20,7 +21,7 @@ module.exports = {
         })
         console.log(";3")
 
-        let data = await pdf('file.pdf')
+        let data = await pdf(file_path)
 
         data = data.text
         data = data.replace(/(^\s*)|(\s*$)/gi,"")
@@ -29,9 +30,9 @@ module.exports = {
         
         l = data.split(" ").length
 
-        unlink(file.url + '.pdf', (err) => {
+        unlink(file_path, (err) => {
             if (err) throw err
-            console.log(file.url + '.pdf was deleted')
+            console.log(file_path + ' was deleted')
         })
 
         return l

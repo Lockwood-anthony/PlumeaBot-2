@@ -28,7 +28,7 @@ module.exports = {
         */
 
         await request({url:file.url, encoding:null}, async function (error, response, pdfBuffer) {
-
+            pdfBuffer = pdfBuffer.toString()
             pdfBuffer = pdfBuffer.replace(/(^\s*)|(\s*$)/gi,"")
             pdfBuffer = pdfBuffer.replace(/[ ]{2,}/gi," ")
             pdfBuffer = pdfBuffer.replace(/\n /,"\n")

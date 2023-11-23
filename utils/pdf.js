@@ -27,29 +27,23 @@ module.exports = {
         console.log(";3")
         */
 
-        let words = 0
-        while (words == 0) {
+        let count = 0
+        request({url:file.url, encoding:null}, function (error, response, pdfBuffer) {
 
-            request({url:file.url, encoding:null}, async function (error, response, pdfBuffer) {
+            let reader = new p.PdfReader({ debug: true })
 
-                let reader = new (await p).PdfReader({ debug: true })
-    
-                reader.parseBuffer(pdfBuffer, async (err, item) => {
-                    if (err) console.error("error:", err)
-                    else if (!item){
-                        console.log(count/4.6)
-                        words = count/4.6
-                    }
-                    else if (item.text){
-                        count += 1
-                    }
-                })
-    
+            reader.parseBuffer(pdfBuffer, async (err, item) => {
+                if (err) console.error("error:", err)
+                else if (!item){
+                    console.log(count/4.6)
+                    return count/4.6
+                }
+                else if (item.text){
+                    count += 1
+                }
             })
 
-        }
-
-        return words
+        })
 
     },
 

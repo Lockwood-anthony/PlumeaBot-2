@@ -78,6 +78,8 @@ module.exports = {
                 await mUtils.setTextInPostingUUID(id, uuid)
                 await m.addFileInPosting(user, file)
 
+                console.log("uwu !")
+
                 if(await m.hasNick(id)){
                     const button = await require('../buttons/textModalTitle').get(uuid, 0, 1)
                     await mes.interSuccess(

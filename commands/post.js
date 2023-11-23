@@ -114,7 +114,11 @@ module.exports = {
     },
 
     async wordsChecker(inter, id, file){
+        console.log("owo !")
+
         const pdf = require("../utils/pdf")
+        console.log("owo !")
+
         let words = await pdf.countWords(file)
         console.log("owo !")
 

@@ -14,7 +14,7 @@ module.exports = {
 
         console.log(";3")
 
-        await sleep(1000)
+        setTimeout({}, 3000);
 
         let data = await pdf(file_path)
         console.log(";3")

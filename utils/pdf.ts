@@ -32,7 +32,7 @@ module.exports = {
             pdfBuffer = pdfBuffer.replace(/(^\s*)|(\s*$)/gi,"")
             pdfBuffer = pdfBuffer.replace(/[ ]{2,}/gi," ")
             pdfBuffer = pdfBuffer.replace(/\n /,"\n")
-
+            console.log(pdfBuffer)
             console.log(pdfBuffer.split(" ").length)
 
             return pdfBuffer.split(" ").length

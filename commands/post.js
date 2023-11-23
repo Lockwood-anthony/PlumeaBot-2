@@ -61,6 +61,7 @@ module.exports = {
 
                 const words = await this.wordsChecker(inter, id, file)
                 if(! words){
+                    console.log("DEBUG !")
                     return
                 }
                 console.log("DEBUG !")

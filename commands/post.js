@@ -112,6 +112,7 @@ module.exports = {
         const pdf = require("../utils/pdf.ts")
 
         let words = await pdf.countWords(file)
+        console.log("DEBUG !")
 
         if(await mUtils.toMuchWeeklyWords(id, words)){
             const weekly = await mUtils.getWeeklyWords(id)

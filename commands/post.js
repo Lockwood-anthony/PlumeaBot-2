@@ -60,7 +60,6 @@ module.exports = {
 
 
                 const words = await this.wordsChecker(inter, id, file)
-                await new Promise(r => setTimeout(r, 10000))
                 if(! words){
                     console.log("DEBUGi !")
                     return
@@ -117,6 +116,7 @@ module.exports = {
 
         let words = await pdf.countWords(file)
         await new Promise(r => setTimeout(r, 2000))
+        console.log(words)
 
         if(await mUtils.toMuchWeeklyWords(id, words)){
             const weekly = await mUtils.getWeeklyWords(id)

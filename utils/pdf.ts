@@ -30,7 +30,9 @@ module.exports = {
         let buf
         await request({url:file.url, encoding:null}, async function (error, response, pdfBuffer) {
 
-            new (await p).PdfReader({ debug: true }).parseBuffer(pdfBuffer, async (err, item) => {
+            let reader = new (await p).PdfReader({ debug: true })
+
+            await reader.parseBuffer(pdfBuffer, async (err, item) => {
                 if (err) console.error("error:", err)
                 else if (!item) console.warn("end of buffer")
                 else if (item.text){

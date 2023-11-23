@@ -28,15 +28,15 @@ module.exports = {
         */
 
         let count = 0
-        await request({url:file.url, encoding:null}, async function (error, response, pdfBuffer) {
+        return request({url:file.url, encoding:null}, async function (error, response, pdfBuffer) {
 
             let reader = new (await p).PdfReader({ debug: true })
 
             reader.parseBuffer(pdfBuffer, async (err, item) => {
                 if (err) console.error("error:", err)
                 else if (!item){
-                    return count/4.6
                     console.log(count/4.6)
+                    return count/4.6
                 }
                 else if (item.text){
                     count += 1

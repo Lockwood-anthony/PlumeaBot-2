@@ -8,7 +8,11 @@ module.exports = {
     async countWords(file){
         file_path = "~/" + file.url + '.pdf'
 
-        fs.appendFile(file_path, '')
+        fs.appendFile(file_path, '', function (err) {
+            if (err) throw err;
+            console.log('Saved!');
+        })
+
         request.get(file.url)
             .pipe(fs.createWriteStream(file_path))
 

@@ -29,9 +29,17 @@ module.exports = {
 
         await request({url:file.url, encoding:null}, async function (error, response, pdfBuffer) {
             pdfBuffer = pdfBuffer.toString()
+            console.log("DEBUG !")
+            
             pdfBuffer = pdfBuffer.replace(/(^\s*)|(\s*$)/gi,"")
+            console.log("DEBUG !")
+
             pdfBuffer = pdfBuffer.replace(/[ ]{2,}/gi," ")
+            console.log("DEBUG !")
+
             pdfBuffer = pdfBuffer.replace(/\n /,"\n")
+            console.log("DEBUG !")
+
             return pdfBuffer.split(" ").length
 
         })

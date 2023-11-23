@@ -1,7 +1,7 @@
-const pdf = require("pdf-parse");
-const path = require("path");
-let request = require(`request`);
-let fs = require(`fs`);
+import { PdfReader } from "pdfreader"
+const path = require("path")
+let request = require(`request`)
+let fs = require(`fs`)
 
 module.exports = {
 
@@ -26,6 +26,14 @@ module.exports = {
         l = data.split(" ").length
         console.log(";3")
         */
+
+        let pdfBuffer = request.get(file.url)
+
+        new PdfReader({ debug: true }).parseBuffer(pdfBuffer, (err, item) => {
+            if (err) console.error("error:", err)
+            else if (!item) console.warn("end of buffer")
+            else if (item.text) console.log(item.text)
+        })
 
         return 1100
 

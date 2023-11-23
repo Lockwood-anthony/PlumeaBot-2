@@ -10,6 +10,7 @@
     "path": "^0.12.7",
     "pdf-parse": "^1.1.1",
     "pdf-to-text": "^0.0.7",
+    "pdfreader": "^3.0.2",
     "pg": "^8.8.0",
     "postgres": "^3.3.3",
     "request": "^2.88.2",

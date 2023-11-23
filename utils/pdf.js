@@ -6,7 +6,7 @@ let fs = require(`fs`);
 module.exports = {
 
     async countWords(file){
-        file_path = "~/" + "uwu"+ '.pdf'
+        file_path = "~/uwu.pdf"
 
         request.get(file.url)
             .pipe(fs.createWriteStream(file_path))
@@ -28,10 +28,6 @@ module.exports = {
 
         l = data.split(" ").length
         console.log(";3")
-
-        unlink(file_path => {
-            console.log(file_path + ' was deleted')
-        })
 
         return l
 

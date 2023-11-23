@@ -1,4 +1,3 @@
-const p = import("pdfreader")
 const path = require("path")
 let request = require(`request`)
 let fs = require(`fs`)
@@ -28,7 +27,8 @@ module.exports = {
         */
 
         let count = 0
-        request({url:file.url, encoding:null}, function (error, response, pdfBuffer) {
+        let p = await import("pdfreader")
+        await request({url:file.url, encoding:null}, function (error, response, pdfBuffer) {
 
             let reader = new p.PdfReader({ debug: true })
 

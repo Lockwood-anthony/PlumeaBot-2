@@ -24,6 +24,7 @@ module.exports = {
 
         unlink(file_path, (err) => {
             if (err){
+                console.log(";3")
                 throw err
             }
             console.log(file_path + ' was deleted')

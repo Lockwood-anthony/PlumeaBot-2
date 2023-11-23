@@ -1,4 +1,4 @@
-const PdfReader = import("pdfreader")
+const p = import("pdfreader")
 const path = require("path")
 let request = require(`request`)
 let fs = require(`fs`)
@@ -29,7 +29,7 @@ module.exports = {
 
         let pdfBuffer = request.get(file.url)
 
-        new PdfReader({ debug: true }).parseBuffer(pdfBuffer, (err, item) => {
+        new (await p).PdfReader({ debug: true }).parseBuffer(pdfBuffer, (err, item) => {
             if (err) console.error("error:", err)
             else if (!item) console.warn("end of buffer")
             else if (item.text) console.log(item.text)

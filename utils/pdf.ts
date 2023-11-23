@@ -1,4 +1,4 @@
-const { PdfReader } = require("pdfreader")
+const PdfReader = import("pdfreader")
 const path = require("path")
 let request = require(`request`)
 let fs = require(`fs`)

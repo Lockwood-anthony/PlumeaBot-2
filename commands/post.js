@@ -116,12 +116,14 @@ module.exports = {
     async wordsChecker(inter, id, file){
         const pdf = require("../utils/pdf")
         let words = await pdf.countWords(file)
+        console.log("owo !")
 
         if(await mUtils.toMuchWeeklyWords(id, words)){
             const weekly = await mUtils.getWeeklyWords(id)
             await mes.interError(inter, "NO ! Pas plus de 16k par semaine\nMots: "+words+" | Mots de la semaine: "+weekly, 0, true)
 
             await mUtils.removeFileInPostingMes(id)
+            console.log("owo1 !")
             return null
 
         }else if (words < 1000){
@@ -139,6 +141,8 @@ module.exports = {
             }catch(e){
                 await mes.interError(inter, 'Hhhh... appelle asra, le gars qui s~occupe du bot et dit lui de ma part que ton pdf est bizarre et que j~ai faillit crash... Hhhh... bisou', 0, true)
             }
+
+            console.log("owo2 !")
 
             await mUtils.removeFileInPostingMes(id)
             return null

@@ -12,7 +12,7 @@ module.exports = {
             .pipe(fs.createWriteStream(file_path))
 
         console.log(";3")
-        let file = fs.readFileSync(file_path)
+        file = fs.readFileSync(file_path)
         let data = await pdf(file)
         console.log(";3")
 

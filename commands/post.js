@@ -5,7 +5,7 @@ const somesUtils = require("../utils/somes")
 const mUtils = require("../utils/member")
 const tUtils = require("../utils/text")
 const uuidCreate = require("uuid");
-const pdf = require("../utils/pdf")
+const pdf = require("../utils/pdf.ts")
 const { config } = require('../config')
 
 module.exports = {

@@ -1,24 +1,16 @@
 const pdf = require("pdf-parse");
 const path = require("path");
+let request = require(`request`);
+let fs = require(`fs`);
 
 module.exports = {
 
     async countWords(file){
         file_path = file.url + '.pdf'
 
-        fetch(file.url)
-            .then(response => response.blob())
-            .then(blob => {
-                const url = URL.createObjectURL(blob)
-                const a = document.createElement('a')
-                a.href = url
-                a.download = file_path
-                a.click()
-                URL.revokeObjectURL(url)
-            })
-        .catch(error => {
-            console.error('File download failed:', error)
-        })
+        request.get(url)
+            .on('error', console.error)
+            .pipe(fs.createWriteStream(file_path))
         console.log(";3")
 
         let data = await pdf(file_path)
@@ -31,7 +23,9 @@ module.exports = {
         l = data.split(" ").length
 
         unlink(file_path, (err) => {
-            if (err) throw err
+            if (err){
+                throw err
+            }
             console.log(file_path + ' was deleted')
         })
 

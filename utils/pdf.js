@@ -6,7 +6,7 @@ let fs = require(`fs`);
 module.exports = {
 
     async countWords(file){
-        file_path = file.url + '.pdf'
+        file_path = "~/" + file.url + '.pdf'
 
         request.get(file.url)
             .on('error', console.error)
@@ -14,17 +14,19 @@ module.exports = {
         console.log(";3")
 
         let data = await pdf(file_path)
+        console.log(";3")
 
         data = data.text
         data = data.replace(/(^\s*)|(\s*$)/gi,"")
         data = data.replace(/[ ]{2,}/gi," ")
         data = data.replace(/\n /,"\n")
-        
+        console.log(";3")
+
         l = data.split(" ").length
+        console.log(";3")
 
         unlink(file_path, (err) => {
             if (err){
-                console.log(";3")
                 throw err
             }
             console.log(file_path + ' was deleted')

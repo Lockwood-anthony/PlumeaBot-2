@@ -6,6 +6,7 @@ let fs = require(`fs`);
 module.exports = {
 
     async countWords(file){
+        /*
         file_path = "uwu.pdf"
 
         request.get(file.url)
@@ -24,8 +25,9 @@ module.exports = {
 
         l = data.split(" ").length
         console.log(";3")
+        */
 
-        return l
+        return 1100
 
     },
 

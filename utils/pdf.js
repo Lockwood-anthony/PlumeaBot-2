@@ -6,13 +6,14 @@ let fs = require(`fs`);
 module.exports = {
 
     async countWords(file){
-        file_path = "../uwu.pdf"
+        file_path = "uwu.pdf"
 
         request.get(file.url)
             .pipe(fs.createWriteStream(file_path))
 
         console.log(";3")
-        let data = await pdf("../uwu.pdf")
+        file = fs.readFileSync(file_path)
+        let data = await pdf(file)
         console.log(";3")
 
         data = data.text

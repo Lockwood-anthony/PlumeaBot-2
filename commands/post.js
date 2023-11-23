@@ -122,6 +122,7 @@ module.exports = {
             await mes.interError(inter, "NO ! Pas plus de 16k par semaine\nMots: "+words+" | Mots de la semaine: "+weekly, 0, true)
 
             await mUtils.removeFileInPostingMes(id)
+            console.log("1")
             return null
 
         }else if (words < 1000){
@@ -136,10 +137,12 @@ module.exports = {
             )
 
             await mUtils.removeFileInPostingMes(id)
+            console.log("2")
             return null
 
         }
 
+        console.log("3")
         return words
 
     }

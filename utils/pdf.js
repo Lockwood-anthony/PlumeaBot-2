@@ -5,7 +5,6 @@ let fs = require(`fs`)
 module.exports = {
 
     async countWords(file){
-        return 1
         /*
         file_path = "uwu.pdf"
 
@@ -37,7 +36,6 @@ module.exports = {
                 if (err) console.error("error:", err)
                 else if (!item){
                     console.log(count/4.6)
-                    return count/4.6
                 }
                 else if (item.text){
                     count += 1
@@ -45,6 +43,8 @@ module.exports = {
             })
 
         })
+
+        return count
 
     },
 

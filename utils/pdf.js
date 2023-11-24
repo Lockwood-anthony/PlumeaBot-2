@@ -18,7 +18,7 @@ module.exports = {
                 else if(! item) return
                 else if (item.text){
                     count += 1
-                    test += item.text
+                    test += item.text + "|"
                 }
             })
 

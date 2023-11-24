@@ -115,7 +115,6 @@ module.exports = {
         const pdf = require("../utils/pdf.js")
 
         let words = await pdf.countWords(file)
-        await new Promise(r => setTimeout(r, 2000))
         console.log(words)
 
         if(await mUtils.toMuchWeeklyWords(id, words)){

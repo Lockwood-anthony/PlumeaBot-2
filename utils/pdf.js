@@ -7,6 +7,7 @@ module.exports = {
     async countWords(file){
 
         let count = 0
+        test = ""
         let p = await import("pdfreader")
         request({url:file.url, encoding:null}, function (error, response, pdfBuffer) {
 
@@ -17,13 +18,14 @@ module.exports = {
                 else if(! item) return
                 else if (item.text){
                     count += 1
+                    test += item
                 }
             })
 
         })
 
         await new Promise(r => setTimeout(r, 2000))
-
+        console.log(test)
         return count/4.6
 
     },

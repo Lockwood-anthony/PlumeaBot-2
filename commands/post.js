@@ -61,10 +61,8 @@ module.exports = {
 
                 const words = await this.wordsChecker(inter, id, file)
                 if(! words){
-                    console.log("DEBUGi !")
                     return
                 }
-                console.log("DEBUG !")
 
 
                 const today = new Date()
@@ -78,7 +76,6 @@ module.exports = {
                 await tUtils.addText(t)
                 await mUtils.setTextInPostingUUID(id, uuid)
                 await m.addFileInPosting(user, file)
-                console.log("DEBUG !")
 
                 if(await m.hasNick(id)){
                     const button = await require('../buttons/textModalTitle').get(uuid, 0, 1)
@@ -115,7 +112,6 @@ module.exports = {
         const pdf = require("../utils/pdf.js")
 
         let words = await pdf.countWords(file)
-        console.log(words)
 
         if(await mUtils.toMuchWeeklyWords(id, words)){
             const weekly = await mUtils.getWeeklyWords(id)

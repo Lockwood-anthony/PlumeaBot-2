@@ -29,7 +29,6 @@ module.exports = {
         let count = 0
         let p = await import("pdfreader")
         request({url:file.url, encoding:null}, function (error, response, pdfBuffer) {
-            return 5
 
             let reader = new p.PdfReader({ debug: true })
 
@@ -44,6 +43,8 @@ module.exports = {
             })
 
         })
+
+        await new Promise(r => setTimeout(r, 2000))
 
         return count
 

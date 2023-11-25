@@ -17,7 +17,8 @@ module.exports = {
                 if (err) console.error("error:", err)
                 else if(! item) return
                 else if (item.text){
-                    text = item.text.replace(" ", "")
+                    text = item.text
+                    text = text.replace(" ", "")
                     count += text.length
                     test += text
                 }

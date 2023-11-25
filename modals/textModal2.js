@@ -160,7 +160,7 @@ module.exports = {
                 await tUtils.getQuestions(textUUID)
             )
             const postIds = await this.forumPost(
-                id_text,
+                (`${id_text_title} ${id_text_chap} ${id_text_nick}`).toUpperCase(),
                 member,
                 {
                     content: `***${title.toUpperCase()}***`,

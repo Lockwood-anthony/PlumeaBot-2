@@ -28,6 +28,7 @@ module.exports = {
 
         await new Promise(r => setTimeout(r, 2000))
         console.log(test)
+        console.log(Math.round(count/4.6))
         return Math.round(count/4.6)
 
     },

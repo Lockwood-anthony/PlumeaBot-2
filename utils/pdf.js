@@ -18,7 +18,7 @@ module.exports = {
                 else if(! item) return
                 else if (item.text){
                     text = item.text
-                    text = text.replace(" ", "")
+                    text = text.replace(/\s/g, "")
                     count += text.length
                     test += text
                 }

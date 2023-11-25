@@ -19,6 +19,7 @@ module.exports = {
                 else if (item.text){
                     text = item.text.replace(" ", "")
                     count += text.length
+                    test += text
                 }
             })
 
@@ -26,7 +27,7 @@ module.exports = {
 
         await new Promise(r => setTimeout(r, 2000))
         console.log(test)
-        return count/4.6
+        return Math.round(count/4.6)
 
     },
 

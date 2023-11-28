@@ -29,6 +29,7 @@ module.exports = {
                 let autor = text_id.substr(13, 17)
 
                 if(! post.archived){
+                    console.log("SUCCESS")
                     await post.setName(`${title} ${chap} ${autor} | <@${t.authorId}>`)
 
                 }

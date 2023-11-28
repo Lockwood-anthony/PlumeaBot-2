@@ -20,6 +20,7 @@ module.exports = {
 
             threads = await threads.threads
             for await (t of threads) {
+                t = await t.fetch()
                 let name = await t.name
                 console.log(name)
 

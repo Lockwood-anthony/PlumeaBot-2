@@ -29,8 +29,7 @@ module.exports = {
                 let chap = text_id.substr(0, 8)
                 let autor = text_id.substr(0, 4)
 
-                console.log(text_id)
-                console.log(`${title} ${chap} ${autor}|${name[1]} `)             
+                await t.setname(`${title} ${chap} ${autor}|${name[1]} `)
             }
 
         }

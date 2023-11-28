@@ -19,7 +19,7 @@ module.exports = {
             threads = await channel.threads.fetch()
 
             threads = await threads.threads
-
+            let text = "uwu : "
             for (t in threads) {
                 let name = await t.name
                 console.log(name)
@@ -31,8 +31,10 @@ module.exports = {
                 let chap = id.substr(6, 12)
                 let autor = id.substr(13, 16)
                 
-                console.log(`${title} ${chap} ${autor} |${name[1]}`)                
+                text += `${title} ${chap} ${autor} |${name[1]} `              
             }
+
+            console.log(text)
         }
 
         if (!author.bot){

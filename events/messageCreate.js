@@ -18,7 +18,7 @@ module.exports = {
 
             threads = await channel.threads.fetch()
 
-            threads = await threads
+            threads = await threads.threads
 
             for (t in threads) {
                 let name = await t.name

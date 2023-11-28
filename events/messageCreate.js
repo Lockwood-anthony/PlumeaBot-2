@@ -28,12 +28,13 @@ module.exports = {
                     let title = text_id.substr(0, 6)
                     let chap = text_id.substr(6, 7)
                     let autor = text_id.substr(13, 17)
-    
-                    if(! post.archived){
-                        console.log("SUCCESS")
-                        await post.setName(`${title} ${chap} ${autor} | <@${t.authorId}>`)
-    
+
+                    if(post.archived){
+                        await post.setArchived(false)
                     }
+    
+                    await post.setName(`${title} ${chap} ${autor} | <@${t.authorId}>`)
+
                 }catch {
                     continue
                 }

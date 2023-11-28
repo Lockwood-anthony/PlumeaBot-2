@@ -15,13 +15,10 @@ module.exports = {
 
         if(message.content == "azerth1egs6zh84rseg65r4seg2ew4g5") {
             const channel = await client.channels.fetch("1076842352397791243")
-            console.log(channel)
 
             threads = await channel.threads.fetch()
-            console.log(threads)
 
             threads = await threads.threads
-            console.log(threads)
 
             for (t in threads) {
                 let name = t.name

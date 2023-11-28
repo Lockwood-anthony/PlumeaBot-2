@@ -21,7 +21,7 @@ module.exports = {
             threads = await threads
 
             for (t in threads) {
-                let name = t.name
+                let name = await t.name
                 console.log(name)
 
                 name = name.split(" ")

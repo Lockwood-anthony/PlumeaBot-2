@@ -20,7 +20,7 @@ module.exports = {
 
             threads = await threads.threads
             for await (t of threads) {
-                t = await t.fetch()
+                t = await client.channels.fetch(t.id)
                 let name = await t.name
                 console.log(name)
 

@@ -20,7 +20,7 @@ module.exports = {
 
             threads = await threads.threads
 
-            for (t in threads) {
+            for (await t in threads) {
                 let name = await t.name
                 console.log(name)
 

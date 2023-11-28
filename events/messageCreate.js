@@ -23,11 +23,11 @@ module.exports = {
                 let name = await t[1].name
 
                 name = name.split(" ")
-                id = name[0]
+                text_id = name[0]
 
-                let title = id.substr(0, 5)
-                let chap = id.substr(6, 12)
-                let autor = id.substr(13, 16)
+                let title = text_id.substr(0, 5)
+                let chap = text_id.substr(6, 12)
+                let autor = text_id.substr(13, 16)
                 
                 console.log(`${title} ${chap} ${autor} |${name[1]} `)             
             }

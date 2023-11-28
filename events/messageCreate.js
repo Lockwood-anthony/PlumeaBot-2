@@ -20,17 +20,17 @@ module.exports = {
 
             threads = await threads.threads
 
-            for (await t in threads) {
+            for (t in threads) {
                 let name = await t.name
                 console.log(name)
 
                 name = name.split(" ")
                 id = name[0]
 
-                title = id.substr(0, 5)
-                chap = id.substr(6, 12)
-                autor = id.substr(13, 16)
-
+                let title = id.substr(0, 5)
+                let chap = id.substr(6, 12)
+                let autor = id.substr(13, 16)
+                
                 console.log(`${title} ${chap} ${autor} |${name[1]}`)                
             }
         }

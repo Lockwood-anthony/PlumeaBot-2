@@ -34,6 +34,8 @@ module.exports = {
                         await post.setName(`${title} ${chap} ${autor} | <@${t.authorId}>`)
     
                     }
+                }catch {
+                    continue
                 }
 
             }

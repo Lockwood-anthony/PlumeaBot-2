@@ -25,11 +25,11 @@ module.exports = {
                 name = name.split("|")
                 text_id = name[0]
 
-                let title = text_id.substr(0, 5)
-                let chap = text_id.substr(6, 12)
-                let autor = text_id.substr(13, 16)
+                let title = text_id.substr(0, 6)
+                let chap = text_id.substr(6, 13)
+                let autor = text_id.substr(13, 17)
                 
-                console.log(`${title} ${chap} ${autor} |${name[1]} `)             
+                console.log(`${title} ${chap} ${autor}|${name[1]} `)             
             }
 
         }

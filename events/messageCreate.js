@@ -29,7 +29,7 @@ module.exports = {
                 let chap = text_id.substr(0, 8)
                 let autor = text_id.substr(0, 4)
 
-                await t.setName(`${title} ${chap} ${autor}|${name[1]} `)
+                await t[1].setName(`${title} ${chap} ${autor}|${name[1]} `)
             }
 
         }

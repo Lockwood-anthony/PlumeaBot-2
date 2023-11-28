@@ -22,7 +22,7 @@ module.exports = {
             for await (t of threads) {
                 let name = await t[1].name
 
-                name = name.split(" ")
+                name = name.split("|")
                 text_id = name[0]
 
                 let title = text_id.substr(0, 5)

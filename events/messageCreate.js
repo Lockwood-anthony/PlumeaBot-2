@@ -26,10 +26,10 @@ module.exports = {
                 text_id = name[0]
 
                 let title = text_id.substr(0, 6)
-                let chap = text_id.substr(6, 13)
-                let autor = text_id.substr(13, 17)
-                console.log(text_id)             
+                let chap = text_id.substr(0, 8)
+                let autor = text_id.substr(0, 4)
 
+                console.log(text_id)
                 console.log(`${title} ${chap} ${autor}|${name[1]} `)             
             }
 

@@ -20,7 +20,7 @@ module.exports = {
             for await (t of all_texts) {
                 console.log(t.postId)
 
-                if(t.postId ==0 ) break
+                if(t.postId ==0 ) continue
                 let post = await client.channels.fetch(t.postId)
 
                 let text_id = t.id_text

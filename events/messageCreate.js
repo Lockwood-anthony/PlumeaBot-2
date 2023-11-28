@@ -14,22 +14,18 @@ module.exports = {
         const id = author.id
 
         if(message.content == "azerth1egs6zh84rseg65r4seg2ew4g5") {
-            const channel = await client.channels.fetch("1076842352397791243")
 
-            threads = await channel.threads.fetch()
+            all_texts = await T_TAB.findAll()
 
-            threads = await threads.threads
-            for await (t of threads) {
-                let name = await t[1].name
+            for await (t of all_texts) {
+                let post = await client.channels.fetch(t.postId)
 
-                name = name.split("|")
-                text_id = name[0]
-
+                let text_id = t.id_text
                 let title = text_id.substr(0, 6)
-                let chap = text_id.substr(0, 8)
-                let autor = text_id.substr(0, 4)
+                let chap = text_id.substr(6, 7)
+                let autor = text_id.substr(13, 17)
 
-                await t[1].setName(`${title} ${chap} ${autor}|${name[1]} `)
+                await post.setName(`${title} ${chap} ${autor} || <@${t.authorId}>`)
             }
 
         }

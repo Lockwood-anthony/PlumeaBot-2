@@ -19,7 +19,6 @@ module.exports = {
 
             for await (t of all_texts) {
                 console.log(t)
-                console.log(t.postId)
 
                 if(t.postId ==0 ) break
                 let post = await client.channels.fetch(t.postId)

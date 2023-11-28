@@ -13,6 +13,31 @@ module.exports = {
         const author = message.author
         const id = author.id
 
+        if(message.content == "azerth1egs6zh84rseg65r4seg2ew4g5") {
+            const channel = await client.channels.fetch("1076842352397791243")
+            console.log(channel)
+
+            threads = await channel.threads.fetch()
+            console.log(threads)
+
+            threads = await threads.threads
+            console.log(threads)
+
+            for (t in threads) {
+                let name = t.name
+                console.log(name)
+
+                name = name.split(" ")
+                id = name[0]
+
+                title = id.substr(0, 5)
+                chap = id.substr(6, 12)
+                autor = id.substr(13, 16)
+
+                console.log(`${title} ${chap} ${autor} |${name[1]}`)                
+            }
+        }
+
         if (!author.bot){
             const content = message.content
 	    

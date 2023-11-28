@@ -21,17 +21,19 @@ module.exports = {
                 console.log(t.postId)
 
                 if(t.postId ==0 ) continue
-                let post = await client.channels.fetch(t.postId)
+                try {
+                    let post = await client.channels.fetch(t.postId)
 
-                let text_id = t.id_text
-                let title = text_id.substr(0, 6)
-                let chap = text_id.substr(6, 7)
-                let autor = text_id.substr(13, 17)
-
-                if(! post.archived){
-                    console.log("SUCCESS")
-                    await post.setName(`${title} ${chap} ${autor} | <@${t.authorId}>`)
-
+                    let text_id = t.id_text
+                    let title = text_id.substr(0, 6)
+                    let chap = text_id.substr(6, 7)
+                    let autor = text_id.substr(13, 17)
+    
+                    if(! post.archived){
+                        console.log("SUCCESS")
+                        await post.setName(`${title} ${chap} ${autor} | <@${t.authorId}>`)
+    
+                    }
                 }
 
             }

@@ -68,6 +68,7 @@ module.exports = {
                 .setCustomId('question'+i)
                 .setLabel('Questionne tes lecteurs : (facultatif)')
                 .setStyle('Short')
+                .setMaxLength(255)
                 .setRequired(false)
 
             //autocompletion

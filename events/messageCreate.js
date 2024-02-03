@@ -13,36 +13,6 @@ module.exports = {
         const author = message.author
         const id = author.id
 
-        if(message.content == "azerth1egs6zh84rseg65r4seg2ew4g5") {
-
-            all_texts = await T_TAB.findAll()
-
-            for await (t of all_texts) {
-                console.log(t.postId)
-
-                if(t.postId ==0 ) continue
-                try {
-                    let post = await client.channels.fetch(t.postId)
-
-                    let text_id = t.id_text
-                    let title = text_id.substr(0, 6)
-                    let chap = text_id.substr(6, 7)
-                    let autor = text_id.substr(13, 17)
-
-                    if(post.archived){
-                        await post.setArchived(false)
-                    }
-    
-                    await post.setName(`${title} ${chap} ${autor} | <@${t.authorId}>`)
-
-                }catch {
-                    continue
-                }
-
-            }
-
-        }
-
         if (!author.bot){
             const content = message.content
 	    

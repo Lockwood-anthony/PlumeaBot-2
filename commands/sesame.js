@@ -67,9 +67,7 @@ module.exports = {
         const welcome = config.channels.welcome
         await mes.sendMes(welcome, { embeds: [welcomeMessage]})
 
-        if (await mes.private(member, this.socials)) return this.SESAME_STATE.SENT
-        else return this.SESAME_STATE.NOT_SENT
-
+        return SESAME_STATE.SENT
     },
 
     SESAME_STATE : {
